@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { fontSize } from '../../styles/fontSize';
 import { CenterWrapper } from '../../styles/GlobalStyle';
 import { FaRegBell, FaUserCircle } from 'react-icons/fa';
+import { useState } from 'react';
 
 const StContainer = styled.header`
   display: flex;
@@ -9,6 +10,7 @@ const StContainer = styled.header`
   align-items: center;
   padding: 8px 16px;
   font-size: ${fontSize.medium};
+  border-bottom: 1px solid #e0e0e0;
 `;
 
 const StLogo = styled.div`
@@ -31,12 +33,47 @@ const StBellIcon = styled(FaRegBell)`
   color: black;
 `;
 
-const StPlusIcon = styled(FaUserCircle)`
+const StUserIcon = styled(FaUserCircle)`
   color: gray;
   margin-right: 10px;
 `;
 
+const StModal = styled.div`
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  width: 180px;
+  background: white;
+  border: 1px solid #888;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: ${fontSize.small};
+  z-index: 100;
+`;
+
+const StAccountName = styled.div`
+  font-weight: bold;
+  text-align: left;
+`;
+
+const StButton = styled.button`
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  &:hover {
+    background: #f0f0f0;
+  }
+`;
+
 const Header = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <StContainer>
       <StLogo>로고</StLogo>
@@ -44,10 +81,17 @@ const Header = () => {
         <StIconWrapper>
           <StBellIcon size={30} />
         </StIconWrapper>
-        <StIconWrapper>
-          <StPlusIcon size={30} />
+        <StIconWrapper onClick={() => setIsModalOpen(!isModalOpen)}>
+          <StUserIcon size={30} />
         </StIconWrapper>
       </StIconsWrapper>
+
+      {isModalOpen && (
+        <StModal>
+          <StAccountName>계정</StAccountName>
+          <StButton>로그인</StButton>
+        </StModal>
+      )}
     </StContainer>
   );
 };
