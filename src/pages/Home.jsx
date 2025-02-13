@@ -16,13 +16,6 @@ const StContentWrapper = styled.div`
   padding: 10px;
 `;
 
-const StFooter = styled.footer`
-  background-color: black;
-  color: white;
-  padding: 10px;
-  text-align: center;
-`;
-
 const Home = () => {
   return (
     <StContainer>
@@ -33,7 +26,6 @@ const Home = () => {
           <div>Home</div>
         </StContentWrapper>
       </StMainContent>
-      <StFooter>Footer</StFooter>
     </StContainer>
   );
 };
