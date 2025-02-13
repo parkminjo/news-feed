@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { fontSize } from '../../styles/fontSize';
 import { CenterWrapper } from '../../styles/GlobalStyle';
 import { FaRegBell, FaUserCircle } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const StContainer = styled.header`
@@ -75,6 +75,27 @@ const StButton = styled.button`
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setIsModalOpen(false);
+      }
+    };
+
+    // 모달이 열린 상태에서만 외부 클릭 감지 활성화
+    if (isModalOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // 언마운트되면 이벤트 리스너 제거
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isModalOpen]);
 
   return (
     <StContainer>
@@ -89,7 +110,7 @@ const Header = () => {
       </StIconsWrapper>
 
       {isModalOpen && (
-        <StModal>
+        <StModal ref={modalRef}>
           <StAccountName>계정</StAccountName>
           <StButton onClick={() => navigate('/login')}>로그인</StButton>
           <StButton onClick={() => navigate('/mypage')}>프로필</StButton>
