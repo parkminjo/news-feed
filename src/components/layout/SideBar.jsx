@@ -3,6 +3,7 @@ import { FiHome, FiSearch, FiHeart } from 'react-icons/fi';
 import { FaRegBookmark } from 'react-icons/fa';
 import { fontSize } from '../../styles/fontSize';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const StContainer = styled.div`
   width: ${({ $isExpand }) => ($isExpand ? '200px' : '70px')};
@@ -50,17 +51,18 @@ const StText = styled.span`
 
 const SideBar = () => {
   const [isExpand, setIsExpand] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <StContainer $isExpand={isExpand} onMouseEnter={() => setIsExpand(true)} onMouseLeave={() => setIsExpand(false)}>
       <StMenu>
-        <StMenuItem>
+        <StMenuItem onClick={() => navigate('/')}>
           <StIconWrapper>
             <FiHome />
           </StIconWrapper>
           <StText $isExpand={isExpand}>홈</StText>
         </StMenuItem>
-        <StMenuItem>
+        <StMenuItem onClick={() => navigate('/search')}>
           <StIconWrapper>
             <FiSearch />
           </StIconWrapper>
