@@ -56,9 +56,15 @@ const MyPage = () => {
         <ProfileInfo>
           <NickName>{userData.length > 0 ? userData[0].nick_name : 'Loading...'}</NickName>
           <ProfileStats>
-            <li>게시물 {postCount}</li>
-            <li onClick={handleGotoFollowerList}>팔로워 1</li>
-            <li onClick={handleGotoFollowingList}>팔로잉 1</li>
+            <li>
+              게시물 <span>{postCount}</span>
+            </li>
+            <li onClick={handleGotoFollowerList}>
+              팔로워 <span>0</span>
+            </li>
+            <li onClick={handleGotoFollowingList}>
+              팔로잉 <span>0</span>
+            </li>
           </ProfileStats>
         </ProfileInfo>
       </ProfileHeader>
@@ -123,6 +129,16 @@ const ProfileStats = styled.ul`
     margin-right: 20px;
     font-size: medium;
     cursor: pointer;
+
+    //게시물 수는 커서가 포인터가 아니라 그냥 갯수 카운트만 해주기 때문에 추가
+    &:nth-child(1) {
+      cursor: default;
+
+      //인스타에서도 숫자들은 bold 처리가 되어 있어서 수정
+      span {
+        font-weight: bold;
+      }
+    }
   }
 `;
 
