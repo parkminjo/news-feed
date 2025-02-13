@@ -5,6 +5,7 @@ import { supabase } from '../services/supabaseClient';
 
 const MyPage = () => {
   const [userData, setUserData] = useState([]);
+  const [postCount, setPostCount] = useState(0);
   // const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,6 +23,14 @@ const MyPage = () => {
     return;
   }, []);
 
+  //임시 게시글 30개 생성
+  const posts = Array.from({ length: 25 }, (_, index) => index + 1);
+
+  //임시 게시물 수 카운트
+  useEffect(() => {
+    setPostCount(posts.length);
+  }, [posts]);
+
   const handleGotoFollowerList = () => {
     //팔로워 목록 페이지로 이동이거나 모달 열기
     alert('모달로 이동');
@@ -34,20 +43,11 @@ const MyPage = () => {
     // navigate();
   };
 
-  const handleGotoPostingList = () => {
-    //게시물 목록으로 이동
-    alert('모달로 이동');
-    // navigate();
-  };
-
   const handleGotoDetailPage = () => {
     //게시물 디테일로 이동
     alert('게시물 디테일페이지로 이동');
     // navigate();
   };
-
-  //임시 게시글
-  const posts = Array.from({ length: 30 }, (_, index) => index + 1);
 
   return (
     <ProfileContainer>
@@ -56,7 +56,7 @@ const MyPage = () => {
         <ProfileInfo>
           <NickName>{userData.length > 0 ? userData[0].nick_name : 'Loading...'}</NickName>
           <ProfileStats>
-            <li onClick={handleGotoPostingList}>게시물 1</li>
+            <li>게시물 {postCount}</li>
             <li onClick={handleGotoFollowerList}>팔로워 1</li>
             <li onClick={handleGotoFollowingList}>팔로잉 1</li>
           </ProfileStats>
@@ -140,4 +140,5 @@ const FeedPost = styled.div`
   padding: 10px;
   text-align: center;
   height: 150px;
+  cursor: pointer;
 `;
