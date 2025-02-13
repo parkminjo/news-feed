@@ -1,16 +1,21 @@
 import styled from 'styled-components';
 import { color } from '../../styles/color';
-// import { fontSize } from '../../styles/fontSize';
+import { fontSize } from '../../styles/fontSize';
 
 
 const BookMarkModal = ({ onClose }) => {
   return (
     <StContainer>
       <StModal>
-        <button onClick={onClose}>
+        <StCloseButton onClick={onClose}>
           &lt; 저장됨
-        </button>
-        <StTitle>북마크 게시물 리스트</StTitle>
+        </StCloseButton>
+        <img src='' alt='PostIMG' />
+        <img src='' alt='PostIMG' />
+        <img src='' alt='PostIMG' />
+        <img src='' alt='PostIMG' />
+        <img src='' alt='PostIMG' />
+        <img src='' alt='PostIMG' />
       </StModal>
     </StContainer>
   );
@@ -39,8 +44,17 @@ const StModal = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const StTitle = styled.h2`
-  margin-bottom: 20px;
+const StCloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  left: 250px;
+  background: none;
+  border: none;
+  font-size: ${fontSize.medium};
+  color: ${color.gray};
+  cursor: pointer;
+
+  &:hover {
+    color: ${color.black};
+  }
 `;
-
-
