@@ -7,8 +7,8 @@ import SignUp from '../pages/SignUp';
 import { useAuth } from '../Hooks/useAuth';
 
 const Router = () => {
-  const isLogin = useAuth();
-  console.log(isLogin);
+  const { isLogin } = useAuth();
+
   return (
     <BrowserRouter>
       <Routes>
