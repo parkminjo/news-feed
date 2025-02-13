@@ -9,6 +9,7 @@ const SignUpForm = () => {
   const [userInfo, setUserInfo] = useState({
     email: '',
     password: '',
+    passwordCheck: '',
     nickName: ''
   });
 
@@ -33,6 +34,10 @@ const SignUpForm = () => {
     }
     if (userInfo.nickName === '') {
       alert('닉네임을 입력해주세요');
+      return;
+    }
+    if (userInfo.passwordCheck !== userInfo.password) {
+      alert('비밀번호가 동일하지 않습니다');
       return;
     }
 
@@ -79,6 +84,13 @@ const SignUpForm = () => {
             onChange={handleChange}
           />
           <StInput
+            type="password"
+            id="passwordCheck"
+            placeholder="비밀번호 확인"
+            value={userInfo.passwordCheck}
+            onChange={handleChange}
+          />
+          <StInput
             type="text"
             id="nickName"
             placeholder="닉네임 입력"
@@ -112,7 +124,7 @@ const StWrapper = styled.div`
 
 const StSignUpContainer = styled.div`
   width: 400px;
-  height: 300px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
