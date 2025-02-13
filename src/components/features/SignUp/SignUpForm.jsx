@@ -2,7 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { color } from '../../../styles/color';
 import { fontSize } from '../../../styles/fontSize';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { supabase } from '../../../services/supabaseClient';
 
 const SignUpForm = () => {
   const [userInfo, setUserInfo] = useState({
@@ -15,9 +16,57 @@ const SignUpForm = () => {
     const { id, value } = e.target;
     setUserInfo({ ...userInfo, [id]: value });
   };
+
+  const navigate = useNavigate();
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+
+    /** 예외상황 처리 */
+    if (userInfo.email === '') {
+      alert('이메일을 입력해주세요');
+      return;
+    }
+    if (userInfo.password === '') {
+      alert('비밀번호를 입력해주세요');
+      return;
+    }
+    if (userInfo.nickName === '') {
+      alert('닉네임을 입력해주세요');
+      return;
+    }
+
+    try {
+      /** 회원가입 진행*/
+      const { data, error } = await supabase.auth.signUp({
+        email: userInfo.email,
+        password: userInfo.password
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      /** userExtraData(Public)에 닉네임 추가 */
+      const { error: userError } = await supabase.from('userExtraData').insert({ nick_name: userInfo.nickName });
+
+      if (userError) {
+        throw userError;
+      }
+
+      setUserInfo({ email: '', password: '', nickName: '' });
+
+      alert('회원가입이 완료되었습니다.');
+      navigate('/login');
+    } catch (error) {
+      alert('회원가입 오류가 발생하였습니다.');
+      console.log('회원가입 오류 발생: ', error);
+    }
+  };
+
   return (
     <StWrapper>
-      <form>
+      <form onSubmit={handleSignUp}>
         <StSignUpContainer>
           <h2>사이트명</h2>
           <StInput type="email" id="email" placeholder="이메일 입력" value={userInfo.email} onChange={handleChange} />
