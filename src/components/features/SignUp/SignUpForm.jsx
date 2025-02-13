@@ -64,6 +64,7 @@ const SignUpForm = () => {
     }
   };
 
+  /** UI */
   return (
     <StWrapper>
       <form onSubmit={handleSignUp}>
