@@ -71,9 +71,9 @@ const SignUpForm = () => {
 
   /** UI */
   return (
-    <StWrapper>
+    <StContainer>
       <form onSubmit={handleSignUp}>
-        <StSignUpContainer>
+        <StSignUpWrapper>
           <h2>사이트명</h2>
           <StInput type="email" id="email" placeholder="이메일 입력" value={userInfo.email} onChange={handleChange} />
           <StInput
@@ -98,22 +98,22 @@ const SignUpForm = () => {
             onChange={handleChange}
           />
           <StSignButton>가입하기</StSignButton>
-        </StSignUpContainer>
+        </StSignUpWrapper>
       </form>
-      <StLoginBox>
+      <StLoginWrapper>
         <p style={{ fontSize: `${fontSize.medium}` }}>계정이 있으신가요?</p>
         <Link to={'/login'} style={{ color: `${color.main}` }}>
           로그인 하러 가기
         </Link>
-      </StLoginBox>
-    </StWrapper>
+      </StLoginWrapper>
+    </StContainer>
   );
 };
 
 export default SignUpForm;
 
 /** styled component */
-const StWrapper = styled.div`
+const StContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -122,7 +122,7 @@ const StWrapper = styled.div`
   gap: 10px;
 `;
 
-const StSignUpContainer = styled.div`
+const StSignUpWrapper = styled.div`
   width: 400px;
   height: 350px;
   display: flex;
@@ -163,7 +163,7 @@ const StSignButton = styled.button`
   }
 `;
 
-const StLoginBox = styled(StSignUpContainer)`
+const StLoginWrapper = styled(StSignUpWrapper)`
   height: 100px;
   gap: 15px;
 `;
