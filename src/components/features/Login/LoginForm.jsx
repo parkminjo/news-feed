@@ -1,8 +1,9 @@
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { supabase } from '../../../services/supabaseClient';
 import { color } from '../../../styles/color';
 import { fontSize } from '../../../styles/fontSize';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const LoginForm = () => {
   const [userInfo, setUserInfo] = useState({
@@ -15,24 +16,58 @@ const LoginForm = () => {
     setUserInfo({ ...userInfo, [id]: value });
   };
 
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    /** 예외상황 처리 */
+    if (userInfo.email === '') {
+      alert('이메일을 입력해주세요');
+    }
+    if (userInfo.password === '') {
+      alert('비밀번호를 입력해주세요');
+      return;
+    }
+
+    /** 로그인 정보 확인 */
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: userInfo.email,
+        password: userInfo.password
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      alert('로그인에 성공하였습니다');
+      navigate('/');
+    } catch (error) {
+      alert(error.message);
+      console.error('로그인 오류가 발생하였습니다', error);
+    }
+  };
+
   /** UI */
   return (
     <StContainer>
       <StCatImg src="../../../../public/img/LoginCat.png" />
       <StWrapper>
-        <StLoginWrapper>
-          <h2>사이트명</h2>
-          <StInput type="email" id="email" placeholder="이메일 입력" value={userInfo.email} onChange={handleChange} />
-          <StInput
-            type="password"
-            id="password"
-            placeholder="비밀번호 입력"
-            value={userInfo.password}
-            onChange={handleChange}
-          />
-          <StSignButton>가입하기</StSignButton>
-          <button>비밀번호를 잊으셨나요</button>
-        </StLoginWrapper>
+        <form onSubmit={handleLogin}>
+          <StLoginWrapper>
+            <h2>사이트명</h2>
+            <StInput type="email" id="email" placeholder="이메일 입력" value={userInfo.email} onChange={handleChange} />
+            <StInput
+              type="password"
+              id="password"
+              placeholder="비밀번호 입력"
+              value={userInfo.password}
+              onChange={handleChange}
+            />
+            <StSignButton>가입하기</StSignButton>
+          </StLoginWrapper>
+        </form>
         <StSignUpWrapper>
           <p style={{ fontSize: `${fontSize.medium}` }}>아직 계정이 없으신가요?</p>
           <Link to={'/signup'} style={{ color: `${color.main}` }}>
