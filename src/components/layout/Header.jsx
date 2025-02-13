@@ -3,6 +3,7 @@ import { fontSize } from '../../styles/fontSize';
 import { CenterWrapper } from '../../styles/GlobalStyle';
 import { FaRegBell, FaUserCircle } from 'react-icons/fa';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const StContainer = styled.header`
   display: flex;
@@ -73,6 +74,7 @@ const StButton = styled.button`
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <StContainer>
@@ -89,7 +91,8 @@ const Header = () => {
       {isModalOpen && (
         <StModal>
           <StAccountName>계정</StAccountName>
-          <StButton>로그인</StButton>
+          <StButton onClick={() => navigate('/login')}>로그인</StButton>
+          <StButton onClick={() => navigate('/mypage')}>프로필</StButton>
         </StModal>
       )}
     </StContainer>
