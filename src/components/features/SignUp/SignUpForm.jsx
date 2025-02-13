@@ -59,7 +59,7 @@ const SignUpForm = () => {
         throw userError;
       }
 
-      setUserInfo({ email: '', password: '', nickName: '' });
+      setUserInfo({ email: '', password: '', passwordCheck: '', nickName: '' });
 
       alert('회원가입이 완료되었습니다.');
       navigate('/login');
