@@ -74,7 +74,8 @@ const BtnStyle = `
   border-radius: 5px;
   cursor: pointer;
   font-size: ${fontSize.medium};
-  color: ${BiFontColor.white};
+  font-weight: 700;Z
+  color: ${color.white};
 `;
 
 const StOverlay = styled.div`
