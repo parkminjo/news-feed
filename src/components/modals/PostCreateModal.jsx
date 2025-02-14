@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { color } from '../../styles/color';
 import { fontSize } from '../../styles/fontSize';
 import { useRef, useState } from 'react';
-import { BiFontColor } from 'react-icons/bi';
 
 const PostCreateModal = ({ isOpen, close }) => {
   // useState와 useRef가 if문 위에 있어야 경고(?) 코드가 안 뜨지만, 이러면 모달창은 닫았다 열어도 이미지가 그대로 남아있음 (정보는 x)(submit버튼을 눌렀을 땐 이미지도 초기화됨)
@@ -74,7 +73,7 @@ const BtnStyle = `
   border-radius: 5px;
   cursor: pointer;
   font-size: ${fontSize.medium};
-  font-weight: 700;Z
+  font-weight: 700;
   color: ${color.white};
 `;
 
@@ -138,8 +137,9 @@ const Stdiv = styled.div`
   label {
     color: ${color.main};
     cursor: pointer;
-    display: ${({ imgPreview }) =>
-      imgPreview ? 'none' : 'block'}; // imgPreview 값이 "true"이면 label display를 "none"으로 바꾸기
+    font-size: ${fontSize.medium};
+    font-weight: 800;
+    display: ${({ imgPreview }) => imgPreview ? 'none' : 'block'}; // imgPreview 값이 "true"이면 label display를 "none"으로 바꾸기
   }
 
   input {
@@ -174,6 +174,7 @@ const StLabel = styled.label`
   textarea {
     min-width: 30vw;
     min-height: 15vh;
+    border-radius: 10px;
   }
 `;
 
@@ -183,4 +184,3 @@ const StCloseButton = styled.button`
   right: 10px;
   top: 10px;
 `;
-
