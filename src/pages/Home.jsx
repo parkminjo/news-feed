@@ -1,34 +1,11 @@
-import Header from '../components/layout/Header';
-import Sidebar from '../components/layout/SideBar';
-import styled from 'styled-components';
+import MainLayout from '../components/layout/MainLayout';
 
 const Home = () => {
   return (
-    <StContainer>
-      <Header />
-      <StMainContent>
-        <Sidebar />
-        <StContentWrapper>
-          <div>Home</div>
-        </StContentWrapper>
-      </StMainContent>
-    </StContainer>
+    <MainLayout>
+      <div>Home</div>
+    </MainLayout>
   );
 };
 
 export default Home;
-
-/** styled component */
-const StContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StMainContent = styled.main`
-  display: flex;
-  flex: 1;
-`;
-
-const StContentWrapper = styled.div`
-  padding: 10px;
-`;
