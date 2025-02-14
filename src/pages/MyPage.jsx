@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { supabase } from '../services/supabaseClient';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
   const [userData, setUserData] = useState([]);
   const [postCount, setPostCount] = useState(0);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -26,16 +27,13 @@ const MyPage = () => {
 
   //임시 게시글 30개 생성
   const posts = Array.from({ length: 25 }, (_, index) => index + 1);
-
   //임시 게시물 수 카운트
   useEffect(() => {
     setPostCount(posts.length);
   }, [posts]);
 
   const handleGotoFollowerList = () => {
-    //팔로워 목록 페이지로 이동이거나 모달 열기
-    alert('모달로 이동');
-    // navigate();
+    navigate('/');
   };
 
   const handleGotoFollowingList = () => {
@@ -50,13 +48,17 @@ const MyPage = () => {
     // navigate();
   };
 
+  const handleGoToProFileEditPage = () => {
+    alert('프로필 수정으로 이동');
+  };
+
   return (
     <StProfileContainer>
       <StProfileHeader>
         <StProfileImage src="" alt="" />
         <StProfileInfoWrapper>
           <StNickName>{userData.length > 0 ? userData[0].nick_name : 'Loading...'}</StNickName>
-          <StProfileStats>
+          <StProfilUl>
             <li>
               게시물 <span>{postCount}</span>
             </li>
@@ -66,7 +68,8 @@ const MyPage = () => {
             <li onClick={handleGotoFollowingList}>
               팔로잉 <span>0</span>
             </li>
-          </StProfileStats>
+          </StProfilUl>
+          <StProfileEditButton onClick={handleGoToProFileEditPage}>프로필 수정</StProfileEditButton>
         </StProfileInfoWrapper>
       </StProfileHeader>
       <StPostGrid>
@@ -82,6 +85,7 @@ const MyPage = () => {
 
 export default MyPage;
 
+//전체영역
 const StProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -89,6 +93,7 @@ const StProfileContainer = styled.div`
   justify-content: center;
 `;
 
+//헤더
 const StProfileHeader = styled.div`
   display: flex;
   justify-content: center;
@@ -98,9 +103,11 @@ const StProfileHeader = styled.div`
   width: 100%;
 
   border: 1px solid black;
+  border-radius: 10px;
   margin-top: 100px;
 `;
 
+//이미지
 const StProfileImage = styled.img`
   width: 150px;
   height: 150px;
@@ -114,12 +121,13 @@ const StProfileInfoWrapper = styled.div`
   flex-direction: column;
 `;
 
+//닉네임 영역
 const StNickName = styled.h2`
   font-size: large;
   margin-bottom: 20px;
 `;
 
-const StProfileStats = styled.ul`
+const StProfilUl = styled.ul`
   display: flex;
   list-style: none;
   padding: 0;
@@ -143,6 +151,21 @@ const StProfileStats = styled.ul`
   }
 `;
 
+//프로필수정버튼
+const StProfileEditButton = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 10px;
+  width: 50%;
+  background-color: gray;
+  color: white;
+  cursor: pointer;
+`;
+
+//게시글
 const StPostGrid = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
