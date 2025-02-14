@@ -4,40 +4,46 @@ import { FaRegBookmark } from 'react-icons/fa';
 import { fontSize } from '../../styles/fontSize';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import BookMarkModal from '../modals/BookMarkModal';
 
 const SideBar = () => {
   const [isExpand, setIsExpand] = useState(false);
+  const [isBookMarkOpen, setIsBookMarkOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
-    <StContainer $isExpand={isExpand} onMouseEnter={() => setIsExpand(true)} onMouseLeave={() => setIsExpand(false)}>
-      <StMenu>
-        <StMenuItem onClick={() => navigate('/')}>
-          <StIconWrapper>
-            <FiHome />
-          </StIconWrapper>
-          <StText $isExpand={isExpand}>홈</StText>
-        </StMenuItem>
-        <StMenuItem onClick={() => navigate('/search')}>
-          <StIconWrapper>
-            <FiSearch />
-          </StIconWrapper>
-          <StText $isExpand={isExpand}>검색</StText>
-        </StMenuItem>
-        <StMenuItem>
-          <StIconWrapper>
-            <FiHeart />
-          </StIconWrapper>
-          <StText $isExpand={isExpand}>좋아요</StText>
-        </StMenuItem>
-        <StMenuItem>
-          <StIconWrapper>
-            <FaRegBookmark />
-          </StIconWrapper>
-          <StText $isExpand={isExpand}>북마크</StText>
-        </StMenuItem>
-      </StMenu>
-    </StContainer>
+    <>
+      <StContainer $isExpand={isExpand} onMouseEnter={() => setIsExpand(true)} onMouseLeave={() => setIsExpand(false)}>
+        <StMenu>
+          <StMenuItem onClick={() => navigate('/')}>
+            <StIconWrapper>
+              <FiHome />
+            </StIconWrapper>
+            <StText $isExpand={isExpand}>홈</StText>
+          </StMenuItem>
+          <StMenuItem onClick={() => navigate('/search')}>
+            <StIconWrapper>
+              <FiSearch />
+            </StIconWrapper>
+            <StText $isExpand={isExpand}>검색</StText>
+          </StMenuItem>
+          <StMenuItem>
+            <StIconWrapper>
+              <FiHeart />
+            </StIconWrapper>
+            <StText $isExpand={isExpand}>좋아요</StText>
+          </StMenuItem>
+          <StMenuItem onClick={() => setIsBookMarkOpen(true)}>
+            <StIconWrapper>
+              <FaRegBookmark />
+            </StIconWrapper>
+            <StText $isExpand={isExpand}>북마크</StText>
+          </StMenuItem>
+        </StMenu>
+      </StContainer>
+
+      {isBookMarkOpen && <BookMarkModal onClose={() => setIsBookMarkOpen(false)} />}
+    </>
   );
 };
 
