@@ -58,6 +58,8 @@ export default Header;
 /** styled component */
 const StContainer = styled.header`
   position: fixed;
+  width: 100%;
+  background-color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
