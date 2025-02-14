@@ -5,40 +5,41 @@ import { supabase } from '../services/supabaseClient';
 import Header from '../components/layout/Header';
 import SideBar from '../components/layout/SideBar';
 import FollowListModal from '../components/modals/FollowListModal';
+import { useNavigate } from 'react-router-dom';
+
 const MyPage = () => {
   const [userData, setUserData] = useState([]);
-  const [postCount, setPostCount] = useState(0);
+  const [postsData, setPostsData] = useState([]);
+  const [followData, setFollowData] = useState([]);
 
+  const [postCount, setPostCount] = useState(0);
   const [followerCount, setFollowCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
 
+  const navigate = useNavigate();
+
   //모달 On/off
   const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
-
-  //팔로우인지 팔로워인지
+  //모달 모드가 팔로우인지 팔로워인지
   const [followMode, setFollowMode] = useState('');
 
+  //게시물 포스트 가져오기
   useEffect(() => {
-    const getUserData = async () => {
+    const getPostsData = async () => {
       try {
-        const { data, error } = await supabase.from('test1').select('*');
+        const { data, error } = await supabase.from('posts').select('*');
         if (error) throw error;
-        setUserData(data);
+
+        setPostsData(data);
+        setPostCount(data.length);
       } catch (error) {
         console.error('에러:', error.message);
       }
     };
-    getUserData();
+    getPostsData();
 
     return;
   }, []);
-
-  //임시 게시글 30개 생성
-  const posts = Array.from({ length: 25 }, (_, index) => index + 1);
-  //임시 게시물 수 카운트
-  useEffect(() => {
-    setPostCount(posts.length);
-  }, [posts]);
 
   //팔로워목록 모달 열기
   const handleGotoFollowerList = () => {
@@ -57,10 +58,8 @@ const MyPage = () => {
     setIsFollowModalOpen(false);
   };
 
-  const handleGotoDetailPage = () => {
-    //게시물 디테일로 이동
-    alert('게시물 디테일페이지로 이동');
-    // navigate();
+  const handleGotoDetailPage = (post) => {
+    navigate(`/post/${post.id}`);
   };
 
   const handleGoToProFileEditPage = () => {
@@ -91,9 +90,9 @@ const MyPage = () => {
           </StProfileInfoWrapper>
         </StProfileHeader>
         <StPostGrid>
-          {posts.map((post) => (
-            <StFeedPost onClick={handleGotoDetailPage} key={post}>
-              게시물
+          {postsData.map((post) => (
+            <StFeedPost onClick={() => handleGotoDetailPage(post)} key={post.id}>
+              {post.title}
             </StFeedPost>
           ))}
         </StPostGrid>

@@ -1,5 +1,24 @@
 import styled from 'styled-components';
 
+const FollowListModal = ({ onClose, mode, listData }) => {
+  return (
+    <StModalContainer onClick={onClose}>
+      <StModalContent onClick={(e) => e.stopPropagation()}>
+        <ul>
+          {listData && listData.length > 0 ? (
+            listData.map((item, index) => <li key={index}>{item}</li>)
+          ) : (
+            <li>{mode === 'follower' ? '팔로워가 없습니다.' : '팔로잉 목록이 없습니다.'}</li>
+          )}
+        </ul>
+        <button onClick={onClose}>닫기</button>
+      </StModalContent>
+    </StModalContainer>
+  );
+};
+
+export default FollowListModal;
+
 const StModalContainer = styled.div`
   position: fixed;
   top: 0;
@@ -19,22 +38,3 @@ const StModalContent = styled.div`
   width: 80%;
   max-width: 300px;
 `;
-
-const FollowListModal = ({ onClose, mode, listData }) => {
-  return (
-    <StModalContainer onClick={onClose}>
-      <StModalContent onClick={(e) => e.stopPropagation()}>
-        <ul>
-          {listData && listData.length > 0 ? (
-            listData.map((item, index) => <li key={index}>{item}</li>)
-          ) : (
-            <li>{mode === 'follower' ? '팔로워가 없습니다.' : '팔로잉 목록이 없습니다.'}</li>
-          )}
-        </ul>
-        <button onClick={onClose}>닫기</button>
-      </StModalContent>
-    </StModalContainer>
-  );
-};
-
-export default FollowListModal;
