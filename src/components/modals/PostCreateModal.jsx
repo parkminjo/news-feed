@@ -26,32 +26,32 @@ const PostCreateModal = ({ isOpen, close }) => {
   return (
     <StOverlay>
       <StContainer>
-        <StForm> 
-          <h2>모달창</h2>
-          <StCloseButton onClick={close}>닫기</StCloseButton>
-          <StInputWrapper>
-            <Stdiv imgPreview={imgPreview}>
-              <label htmlFor="postImage">이미지 추가</label>
-              <img src={imgPreview ? imgPreview : null} />
-              <input type="file" accept="image/*, video/*" id="postImage" onChange={handleImgPreview} ref={imgRef} />
-            </Stdiv>
-            <StTextInputWrapper>
-              <StLabel>
-                제목
-                <input type="textarea" />
-              </StLabel>
-              <StLabel>
-                내용
-                <textarea name="" id=""></textarea>
-              </StLabel>
-              <StLabel>
-                태그
-                <input type="text" />
-              </StLabel>
-            </StTextInputWrapper>
-          </StInputWrapper>
-          <StSubmitButton type="submit">올리기</StSubmitButton>
-        </StForm>
+          <StForm> 
+            <h2>모달창</h2>
+            <StCloseButton onClick={close}>닫기</StCloseButton>
+            <StInputWrapper>
+              <Stdiv imgPreview={imgPreview}>
+                <label htmlFor="postImage">이미지 추가</label>
+                <img src={imgPreview ? imgPreview : null} />
+                <input type="file" accept="image/*, video/*" id="postImage" onChange={handleImgPreview} ref={imgRef} required/>
+              </Stdiv>
+              <StTextInputWrapper>
+                <StLabel>
+                  제목
+                  <input type="textarea" required/>
+                </StLabel>
+                <StLabel>
+                  내용
+                  <textarea required></textarea>
+                </StLabel>
+                <StLabel>
+                  태그
+                  <input type="text" required/>
+                </StLabel>
+              </StTextInputWrapper>
+            </StInputWrapper>
+            <StSubmitButton type="submit">올리기</StSubmitButton>
+          </StForm>
       </StContainer>
     </StOverlay>
   );
@@ -121,8 +121,7 @@ const StInputWrapper = styled.div`
 const Stdiv = styled.div`
   width: 40%;
   margin: 5%;
-  min-height: 500px; // height으로 하면 이미지가 추가되기 전까지 Stdiv내부에 하얀 박스가 생김
-  max-height: 500px; // ???? 위에 달린 주석을 이유로 이 코드를 살렸는데.... 진짜 긴 사진 넣으니까 max-height를 넘어버림!!!!!
+  height: 500px;
   ${flexCenter}
   border: ${({ imgPreview }) => (imgPreview ? 'none' : `5px dotted ${color.gray}`)};
   border-radius: 10px;
@@ -151,10 +150,11 @@ const StTextInputWrapper = styled.div`
   width: 50%;
   height: 90%;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-start;
   display: flex;
   align-items: center;
   font-size: large;
+  gap: 70px;
 `;
 
 const StLabel = styled.label`
@@ -183,77 +183,3 @@ const StCloseButton = styled.button`
   top: 10px;
 `;
 
-//-----------------------------------------------------------------------------------------------supabase 연습
-
-////----------------------------------------------------------------연습 1 : 외부데이터 내부로 가져오기 & form
-
-// import { createClient } from '@supabase/supabase-js';
-// import React, {useEffect} from 'react';
-// import { supabase } from '../../services/supabaseClient';
-
-// // "태그"를 DB에서 가져오는 함수
-// const TemporaryFuncName = () => {
-//   const [tags, setTags] = useState([]);
-//   const [tag, setTag] = useState("");
-
-//   useEffect(() => {
-//     // 1. 데이터를 가져오는 함수 (***실패할 수도 있는 요청이니 try catch로 감싸기***)
-//     const getTags = async () => {
-//       try {
-//         const {data, error} = await supabase.from("tags").select("*") //외부(supabase)에서 데이터를 가져옴 (tags테이블에 있는 데이터 모두)
-//         if (error) throw error;
-//         setTags(data); // 가져온 데이터를 setTags에 넣으므로서 외부데이터를 내부에서 관리 가능한 상태로 만듬
-//         } catch (error) {
-//         console.log(error);
-//       }
-//     };
-//       // 2. 실행
-//       getTags();
-//   }, []);
-
-//   // 이 함수를 실행할 떄 status: 401(unauthorized)이 나오면 RLS
-//   const handleAddTag = async (e) => {
-//     e.preventDefault();
-//     await supabase.from("tags").insert({tag});
-//    //여기에 동기화 로직!!!!!!을 만들어서 supabase DB에도 들어가는 동.시.에. 화면에도 렌더링 되게 만들어야 함
-//     console.log("tags => ", tags);
-//     setTags((prev) => [
-//       ...prev,
-//       {
-//         todo: todo,
-//         created_at: data[0],
-//         writer_id: data[0], // session으로 얻어오는 법?????? 뭐지?????
-//         id: data[0].id, // id는 supabase가 자동으로 만들어주는 것!
-//       },
-//     ]);
-//    };
-
-//   // 가져온 외부데이터 내부데이터로 바꿨으니 이제 렌더링 하기
-//   return (
-//     // form 에 들어갈 "내용" 칸
-//         <input
-//           type="text"
-//           placeholder='태그를 입력하세요'
-//           value={tag}
-//           onChange={(e) => setTag(e.target.value)}
-//         />
-//         <button onClick={handleAddTag}>추가</button>
-
-//         <input list="tagList" id="tagsList">
-//         <datalist id="tagsList">
-//           {tags.map((tag) => {
-//             
-//            })
-// <option value="">
-//       
-//       {tags.map((tag, index) => (   // 아래 <div>태그 사이 렌더링은 숫자 리스트처럼 렌더링된다. (예시: 1. 왈왈왈)
-//         <div key={tag.id}>
-//           {index + 1}. {tag.tag}
-//         </div> // 특강 영상에서 id와 tag는 실제 데이터 테이블(?)에 있는 열으로 콘솔에서 확인 가능했다.
-//         ))}
-//     </div>
-//   );
-
-// };
-
-// export default TemporaryFuncName;
