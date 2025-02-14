@@ -57,6 +57,7 @@ export default Header;
 
 /** styled component */
 const StContainer = styled.header`
+  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
