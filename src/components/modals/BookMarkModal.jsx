@@ -49,6 +49,7 @@ const BookMarkModal = ({ onClose }) => {
 
 export default BookMarkModal;
 
+/* styled component */
 const StContainer = styled.div`
   position: fixed;
   top: 0;
