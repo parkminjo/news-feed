@@ -1,3 +1,4 @@
+import { HeaderProvider } from '../../context/components/header/HeaderProvider';
 import Header from './Header';
 import Sidebar from './SideBar';
 import styled from 'styled-components';
@@ -5,7 +6,9 @@ import styled from 'styled-components';
 const MainLayout = ({ children }) => {
   return (
     <StContainer>
-      <Header />
+      <HeaderProvider>
+        <Header />
+      </HeaderProvider>
       <StMainContent>
         <Sidebar />
         <StContentWrapper>{children}</StContentWrapper>
