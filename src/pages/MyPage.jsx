@@ -6,9 +6,11 @@ import Header from '../components/layout/Header';
 import SideBar from '../components/layout/SideBar';
 import FollowListModal from '../components/modals/FollowListModal';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthProvider';
+import { useContext } from 'react';
 
 const MyPage = () => {
-  const [userData, setUserData] = useState([]);
+  // const [userData, setUserData] = useState([]);
   const [postsData, setPostsData] = useState([]);
   const [followData, setFollowData] = useState([]);
 
@@ -17,6 +19,7 @@ const MyPage = () => {
   const [followingCount, setFollowingCount] = useState(0);
 
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   //모달 On/off
   const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
@@ -74,7 +77,7 @@ const MyPage = () => {
         <StProfileHeader>
           <StProfileImage src="" alt="" />
           <StProfileInfoWrapper>
-            <StNickName>{userData.length > 0 ? userData[0].nick_name : 'Loading...'}</StNickName>
+            <StNickName>{user?.email || '비로그인'}</StNickName>
             <StProfilUl>
               <li>
                 게시물 <span>{postCount}</span>
