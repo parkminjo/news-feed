@@ -28,12 +28,16 @@ const SignUpForm = () => {
       alert('이메일을 입력해주세요');
       return;
     }
-    if (userInfo.password === '') {
+    if (userInfo.password === '' || userInfo.passwordCheck === '') {
       alert('비밀번호를 입력해주세요');
       return;
     }
     if (userInfo.nickName === '') {
       alert('닉네임을 입력해주세요');
+      return;
+    }
+    if (userInfo.nickName.length < 2) {
+      alert('2글자 이상의 닉네임을 적어주세요');
       return;
     }
     if (userInfo.passwordCheck !== userInfo.password) {
@@ -43,29 +47,33 @@ const SignUpForm = () => {
 
     try {
       /** 회원가입 진행*/
-      const { data, error } = await supabase.auth.signUp({
+      const {
+        data: { user: userData },
+        error: authError
+      } = await supabase.auth.signUp({
         email: userInfo.email,
         password: userInfo.password
       });
 
-      if (error) {
-        throw error;
+      if (authError) {
+        throw authError;
       }
 
       /** userExtraData(Public)에 닉네임 추가 */
-      const { error: userError } = await supabase.from('userExtraData').insert({ nick_name: userInfo.nickName });
+      const { error: userError } = await supabase
+        .from('userExtraData')
+        .insert({ user_id: userData?.id, nick_name: userInfo.nickName });
 
       if (userError) {
         throw userError;
       }
 
-      setUserInfo({ email: '', password: '', passwordCheck: '', nickName: '' });
-
       alert('회원가입이 완료되었습니다.');
+      setUserInfo({ email: '', password: '', passwordCheck: '', nickName: '' });
       navigate('/login');
     } catch (error) {
-      alert('회원가입 오류가 발생하였습니다.');
-      console.log('회원가입 오류 발생: ', error);
+      alert('회원가입 중 오류가 발생하였습니다.');
+      console.error('회원가입 오류 발생: ', error);
     }
   };
 
