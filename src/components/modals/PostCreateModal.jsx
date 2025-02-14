@@ -4,28 +4,32 @@ import { fontSize } from '../../styles/fontSize';
 import { useRef, useState } from 'react';
 
 const PostCreateModal = ({ isOpen, close }) => {
-  // useState와 useRef가 if문 위에 있어야 경고(?) 코드가 안 뜨지만, 이러면 모달창은 닫았다 열어도 이미지가 그대로 남아있음 (정보는 x)(submit버튼을 눌렀을 땐 이미지도 초기화됨)
-  const [imgPreview, setImagePreview] = useState(''); // img 파일이 imgPreview 상태에 Base64 문자열로 들어갈 것이기 때문에 기본값이 ""임
-  const imgRef = useRef(null); //useRef는 컴포넌트 안에서 DOM 요소나 값을 직접 참조!! ==> useState()를 사용할 때와 달리 input태그의 값에 직접 접근할 수 있어 불필요한 리렌더링을 줄일 수 있음
+  const [imgPreview, setImagePreview] = useState('');   // img 파일이 imgPreview 상태에 Base64 문자열로 들어갈 것이기 때문에 기본값이 ""임
+  const imgRef = useRef(null);                          // useRef는 컴포넌트 안에서 DOM 요소나 값을 직접 참조!! ==> useState()를 사용할 때와 달리 input태그의 값에 직접 접근할 수 있어 불필요한 리렌더링을 줄일 수 있음
 
   if (!isOpen) {
-    return null; // isOpen이 false면 렌더링하지 않음
+    return null; // isOpen이 false면 모달창을 렌더링하지 않음
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("폼이 제출되었습니다!") //
   }
 
   const handleImgPreview = () => {
-    const file = imgRef.current.files[0]; // imgRef.current는 input요소를 참조 => files는 그 input에서 선택한 파일들 => files[0]는 선택된 첫 번째 파일(preview용)
-    const reader = new FileReader(); // FileReader 객체 생성 => new FileReader는 컴퓨터에게  "input에 들어가는 파일을 읽어서 JavaScript에서 사용할 수 있는 형태로 변환해줘!"라고 말하는 객체
-    reader.readAsDataURL(file); // .readAsDataURL은 이제 읽는 방식을 "JavaScript에서 사용할 수 있는 형태인 Base64 형식으로 변환해줘!"라고 말하는 거
+    const file = imgRef.current.files[0];               // 1) imgRef.current는 input요소를 참조 => files는 그 input에서 선택한 파일들 => files[0]는 선택된 첫 번째 파일(preview용)
+    const reader = new FileReader();                    // 2) FileReader 객체 생성 => new FileReader는 컴퓨터에게  "input에 들어가는 파일을 읽어서 JavaScript에서 사용할 수 있는 형태로 변환해줘!"라고 말하는 객체
+    reader.readAsDataURL(file);                         // 3) .readAsDataURL은 이제 읽는 방식을 "JavaScript에서 사용할 수 있는 형태인 Base64 형식으로 변환해줘!"라고 말하는 거
     reader.onloadend = () => {
       // 파일 읽기가 끝나면 실행
-      setImagePreview(reader.result); // 변환된 데이터 URL을 imgFile 상태에 저장 => 상태관리를 하는 것!
+      setImagePreview(reader.result);                   // 4) 변환된 데이터 URL을 imgFile 상태에 저장 => 상태관리를 하는 것!
     };
   };
 
   return (
     <StOverlay>
       <StContainer>
-          <StForm> 
+          <StForm onSubmit={handleSubmit}> 
             <h2>모달창</h2>
             <StCloseButton onClick={close}>닫기</StCloseButton>
             <StInputWrapper>
@@ -58,8 +62,9 @@ const PostCreateModal = ({ isOpen, close }) => {
 
 export default PostCreateModal;
 
-// ----------------------------------- styled-components 너무 많아 ㅠㅠㅠㅠㅠㅠ
+// ----------------------------------- styled-components
 
+// 겹치는 디자인이 많은 관계로 디자인용 2 변수를 생성
 const flexCenter = `
   display: flex;
   justify-content: center;
@@ -83,7 +88,7 @@ const StOverlay = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* 배경 어둡게 처리 */
+  background-color: rgba(0, 0, 0, 0.5); // 배경 어둡게 처리 
   ${flexCenter}
 `;
 
@@ -103,12 +108,17 @@ const StForm = styled.form`
   height: 100%;
   ${flexCenter};
   flex-direction: column;
+
+  h2 {
+    margin-top: 50px;
+    color: ${color.main};
+  }
 `;
 
 const StSubmitButton = styled.button`
   ${BtnStyle}
   position: absolute;
-  bottom: 20px; /* 모달 내부에서 하단에 위치하도록 설정 */
+  bottom: 20px; // 모달 내부에서 하단에 위치하도록 설정 
   right: 50%;
   transform: translateX(50%);
 `;
@@ -120,17 +130,18 @@ const StInputWrapper = styled.div`
 
 const Stdiv = styled.div`
   width: 40%;
-  margin: 5%;
+  margin: 0 5% 5% 5%;
   height: 500px;
   ${flexCenter}
-  border: ${({ imgPreview }) => (imgPreview ? 'none' : `5px dotted ${color.gray}`)};
+  border: ${({ imgPreview }) => (imgPreview ? 'none' : `5px dotted ${color.gray}`)}; // input에 이미지 파일이 들어오지 않았을 때만 테투리 구현
   border-radius: 10px;
   box-sizing: border-box;
+
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover; // 이미지 비율 유지하면서 부모요소의 크기에 맞춤
+    border-radius: 10px; // 이미지 비율 유지하면서 부모요소의 크기에 맞춤
     display: ${({ imgPreview }) => (!imgPreview ? 'none' : 'block')};
   }
 
