@@ -2,13 +2,21 @@ import { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { supabase } from '../services/supabaseClient';
-import { useNavigate } from 'react-router-dom';
-
+import Header from '../components/layout/Header';
+import SideBar from '../components/layout/SideBar';
+import FollowListModal from '../components/modals/FollowListModal';
 const MyPage = () => {
   const [userData, setUserData] = useState([]);
   const [postCount, setPostCount] = useState(0);
 
-  const navigate = useNavigate();
+  const [followerCount, setFollowCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
+
+  //모달 On/off
+  const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
+
+  //팔로우인지 팔로워인지
+  const [followMode, setFollowMode] = useState('');
 
   useEffect(() => {
     const getUserData = async () => {
@@ -17,7 +25,7 @@ const MyPage = () => {
         if (error) throw error;
         setUserData(data);
       } catch (error) {
-        console.error('데이터 불러오기 실패:', error.message);
+        console.error('에러:', error.message);
       }
     };
     getUserData();
@@ -32,14 +40,21 @@ const MyPage = () => {
     setPostCount(posts.length);
   }, [posts]);
 
+  //팔로워목록 모달 열기
   const handleGotoFollowerList = () => {
-    navigate('/');
+    setFollowMode('follower');
+    setIsFollowModalOpen(true);
   };
 
+  //팔로잉 목록 모달 열기
   const handleGotoFollowingList = () => {
-    //팔로워 목록 페이지로 이동이거나 모달 열기
-    alert('모달로 이동');
-    // navigate();
+    setFollowMode('following');
+    setIsFollowModalOpen(true);
+  };
+
+  //모달 닫기
+  const handleCloseModal = () => {
+    setIsFollowModalOpen(false);
   };
 
   const handleGotoDetailPage = () => {
@@ -53,33 +68,44 @@ const MyPage = () => {
   };
 
   return (
-    <StProfileContainer>
-      <StProfileHeader>
-        <StProfileImage src="" alt="" />
-        <StProfileInfoWrapper>
-          <StNickName>{userData.length > 0 ? userData[0].nick_name : 'Loading...'}</StNickName>
-          <StProfilUl>
-            <li>
-              게시물 <span>{postCount}</span>
-            </li>
-            <li onClick={handleGotoFollowerList}>
-              팔로워 <span>0</span>
-            </li>
-            <li onClick={handleGotoFollowingList}>
-              팔로잉 <span>0</span>
-            </li>
-          </StProfilUl>
-          <StProfileEditButton onClick={handleGoToProFileEditPage}>프로필 수정</StProfileEditButton>
-        </StProfileInfoWrapper>
-      </StProfileHeader>
-      <StPostGrid>
-        {posts.map((post) => (
-          <StFeedPost onClick={handleGotoDetailPage} key={post}>
-            게시물
-          </StFeedPost>
-        ))}
-      </StPostGrid>
-    </StProfileContainer>
+    <>
+      <Header />
+      <SideBar />
+      <StProfileContainer>
+        <StProfileHeader>
+          <StProfileImage src="" alt="" />
+          <StProfileInfoWrapper>
+            <StNickName>{userData.length > 0 ? userData[0].nick_name : 'Loading...'}</StNickName>
+            <StProfilUl>
+              <li>
+                게시물 <span>{postCount}</span>
+              </li>
+              <li onClick={handleGotoFollowerList}>
+                팔로워 <span>{followerCount}</span>
+              </li>
+              <li onClick={handleGotoFollowingList}>
+                팔로잉 <span>{followingCount}</span>
+              </li>
+            </StProfilUl>
+            <StProfileEditButton onClick={handleGoToProFileEditPage}>프로필 수정</StProfileEditButton>
+          </StProfileInfoWrapper>
+        </StProfileHeader>
+        <StPostGrid>
+          {posts.map((post) => (
+            <StFeedPost onClick={handleGotoDetailPage} key={post}>
+              게시물
+            </StFeedPost>
+          ))}
+        </StPostGrid>
+      </StProfileContainer>
+      {isFollowModalOpen && (
+        <FollowListModal
+          onClose={handleCloseModal}
+          mode={followMode}
+          listData={[]} // 데이터 생기면 추가해서 고치기
+        />
+      )}
+    </>
   );
 };
 
@@ -97,14 +123,13 @@ const StProfileContainer = styled.div`
 const StProfileHeader = styled.div`
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding: 30px;
   gap: 20px;
-  max-width: 700px;
+  max-width: 900px;
   width: 100%;
 
-  border: 1px solid black;
-  border-radius: 10px;
-  margin-top: 100px;
+  border-bottom: 1px dashed black;
+  margin-top: 50px;
 `;
 
 //이미지
