@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 
-export const CenterWrapper = styled.div`
+export const StCenterWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

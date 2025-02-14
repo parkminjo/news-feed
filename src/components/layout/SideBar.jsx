@@ -5,6 +5,45 @@ import { fontSize } from '../../styles/fontSize';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const SideBar = () => {
+  const [isExpand, setIsExpand] = useState(false);
+  const navigate = useNavigate();
+
+  return (
+    <StContainer $isExpand={isExpand} onMouseEnter={() => setIsExpand(true)} onMouseLeave={() => setIsExpand(false)}>
+      <StMenu>
+        <StMenuItem onClick={() => navigate('/')}>
+          <StIconWrapper>
+            <FiHome />
+          </StIconWrapper>
+          <StText $isExpand={isExpand}>홈</StText>
+        </StMenuItem>
+        <StMenuItem onClick={() => navigate('/search')}>
+          <StIconWrapper>
+            <FiSearch />
+          </StIconWrapper>
+          <StText $isExpand={isExpand}>검색</StText>
+        </StMenuItem>
+        <StMenuItem>
+          <StIconWrapper>
+            <FiHeart />
+          </StIconWrapper>
+          <StText $isExpand={isExpand}>좋아요</StText>
+        </StMenuItem>
+        <StMenuItem>
+          <StIconWrapper>
+            <FaRegBookmark />
+          </StIconWrapper>
+          <StText $isExpand={isExpand}>북마크</StText>
+        </StMenuItem>
+      </StMenu>
+    </StContainer>
+  );
+};
+
+export default SideBar;
+
+/** styled component */
 const StContainer = styled.div`
   width: ${({ $isExpand }) => ($isExpand ? '200px' : '70px')};
   background-color: #ffffff;
@@ -48,41 +87,3 @@ const StText = styled.span`
   font-size: ${fontSize.medium};
   white-space: nowrap; // 자동 줄바꿈 방지, 한줄로만 표시
 `;
-
-const SideBar = () => {
-  const [isExpand, setIsExpand] = useState(false);
-  const navigate = useNavigate();
-
-  return (
-    <StContainer $isExpand={isExpand} onMouseEnter={() => setIsExpand(true)} onMouseLeave={() => setIsExpand(false)}>
-      <StMenu>
-        <StMenuItem onClick={() => navigate('/')}>
-          <StIconWrapper>
-            <FiHome />
-          </StIconWrapper>
-          <StText $isExpand={isExpand}>홈</StText>
-        </StMenuItem>
-        <StMenuItem onClick={() => navigate('/search')}>
-          <StIconWrapper>
-            <FiSearch />
-          </StIconWrapper>
-          <StText $isExpand={isExpand}>검색</StText>
-        </StMenuItem>
-        <StMenuItem>
-          <StIconWrapper>
-            <FiHeart />
-          </StIconWrapper>
-          <StText $isExpand={isExpand}>좋아요</StText>
-        </StMenuItem>
-        <StMenuItem>
-          <StIconWrapper>
-            <FaRegBookmark />
-          </StIconWrapper>
-          <StText $isExpand={isExpand}>북마크</StText>
-        </StMenuItem>
-      </StMenu>
-    </StContainer>
-  );
-};
-
-export default SideBar;
