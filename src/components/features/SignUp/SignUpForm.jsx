@@ -36,8 +36,8 @@ const SignUpForm = () => {
       alert('닉네임을 입력해주세요');
       return;
     }
-    if (userInfo.passwordCheck !== userInfo.password) {
-      alert('비밀번호가 동일하지 않습니다');
+    if (userInfo.nickName.length < 2) {
+      alert('닉네임을 2글자 이상으로 설정해주세요');
       return;
     }
 
@@ -53,7 +53,9 @@ const SignUpForm = () => {
       }
 
       /** userExtraData(Public)에 닉네임 추가 */
-      const { error: userError } = await supabase.from('userExtraData').insert({ nick_name: userInfo.nickName });
+      const { error: userError } = await supabase
+        .from('userExtraData')
+        .insert({ id: data.user.id, nick_name: userInfo.nickName });
 
       if (userError) {
         throw userError;
@@ -64,7 +66,7 @@ const SignUpForm = () => {
       alert('회원가입이 완료되었습니다.');
       navigate('/login');
     } catch (error) {
-      alert('회원가입 오류가 발생하였습니다.');
+      alert('이미 가입된 이메일입니다.');
       console.log('회원가입 오류 발생: ', error);
     }
   };
