@@ -4,9 +4,11 @@ import { StCenterWrapper } from '../../styles/GlobalStyle';
 import { FaRegBell, FaUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useHeader } from '../../context/components/header/useHeader';
+import { useAuth } from '../../context/auth/useAuth';
 
 const Header = () => {
-  const { isLoginOpen, setIsLoginOpen, loginModalRef } = useHeader();
+  const { isLoginOpen, setIsLoginOpen, loginModalRef, handleAuthAction } = useHeader();
+  const { isLogin } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -24,7 +26,7 @@ const Header = () => {
       {isLoginOpen && (
         <StModal ref={loginModalRef}>
           <StAccountName>계정</StAccountName>
-          <StButton onClick={() => navigate('/login')}>로그인</StButton>
+          <StButton onClick={handleAuthAction}>{isLogin ? '로그아웃' : '로그인'}</StButton>
           <StButton onClick={() => navigate('/mypage')}>프로필</StButton>
         </StModal>
       )}

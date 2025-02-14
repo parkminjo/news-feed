@@ -1,9 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { HeaderContext } from './HeaderContext';
+import { useAuth } from '../../auth/useAuth';
+import { supabase } from '../../../services/supabaseClient';
+import { useNavigate } from 'react-router-dom';
 
 export const HeaderProvider = ({ children }) => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const loginModalRef = useRef(null);
+  const { isLogin } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -25,7 +30,16 @@ export const HeaderProvider = ({ children }) => {
     };
   }, [isLoginOpen]);
 
-  const value = { isLoginOpen, setIsLoginOpen, loginModalRef };
+  const handleAuthAction = async () => {
+    if (isLogin) {
+      await supabase.auth.signOut();
+      navigate('/');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const value = { isLoginOpen, setIsLoginOpen, loginModalRef, handleAuthAction };
 
   return <HeaderContext.Provider value={value}>{children}</HeaderContext.Provider>;
 };
