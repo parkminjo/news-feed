@@ -13,7 +13,10 @@ const imgData = [
   { src: '../../public/img/LoginCat.png', id: 6, title: '고양이 6', comment: '게시물 내용' },
   { src: '../../public/img/LoginCat.png', id: 7, title: '고양이 7', comment: '게시물 내용' },
   { src: '../../public/img/LoginCat.png', id: 8, title: '고양이 8', comment: '게시물 내용' },
-  { src: '../../public/img/LoginCat.png', id: 9, title: '고양이 9', comment: '게시물 내용' }
+  { src: '../../public/img/LoginCat.png', id: 9, title: '고양이 9', comment: '게시물 내용' },
+  { src: '../../public/img/LoginCat.png', id: 10, title: '고양이 10', comment: '게시물 내용' },
+  { src: '../../public/img/LoginCat.png', id: 11, title: '고양이 11', comment: '게시물 내용' },
+  { src: '../../public/img/LoginCat.png', id: 12, title: '고양이 12', comment: '게시물 내용' }
 ];
 
 const BookMarkModal = ({ onClose }) => {
@@ -22,23 +25,22 @@ const BookMarkModal = ({ onClose }) => {
   return (
     <StContainer>
       <StModal>
+        <StBackButton onClick={selectedPost ? () => setSelectedPost(null) : onClose}>
+          &lt; {selectedPost ? '뒤로가기' : '저장됨'}
+        </StBackButton>
         {!selectedPost ? (
-          // 북마크 리스트 화면
-          <>
-            <StCloseButton onClick={onClose}>&lt; 저장됨</StCloseButton>
-            <StImgGrid>
-              {imgData.map((img, index) => (
-                <StCatImg key={index} src={img.src} alt="postImg" onClick={() => setSelectedPost(img)} />
-              ))}
-            </StImgGrid>
-          </>
+          <StImgGrid>
+            {imgData.map((img) => (
+              <StCatImg key={img.id} src={img.src} alt="postImg" onClick={() => setSelectedPost(img)} />
+            ))}
+          </StImgGrid>
         ) : (
-          // 게시물 상세 화면
           <StDetailView>
-            <StBackButton onClick={() => setSelectedPost(null)}>&lt; 뒤로가기</StBackButton>
-            <img src={selectedPost.src} alt="{seletedPost.title}" />
-            <h2>{selectedPost.title}</h2>
-            <p>{selectedPost.comment}</p>
+            <StImg src={selectedPost.src} alt={selectedPost.title} />
+            <StTextContent>
+              <h2>{selectedPost.title}</h2>
+              <p>{selectedPost.comment}</p>
+            </StTextContent>
           </StDetailView>
         )}
       </StModal>
@@ -76,10 +78,10 @@ const StModal = styled.div`
   max-height: 100%;
 `;
 
-const StCloseButton = styled.button`
+const StBackButton = styled.button`
   position: absolute;
   top: 10px;
-  left: 250px;
+  left: 20px;
   background: none;
   border: none;
   font-size: ${fontSize.medium};
@@ -106,8 +108,6 @@ const StCatImg = styled.img`
   cursor: pointer;
   border-radius: 5px;
   transition: transform 0.2s, border 0.2s;
-  border: ${(props) => (props.selected ? `3px solid ${color.main}` : 'none')};
-
   &:hover {
     transform: scale(1.05);
   }
@@ -115,21 +115,23 @@ const StCatImg = styled.img`
 
 const StDetailView = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   width: 100%;
+  max-width: 80%;
+  gap: 20px;
+  margin-top: 50px;
 `;
 
-const StBackButton = styled.button`
-  align-self: flex-start;
-  margin-bottom: 20px;
-  background: none;
-  border: none;
-  font-size: ${fontSize.medium};
-  color: ${color.gray};
-  cursor: pointer;
+const StImg = styled.img`
+  max-width: 50%;
+  height: auto;
+  border-radius: 5px;
+`;
 
-  &:hover {
-    color: ${color.black};
-  }
+const StTextContent = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
