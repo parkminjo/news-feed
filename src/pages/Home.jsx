@@ -2,11 +2,18 @@ import Header from '../components/layout/Header';
 import Sidebar from '../components/layout/SideBar';
 import styled from 'styled-components';
 
-import { useState } from 'react';
-import BookMarkModal from '../components/modals/BookMarkModal';
-
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <StContainer>
+      <Header />
+      <StMainContent>
+        <Sidebar />
+        <StContentWrapper>
+          <div>Home</div>
+        </StContentWrapper>
+      </StMainContent>
+    </StContainer>
+  );
 };
 
 export default Home;
