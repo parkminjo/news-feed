@@ -3,21 +3,14 @@ import styled from 'styled-components';
 import { color } from '../../styles/color';
 import { fontSize } from '../../styles/fontSize';
 
-// 임시 이미지 데이터
-const imgData = [
-  { src: '../../public/img/LoginCat.png', id: 1, title: '고양이 1', comment: '게시물 내용' },
-  { src: '../../public/img/LoginCat.png', id: 2, title: '고양이 2', comment: '게시물 내용' },
-  { src: '../../public/img/LoginCat.png', id: 3, title: '고양이 3', comment: '게시물 내용' },
-  { src: '../../public/img/LoginCat.png', id: 4, title: '고양이 4', comment: '게시물 내용' },
-  { src: '../../public/img/LoginCat.png', id: 5, title: '고양이 5', comment: '게시물 내용' },
-  { src: '../../public/img/LoginCat.png', id: 6, title: '고양이 6', comment: '게시물 내용' },
-  { src: '../../public/img/LoginCat.png', id: 7, title: '고양이 7', comment: '게시물 내용' },
-  { src: '../../public/img/LoginCat.png', id: 8, title: '고양이 8', comment: '게시물 내용' },
-  { src: '../../public/img/LoginCat.png', id: 9, title: '고양이 9', comment: '게시물 내용' },
-  { src: '../../public/img/LoginCat.png', id: 10, title: '고양이 10', comment: '게시물 내용' },
-  { src: '../../public/img/LoginCat.png', id: 11, title: '고양이 11', comment: '게시물 내용' },
-  { src: '../../public/img/LoginCat.png', id: 12, title: '고양이 12', comment: '게시물 내용' }
-];
+// 임시 게시물 데이터
+const imgData = Array.from({ length: 20 }, (_, i) => ({
+  src: '../../public/img/LoginCat.png',
+  id: i + 1,
+  title: `고양이 ${i + 1}`,
+  comment: '게시물 내용',
+}));
+
 
 const BookMarkModal = ({ onClose }) => {
   const [selectedPost, setSelectedPost] = useState(null);
