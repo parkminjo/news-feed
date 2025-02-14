@@ -3,9 +3,12 @@ import Sidebar from '../components/layout/SideBar';
 import styled from 'styled-components';
 import { supabase } from '../services/supabaseClient';
 import { useEffect, useState } from 'react';
+import PostDetailModal from '../components/modals/PostDetailModal';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [postId, setPostId] = useState(); // 디테일 핸들러 props
 
   // supabase - SELECT 함수 (getPost)
   const getPost = async () => {
@@ -21,6 +24,12 @@ const Home = () => {
     getPost();
   }, []); // 초기 렌더링 시에만 데이터 fetch
 
+  // 디테일 열기 핸들러
+  const handleOpenDetail = (postId) => {
+    setIsDetailOpen(true);
+    setPostId(postId);
+  };
+
   return (
     <StContainer>
       <Header />
@@ -29,11 +38,12 @@ const Home = () => {
         <StContentWrapper>
           <StPostWrapper>
             {posts.map((post) => (
-              <div style={{ border: '1px solid black' }} key={post.id}>
+              <div style={{ border: '1px solid black' }} key={post.id} onClick={() => handleOpenDetail(post.id)}>
                 <p>{post.title}</p>
               </div>
             ))}
           </StPostWrapper>
+          <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
         </StContentWrapper>
       </StMainContent>
     </StContainer>
