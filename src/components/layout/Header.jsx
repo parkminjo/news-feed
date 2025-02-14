@@ -6,19 +6,19 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const navigate = useNavigate();
   const modalRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setIsModalOpen(false);
+        setIsLoginOpen(false);
       }
     };
 
     // 모달이 열린 상태에서만 외부 클릭 감지 활성화
-    if (isModalOpen) {
+    if (isLoginOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -28,7 +28,7 @@ const Header = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isModalOpen]);
+  }, [isLoginOpen]);
 
   return (
     <StContainer>
@@ -37,12 +37,12 @@ const Header = () => {
         <StIconWrapper>
           <StBellIcon size={30} />
         </StIconWrapper>
-        <StIconWrapper onClick={() => setIsModalOpen(!isModalOpen)}>
+        <StIconWrapper onClick={() => setIsLoginOpen(!isLoginOpen)}>
           <StUserIcon size={30} />
         </StIconWrapper>
       </StIconsWrapper>
 
-      {isModalOpen && (
+      {isLoginOpen && (
         <StModal ref={modalRef}>
           <StAccountName>계정</StAccountName>
           <StButton onClick={() => navigate('/login')}>로그인</StButton>
