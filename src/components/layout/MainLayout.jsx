@@ -1,21 +1,22 @@
+import { Outlet } from 'react-router-dom';
 import { HeaderProvider } from '../../context/components/header/HeaderProvider';
 import { SidebarProvider } from '../../context/components/sidebar/SidebarProvider';
 import Header from './Header';
 import Sidebar from './SideBar';
 import styled from 'styled-components';
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   return (
     <StContainer>
       <HeaderProvider>
         <Header />
       </HeaderProvider>
-      <StMainContent>
-        <SidebarProvider>
-          <Sidebar />
-        </SidebarProvider>
-        <StContentWrapper>{children}</StContentWrapper>
-      </StMainContent>
+      <SidebarProvider>
+        <Sidebar />
+      </SidebarProvider>
+      <StContentWrapper>
+        <Outlet />
+      </StContentWrapper>
     </StContainer>
   );
 };
@@ -26,11 +27,6 @@ export default MainLayout;
 const StContainer = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const StMainContent = styled.main`
-  display: flex;
-  flex: 1;
 `;
 
 const StContentWrapper = styled.div`

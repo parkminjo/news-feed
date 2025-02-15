@@ -69,8 +69,6 @@ const MyPage = () => {
 
   return (
     <>
-      <Header />
-      <SideBar />
       <StProfileContainer>
         <StProfileHeader>
           <StProfileImage src="" alt="" />
