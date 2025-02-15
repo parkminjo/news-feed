@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import { supabase } from '../../../services/supabaseClient';
 import { fontSize } from '../../../styles/fontSize';
 import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io';
+import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5';
 
 const PostCard = ({ post }) => {
   const { created_at, writer_id } = post || null;
   const [isLikeClicked, setIsLikeClicked] = useState(false);
+  const [isBookMarkClicked, setIsBookMarkClicked] = useState(false);
 
   const [nickname, setNickname] = useState([]); // context에 userInfo 추가되면 수정 필요
 
@@ -44,7 +46,7 @@ const PostCard = ({ post }) => {
       { label: '초', value: 1 }
     ];
 
-    let passedTime = Math.trunc((Date.now() - date) / 1000); // 글 작성 시간부터 오늘 시간까지 경과된 시간
+    let passedTime = Math.trunc((Date.now() - date) / 1000); // 글 작성 시간부터 오늘 시간까지 경과된 시간(초 단위)
 
     if (passedTime < 1) return '방금 전';
 
@@ -57,6 +59,11 @@ const PostCard = ({ post }) => {
   /** 좋아요 Boolean값 변환 함수 */
   const handleLikeClick = () => {
     setIsLikeClicked(!isLikeClicked);
+  };
+
+  /** 북마크 Boolean값 변환 함수 */
+  const handleBookMarkClick = () => {
+    setIsBookMarkClicked(!isBookMarkClicked);
   };
 
   return (
@@ -73,6 +80,11 @@ const PostCard = ({ post }) => {
       </StImgWrapper>
       <StFooterWrapper>
         {isLikeClicked ? <StLikeIcon onClick={handleLikeClick} /> : <StLikeEmptyIcon onClick={handleLikeClick} />}
+        {isBookMarkClicked ? (
+          <StBookMarkIcon onClick={handleBookMarkClick} />
+        ) : (
+          <StBookMarkEmptyIcon onClick={handleBookMarkClick} />
+        )}
       </StFooterWrapper>
     </StCardContainer>
   );
@@ -139,5 +151,14 @@ const StLikeIcon = styled(IoMdHeart)`
 
 const StLikeEmptyIcon = styled(IoMdHeartEmpty)`
   font-size: ${fontSize.xLarge};
+  cursor: pointer;
+`;
+
+const StBookMarkIcon = styled(IoBookmark)`
+  font-size: 30px;
+  cursor: pointer;
+`;
+const StBookMarkEmptyIcon = styled(IoBookmarkOutline)`
+  font-size: 30px;
   cursor: pointer;
 `;
