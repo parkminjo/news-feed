@@ -27,6 +27,7 @@ const Home = () => {
     getPost();
   }, []);
 
+  /** UI */
   return (
     <StContainer>
       <StMainWrapper>

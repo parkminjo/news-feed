@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { supabase } from '../../../services/supabaseClient';
 import { fontSize } from '../../../styles/fontSize';
+import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io';
 
 const PostCard = ({ post }) => {
   const { created_at: writtenDate, writer_id } = post || null;
   const [nickname, setNickname] = useState([]); // context에 userInfo 추가되면 수정 필요
+  const [isLikeClicked, setIsLikeClicked] = useState(false);
 
   // context에 userInfo 추가되면 수정 필요한 코드
   useEffect(() => {
@@ -30,6 +32,11 @@ const PostCard = ({ post }) => {
     getUserNickname();
   }, []);
 
+  /** 좋아요 Boolean값 변환 함수 */
+  const handleLikeClick = () => {
+    setIsLikeClicked(!isLikeClicked);
+  };
+
   // const todayDate = new Date();
   // console.log("todayDate: ",todayDate);
   // console.log("writtenDate", writtenDate);
@@ -46,7 +53,9 @@ const PostCard = ({ post }) => {
       <StImgWrapper>
         <StPostImg src="/img/LoginCat.png" alt="고양이 이미지" />
       </StImgWrapper>
-      <StFooterWrapper></StFooterWrapper>
+      <StFooterWrapper>
+        {isLikeClicked ? <StLikeIcon onClick={handleLikeClick} /> : <StLikeEmptyIcon onClick={handleLikeClick} />}
+      </StFooterWrapper>
     </StCardContainer>
   );
 };
@@ -99,6 +108,18 @@ const StPostImg = styled.img`
 `;
 
 const StFooterWrapper = styled.div`
-  flex: 1;
-  background-color: beige;
+  flex: 0.5;
+  display: flex;
+  align-items: center;
+`;
+
+const StLikeIcon = styled(IoMdHeart)`
+  font-size: ${fontSize.xLarge};
+  color: #fb4141;
+  cursor: pointer;
+`;
+
+const StLikeEmptyIcon = styled(IoMdHeartEmpty)`
+  font-size: ${fontSize.xLarge};
+  cursor: pointer;
 `;
