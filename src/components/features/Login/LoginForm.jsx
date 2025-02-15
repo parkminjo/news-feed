@@ -65,7 +65,7 @@ const LoginForm = () => {
               value={userInfo.password}
               onChange={handleChange}
             />
-            <StSignButton>가입하기</StSignButton>
+            <StSignButton>로그인하기</StSignButton>
           </StLoginWrapper>
         </form>
         <StSignUpWrapper>
