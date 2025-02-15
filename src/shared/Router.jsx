@@ -4,7 +4,7 @@ import Login from '../pages/Login';
 import MyPage from '../pages/MyPage';
 import Search from '../pages/Search';
 import SignUp from '../pages/SignUp';
-import { useAuth } from '../Hooks/useAuth';
+import { useAuth } from '../context/auth/useAuth';
 
 const Router = () => {
   const { isLogin } = useAuth();
