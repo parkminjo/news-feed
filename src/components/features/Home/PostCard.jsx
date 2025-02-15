@@ -1,14 +1,43 @@
 import styled from 'styled-components';
+import { supabase } from '../../../services/supabaseClient';
+import { use, useEffect, useState } from 'react';
 import { fontSize } from '../../../styles/fontSize';
 
 const PostCard = ({ post }) => {
+  const { created_at, writer_id } = post || null;
+
+  const [nickname, setNickname] = useState([]); // context에 userInfo 추가되면 수정 필요
+
+  useEffect(() => {
+    const getUserNickname = async () => {
+      try {
+        const { data: userData, error } = await supabase
+          .from('userExtraData')
+          .select('nick_name')
+          .eq('user_id', writer_id)
+          .single();
+
+        if (error) {
+          throw error;
+        }
+        setNickname(userData.nick_name);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getUserNickname();
+  }, []);
+
   return (
     <StCardContainer>
       <StHeaderWrapper>
         <ContentText></ContentText>
         <ContentText></ContentText>
       </StHeaderWrapper>
-      <StImgWrapper></StImgWrapper>
+      <StImgWrapper>
+        <img src="" alt="" />
+      </StImgWrapper>
       <StFooterWrapper></StFooterWrapper>
     </StCardContainer>
   );
