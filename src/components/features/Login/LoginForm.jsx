@@ -44,8 +44,8 @@ const LoginForm = () => {
       alert('로그인에 성공하였습니다');
       navigate('/');
     } catch (error) {
-      alert(error.message);
-      console.error('로그인 오류가 발생하였습니다', error);
+      alert('로그인 오류가 발생하였습니다');
+      console.error(error.message);
     }
   };
 
