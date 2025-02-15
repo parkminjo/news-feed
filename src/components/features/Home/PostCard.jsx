@@ -6,8 +6,9 @@ import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io';
 
 const PostCard = ({ post }) => {
   const { created_at, writer_id } = post || null;
-  const [nickname, setNickname] = useState([]); // context에 userInfo 추가되면 수정 필요
   const [isLikeClicked, setIsLikeClicked] = useState(false);
+
+  const [nickname, setNickname] = useState([]); // context에 userInfo 추가되면 수정 필요
 
   // context에 userInfo 추가되면 수정 필요한 코드
   useEffect(() => {
@@ -33,35 +34,24 @@ const PostCard = ({ post }) => {
   }, []);
 
   /** 경과 시간을 계산하여 "방금 전", "몇초 전" 등으로 바꿔주는 함수 */
-  const todayDate = new Date().getTime();
   const writtenDate = new Date(created_at).getTime();
 
   const passedTimeText = (date) => {
-    // 초 (밀리초)
-    const seconds = 1;
-    // 분
-    const minute = seconds * 60;
-    // 시
-    const hour = minute * 60;
-    // 일
-    const day = hour * 24;
+    const units = [
+      { label: '일', value: 86400 },
+      { label: '시간', value: 3600 },
+      { label: '분', value: 60 },
+      { label: '초', value: 1 }
+    ];
 
-    let passedTime = Math.trunc((todayDate - date) / 1000); // 글 작성 시간부터 오늘 시간까지 경과된 시간
+    let passedTime = Math.trunc((Date.now() - date) / 1000); // 글 작성 시간부터 오늘 시간까지 경과된 시간
 
-    let passedTimeText = '';
-    if (passedTime < seconds) {
-      passedTimeText = '방금 전';
-    } else if (passedTime < minute) {
-      passedTimeText = passedTime + '초 전';
-    } else if (passedTime < hour) {
-      passedTimeText = Math.trunc(passedTime / minute) + '분 전';
-    } else if (passedTime < day) {
-      passedTimeText = Math.trunc(passedTime / hour) + '시간 전';
-    } else if (passedTime < day * 15) {
-      passedTimeText = Math.trunc(passedTime / day) + '일 전';
+    if (passedTime < 1) return '방금 전';
+
+    for (const { label, value } of units) {
+      const time = Math.trunc(passedTime / value);
+      if (time > 0) return `${time}${label} 전`;
     }
-
-    return passedTimeText;
   };
 
   /** 좋아요 Boolean값 변환 함수 */
