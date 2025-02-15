@@ -52,7 +52,7 @@ const LoginForm = () => {
   /** UI */
   return (
     <StContainer>
-      <StCatImg src="/img/LoginCat.png" />
+      <StCatImg src="/img/LoginCat.png" alt="고양이 이미지" />
       <StWrapper>
         <form onSubmit={handleLogin}>
           <StLoginWrapper>
