@@ -24,6 +24,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
 
   const [selectedPost, setSelectedPost] = useState(null);
   const [writerData, setWriterData] = useState(null);
+  const [comments, setComments] = useState(null);
 
   async function getPosts() {
     try {
@@ -38,9 +39,14 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
         .from('userExtraData')
         .select('nick_name')
         .eq('user_id', postData[0].writer_id);
-
       if (userData?.length) {
         setWriterData(userData[0]);
+      }
+
+      // // comments
+      const { data: commentsData } = await supabase.from('comments').select('*').eq('post_id', postData[0].id);
+      if (commentsData?.length) {
+        setComments(commentsData);
       }
     } catch (error) {
       console.error(error);
@@ -54,7 +60,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
   }, [postId]);
 
   // state가 null이면 렌더링 방지
-  if (selectedPost === null || writerData === null) {
+  if (selectedPost === null || writerData === null || comments === null) {
     return;
   }
 
@@ -83,7 +89,9 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
             <h3>{selectedPost.title}</h3>
             <p>{selectedPost.content}</p>
             <p>{`${year}년 ${month}월 ${day}일 ${hours}:${minutes}`}</p>
-            <p>댓글작성자 : 댓글 내용</p>
+            {comments.map((comment) => (
+              <p key={comment.id}>{comment.contents}</p>
+            ))}
           </StContents>
           <StInteraction>
             <div>좋아요</div>
