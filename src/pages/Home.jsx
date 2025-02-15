@@ -7,6 +7,7 @@ import { color } from '../styles/color';
 const Home = () => {
   const [posts, setPosts] = useState([]);
 
+  /** supabase에서 데이터를 가져오는 SELECT 함수 */
   const getPost = async () => {
     try {
       const { data: postData, error } = await supabase.from('posts').select('*');
@@ -21,6 +22,7 @@ const Home = () => {
     }
   };
 
+  /** 초기 렌더링 시에만 데이터 fetch */
   useEffect(() => {
     getPost();
   }, []);
