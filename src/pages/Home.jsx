@@ -1,6 +1,4 @@
-import Header from '../components/layout/Header';
-import Sidebar from '../components/layout/SideBar';
-import styled from 'styled-components';
+import MainLayout from '../components/layout/MainLayout';
 import { supabase } from '../services/supabaseClient';
 import { useEffect, useState } from 'react';
 import PostDetailModal from '../components/modals/PostDetailModal';
@@ -31,46 +29,14 @@ const Home = () => {
   };
 
   return (
-    <StContainer>
-      <Header />
-      <StMainContent>
-        <Sidebar />
-        <StContentWrapper>
-          <StPostWrapper>
-            {posts.map((post) => (
-              <div style={{ border: '1px solid black' }} key={post.id} onClick={() => handleOpenDetail(post.id)}>
-                <p>{post.title}</p>
-              </div>
-            ))}
-          </StPostWrapper>
-          <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
-        </StContentWrapper>
-      </StMainContent>
-    </StContainer>
+    <MainLayout>
+      {posts.map((post) => (
+        <div style={{ border: '1px solid black' }} key={post.id}>
+          <p>{post.title}</p>
+        </div>
+      ))}
+    </MainLayout>
   );
 };
 
 export default Home;
-
-/** styled component */
-const StContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StMainContent = styled.main`
-  display: flex;
-  flex: 1;
-`;
-
-const StContentWrapper = styled.div`
-  padding: 10px;
-  width: 100%;
-`;
-
-const StPostWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
