@@ -1,10 +1,8 @@
-import Header from '../components/layout/Header';
-import Sidebar from '../components/layout/SideBar';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { color } from '../styles/color';
 import PostCard from '../components/features/Home/PostCard';
 import { supabase } from '../services/supabaseClient';
-import { useEffect, useState } from 'react';
+import { color } from '../styles/color';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -26,9 +24,9 @@ const Home = () => {
     <StContainer>
       <StMainWrapper>
         <StContentWrapper>
-          <PostCard />
-          <PostCard />
-          <PostCard />
+          {posts.map((post) => {
+            return <PostCard key={post.id} post={post} />;
+          })}
         </StContentWrapper>
       </StMainWrapper>
     </StContainer>
