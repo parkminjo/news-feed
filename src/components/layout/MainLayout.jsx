@@ -11,14 +11,12 @@ const MainLayout = () => {
       <HeaderProvider>
         <Header />
       </HeaderProvider>
-      <StMainContent>
-        <SidebarProvider>
-          <Sidebar />
-        </SidebarProvider>
-        <StContentWrapper>
-          <Outlet />
-        </StContentWrapper>
-      </StMainContent>
+      <SidebarProvider>
+        <Sidebar />
+      </SidebarProvider>
+      <StContentWrapper>
+        <Outlet />
+      </StContentWrapper>
     </StContainer>
   );
 };
@@ -29,11 +27,6 @@ export default MainLayout;
 const StContainer = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const StMainContent = styled.main`
-  display: flex;
-  flex: 1;
 `;
 
 const StContentWrapper = styled.div`
