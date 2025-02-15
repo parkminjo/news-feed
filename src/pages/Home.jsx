@@ -31,10 +31,11 @@ const Home = () => {
   return (
     <MainLayout>
       {posts.map((post) => (
-        <div style={{ border: '1px solid black' }} key={post.id}>
+        <div style={{ border: '1px solid black' }} key={post.id} onClick={() => handleOpenDetail(post.id)}>
           <p>{post.title}</p>
         </div>
       ))}
+      <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
     </MainLayout>
   );
 };
