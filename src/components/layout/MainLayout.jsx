@@ -1,10 +1,11 @@
+import { Outlet } from 'react-router-dom';
 import { HeaderProvider } from '../../context/components/header/HeaderProvider';
 import { SidebarProvider } from '../../context/components/sidebar/SidebarProvider';
 import Header from './Header';
 import Sidebar from './SideBar';
 import styled from 'styled-components';
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   return (
     <StContainer>
       <HeaderProvider>
@@ -14,7 +15,9 @@ const MainLayout = ({ children }) => {
         <SidebarProvider>
           <Sidebar />
         </SidebarProvider>
-        <StContentWrapper>{children}</StContentWrapper>
+        <StContentWrapper>
+          <Outlet />
+        </StContentWrapper>
       </StMainContent>
     </StContainer>
   );
