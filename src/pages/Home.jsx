@@ -3,14 +3,15 @@ import Sidebar from '../components/layout/SideBar';
 import styled from 'styled-components';
 import { color } from '../styles/color';
 import PostCard from '../components/features/Home/PostCard';
+import { supabase } from '../services/supabaseClient';
+import { useEffect, useState } from 'react';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
 
-  // supabase - SELECT 함수 (getPost)
   const getPost = async () => {
     try {
-      const { data } = await supabase.from('posts').select();
+      const { data } = await supabase.from('posts').select('*');
       setPosts(data);
     } catch (error) {
       console.error(error);
@@ -19,12 +20,10 @@ const Home = () => {
 
   useEffect(() => {
     getPost();
-  }, []); // 초기 렌더링 시에만 데이터 fetch
+  }, []);
 
   return (
     <StContainer>
-      <Header />
-      <Sidebar />
       <StMainWrapper>
         <StContentWrapper>
           <PostCard />
