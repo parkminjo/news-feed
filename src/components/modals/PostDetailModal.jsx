@@ -23,14 +23,27 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
   };
 
   const [selectedPost, setSelectedPost] = useState(null);
+  const [writerData, setWriterData] = useState(null);
+
   async function getPosts() {
     try {
-      const { data } = await supabase.from('posts').select().eq('id', postId);
-      if (data && data.length > 0) {
-        setSelectedPost(data[0]);
+      // posts
+      const { data: postData } = await supabase.from('posts').select('*').eq('id', postId);
+      if (postData?.length) {
+        setSelectedPost(postData[0]);
+      }
+
+      // userExtraData
+      const { data: userData } = await supabase
+        .from('userExtraData')
+        .select('nick_name')
+        .eq('user_id', postData[0].writer_id);
+
+      if (userData?.length) {
+        setWriterData(userData[0]);
       }
     } catch (error) {
-      throw new error();
+      console.error(error);
     }
   }
 
@@ -40,8 +53,8 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     }
   }, [postId]);
 
-  // selectedPost가 없으면 렌더링을 방지
-  if (selectedPost === null) {
+  // state가 null이면 렌더링 방지
+  if (selectedPost === null || writerData === null) {
     return;
   }
 
@@ -60,7 +73,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
         <StImgWrapper>{selectedPost.img}</StImgWrapper>
         <StContentsWrapper>
           <StHeader>
-            <h3>{selectedPost.writer_id}</h3>
+            <h3>{writerData.nick_name}</h3>
             <StBtnWrapper>
               <button>수정</button>
               <button>삭제</button>
