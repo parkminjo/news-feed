@@ -5,7 +5,6 @@ import { fontSize } from '../../../styles/fontSize';
 
 const PostCard = ({ post }) => {
   const { created_at, writer_id } = post || null;
-
   const [nickname, setNickname] = useState([]); // context에 userInfo 추가되면 수정 필요
 
   useEffect(() => {
@@ -20,6 +19,7 @@ const PostCard = ({ post }) => {
         if (error) {
           throw error;
         }
+
         setNickname(userData.nick_name);
       } catch (error) {
         console.error(error);
@@ -32,11 +32,11 @@ const PostCard = ({ post }) => {
   return (
     <StCardContainer>
       <StHeaderWrapper>
-        <ContentText></ContentText>
-        <ContentText></ContentText>
+        <ContentText>{nickname}</ContentText>
+        <ContentText>{post.created_at}</ContentText>
       </StHeaderWrapper>
       <StImgWrapper>
-        <img src="" alt="" />
+        <PostImg src="/img/LoginCat.png" alt="고양이 이미지" />
       </StImgWrapper>
       <StFooterWrapper></StFooterWrapper>
     </StCardContainer>
@@ -60,14 +60,20 @@ const StHeaderWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-const StImgWrapper = styled.div`
-  flex: 10;
-  background-color: black;
-`;
-const StFooterWrapper = styled.div`
-  flex: 1;
-`;
 
 const ContentText = styled.div`
   font-size: ${fontSize.medium};
+`;
+
+const StImgWrapper = styled.div`
+  flex: 10;
+`;
+
+const PostImg = styled.img`
+  object-fit: cover;
+  width: 100%;
+`;
+
+const StFooterWrapper = styled.div`
+  flex: 1;
 `;
