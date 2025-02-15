@@ -5,7 +5,7 @@ import { fontSize } from '../../../styles/fontSize';
 import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io';
 
 const PostCard = ({ post }) => {
-  const { created_at: writtenDate, writer_id } = post || null;
+  const { created_at, writer_id } = post || null;
   const [nickname, setNickname] = useState([]); // context에 userInfo 추가되면 수정 필요
   const [isLikeClicked, setIsLikeClicked] = useState(false);
 
@@ -32,14 +32,42 @@ const PostCard = ({ post }) => {
     getUserNickname();
   }, []);
 
+  /** 경과 시간을 계산하여 "방금 전", "몇초 전" 등으로 바꿔주는 함수 */
+  const todayDate = new Date().getTime();
+  const writtenDate = new Date(created_at).getTime();
+
+  const passedTimeText = (date) => {
+    // 초 (밀리초)
+    const seconds = 1;
+    // 분
+    const minute = seconds * 60;
+    // 시
+    const hour = minute * 60;
+    // 일
+    const day = hour * 24;
+
+    let passedTime = Math.trunc((todayDate - date) / 1000); // 글 작성 시간부터 오늘 시간까지 경과된 시간
+
+    let passedTimeText = '';
+    if (passedTime < seconds) {
+      passedTimeText = '방금 전';
+    } else if (passedTime < minute) {
+      passedTimeText = passedTime + '초 전';
+    } else if (passedTime < hour) {
+      passedTimeText = Math.trunc(passedTime / minute) + '분 전';
+    } else if (passedTime < day) {
+      passedTimeText = Math.trunc(passedTime / hour) + '시간 전';
+    } else if (passedTime < day * 15) {
+      passedTimeText = Math.trunc(passedTime / day) + '일 전';
+    }
+
+    return passedTimeText;
+  };
+
   /** 좋아요 Boolean값 변환 함수 */
   const handleLikeClick = () => {
     setIsLikeClicked(!isLikeClicked);
   };
-
-  // const todayDate = new Date();
-  // console.log("todayDate: ",todayDate);
-  // console.log("writtenDate", writtenDate);
 
   return (
     <StCardContainer>
@@ -48,7 +76,7 @@ const PostCard = ({ post }) => {
           <StProfileImg src="/img/LoginCat.png" alt="고양이 이미지" />
           <StContentText>{nickname}</StContentText>
         </StWrapper>
-        <StContentText>게시되고나서 지난 시간</StContentText>
+        <StContentText>{passedTimeText(writtenDate)}</StContentText>
       </StHeaderWrapper>
       <StImgWrapper>
         <StPostImg src="/img/LoginCat.png" alt="고양이 이미지" />
