@@ -9,8 +9,13 @@ const Home = () => {
 
   const getPost = async () => {
     try {
-      const { data } = await supabase.from('posts').select('*');
-      setPosts(data);
+      const { data: postData, error } = await supabase.from('posts').select('*');
+
+      if (error) {
+        throw error;
+      }
+
+      setPosts(postData);
     } catch (error) {
       console.error(error);
     }
