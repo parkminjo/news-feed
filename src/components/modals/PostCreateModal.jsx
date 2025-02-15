@@ -13,11 +13,12 @@ const PostCreateModal = ({ isOpen, close }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('폼이 제출되었습니다!'); //
+    alert('폼이 제출되었습니다!'); 
+    close();
   };
 
   const handleImgPreview = () => {
-    const imgFile = imgRef.current.imgFiles[0]; // 1) imgRef.current는 input요소를 참조 => files는 그 input에서 선택한 파일들 => files[0]는 선택된 첫 번째 파일(preview용)
+    const imgFile = imgRef.current.files[0]; // 1) imgRef.current는 input요소를 참조 => files는 그 input에서 선택한 파일들 => files[0]는 선택된 첫 번째 파일(preview용)
     const reader = new FileReader(); // 2) FileReader 객체 생성 => new FileReader는 컴퓨터에게  "input에 들어가는 파일을 읽어서 JavaScript에서 사용할 수 있는 형태로 변환해줘!"라고 말하는 객체
     reader.readAsDataURL(imgFile); // 3) .readAsDataURL은 이제 읽는 방식을 "JavaScript에서 사용할 수 있는 형태인 Base64 형식으로 변환해줘!"라고 말하는 거
     reader.onloadend = () => {
@@ -44,7 +45,6 @@ const PostCreateModal = ({ isOpen, close }) => {
                 id="postImage"
                 onChange={handleImgPreview}
                 ref={imgRef}
-                required
               />
             </Stdiv>
             <StTextInputWrapper>
