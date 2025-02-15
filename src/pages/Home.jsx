@@ -56,13 +56,13 @@ const StMainWrapper = styled.div`
 `;
 
 const StContentWrapper = styled.div`
-  width: 60%;
+  width: 800px;
   min-height: 100vh;
   background-color: ${color.white};
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 90px;
+  padding-top: 60px;
   gap: 40px;
 `;
