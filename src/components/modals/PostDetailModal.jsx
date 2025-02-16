@@ -24,7 +24,8 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
 
   const [selectedPost, setSelectedPost] = useState(null);
   const [writerData, setWriterData] = useState(null);
-  const [comments, setComments] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
 
   async function getPosts() {
     try {
@@ -45,9 +46,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
 
       // // comments
       const { data: commentsData } = await supabase.from('comments').select('*').eq('post_id', postData[0].id);
-      if (commentsData?.length) {
-        setComments(commentsData);
-      }
+      setComments(commentsData || []);
     } catch (error) {
       console.error(error);
     }
@@ -72,6 +71,27 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
   const hours = String(date.getUTCHours()).padStart(2, '0');
   const minutes = String(date.getUTCMinutes()).padStart(2, '0');
 
+  // 댓글 업로드
+  const handleUploadComment = async (e) => {
+    e.preventDefault();
+
+    if (!newComment.trim()) {
+      alert('[Notification] 댓글 내용을 입력하세요.');
+      return;
+    }
+
+    try {
+      const { data } = await supabase
+        .from('comments')
+        .insert([{ post_id: postId, contents: newComment }])
+        .select('*');
+      setComments((prev) => [...prev, ...data]);
+      setNewComment('');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <StDetailModalContainer onClick={handleCloseDetailByOutside}>
       <StGrClose onClick={handleCloseDetail} />
@@ -95,8 +115,13 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
           </StContents>
           <StInteraction>
             <div>좋아요</div>
-            <StCommentsForm>
-              <StInput placeholder="댓글 달기..." />
+            <StCommentsForm onSubmit={handleUploadComment}>
+              <StInput
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                type="text"
+                placeholder="댓글 달기..."
+              />
               <button type="submit">업로드</button>
             </StCommentsForm>
           </StInteraction>
@@ -189,7 +214,7 @@ const StInteraction = styled.div`
   justify-content: space-between;
 `;
 
-const StCommentsForm = styled.div`
+const StCommentsForm = styled.form`
   display: flex;
   justify-content: space-between;
 `;
