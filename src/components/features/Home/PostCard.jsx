@@ -9,6 +9,7 @@ import { fontSize } from '../../../styles/fontSize';
 import { handleLikeClick } from './utils/handleLikeClick';
 import { passedTimeText } from './utils/passedTimeText';
 import { handleBookMarkClick } from './utils/handleBookMarkClick';
+import { fetchLikeStatus } from './utils/fetchLikeState';
 
 const PostCard = ({ post }) => {
   const { isLogin } = useAuth();
@@ -17,6 +18,7 @@ const PostCard = ({ post }) => {
   const [isBookMarkClicked, setIsBookMarkClicked] = useState(false);
 
   // context에 userInfo 추가되면 수정 필요한 코드
+  // 사용자의 id를 가져오는 함수
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -31,6 +33,7 @@ const PostCard = ({ post }) => {
   }, []);
 
   // context에 userInfo 추가되면 수정 필요한 코드
+  // 사용자의 닉네임을 가져오는 함수
   const [nickname, setNickname] = useState([]);
 
   useEffect(() => {
@@ -56,6 +59,18 @@ const PostCard = ({ post }) => {
 
     getUserNickname();
   }, [writer_id]);
+
+  // 현재 사용자가 좋아요를 눌렀는지 확인하는 로직
+  useEffect(() => {
+    if (!user || !post.id) return;
+
+    const checkLikeStatus = async () => {
+      const isLiked = await fetchLikeStatus(user.id, post.id);
+      setIsLikeClicked(isLiked);
+    };
+
+    checkLikeStatus();
+  }, [user, post.id]);
 
   return (
     <StCardContainer>
