@@ -43,6 +43,7 @@ const StHeader = styled.div`
 const StSidebar = styled.aside`
   grid-row: 2;
   grid-column: 1;
+  z-index: 100;
 `;
 
 const StContentWrapper = styled.main`
