@@ -6,11 +6,11 @@ import { useAuth } from '../../../context/auth/useAuth';
 import { supabase } from '../../../services/supabaseClient';
 import { fontSize } from '../../../styles/fontSize';
 
-import { handleLikeClick } from './utils/handleLikeClick';
-import { passedTimeText } from './utils/passedTimeText';
-import { handleBookMarkClick } from './utils/handleBookMarkClick';
-import { fetchLikeState } from './utils/fetchLikeState';
-import { fetchBookMarkState } from './utils/fetchBookMarkState';
+import { fetchLikeState } from '../../../utils/fetchLikeState';
+import { fetchBookMarkState } from '../../../utils/fetchBookMarkState';
+import { passedTimeText } from '../../../utils/passedTimeText';
+import { handleLikeClick } from '../../../utils/handleLikeClick';
+import { handleBookMarkClick } from '../../../utils/handleBookMarkClick';
 
 const PostCard = ({ post, onClick }) => {
   const { isLogin } = useAuth();
@@ -93,17 +93,19 @@ const PostCard = ({ post, onClick }) => {
       </StImgWrapper>
       <StFooterWrapper>
         {isLikeClicked ? (
-          <StLikeIcon onClick={(e) => handleLikeClick(e, isLogin, isLikeClicked, setIsLikeClicked, user, post)} />
+          <StLikeIcon onClick={(e) => handleLikeClick(e, isLogin, isLikeClicked, setIsLikeClicked, user, post.id)} />
         ) : (
-          <StLikeEmptyIcon onClick={(e) => handleLikeClick(e, isLogin, isLikeClicked, setIsLikeClicked, user, post)} />
+          <StLikeEmptyIcon
+            onClick={(e) => handleLikeClick(e, isLogin, isLikeClicked, setIsLikeClicked, user, post.id)}
+          />
         )}
         {isBookMarkClicked ? (
           <StBookMarkIcon
-            onClick={(e) => handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, user, post)}
+            onClick={(e) => handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, user, post.id)}
           />
         ) : (
           <StBookMarkEmptyIcon
-            onClick={(e) => handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, user, post)}
+            onClick={(e) => handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, user, post.id)}
           />
         )}
       </StFooterWrapper>
