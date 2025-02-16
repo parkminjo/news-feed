@@ -96,7 +96,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     <StDetailModalContainer onClick={handleCloseDetailByOutside}>
       <StGrClose onClick={handleCloseDetail} />
       <StModalContentsContainer>
-        <StImgWrapper>{selectedPost.img}</StImgWrapper>
+        <StImgWrapper>{selectedPost.img ? <StPostImg src={selectedPost.img} alt="Post Image" /> : null}</StImgWrapper>
         <StContentsWrapper>
           <StHeader>
             <h3>{writerData.nick_name}</h3>
@@ -174,6 +174,11 @@ const StImgWrapper = styled.div`
   width: 50%;
   height: 100%;
   background-color: ${color.gray};
+`;
+
+const StPostImg = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 
 const StContentsWrapper = styled.div`
