@@ -1,5 +1,6 @@
 import { supabase } from '../../../../services/supabaseClient';
 
+/** 사용자가 좋아요를 눌렀는지 확인하는 함수 */
 export const fetchLikeState = async (userId, postId) => {
   if (!userId || !postId) return false;
 
