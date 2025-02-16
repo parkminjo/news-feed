@@ -3,8 +3,22 @@ import styled from 'styled-components';
 import { supabase } from '../../services/supabaseClient';
 import { GrClose } from 'react-icons/gr';
 import { color } from '../../styles/color';
+import { useAuth } from '../../context/auth/useAuth';
 
 const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
+  const { isLogin } = useAuth();
+
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [writerData, setWriterData] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
+
+  useEffect(() => {
+    if (postId) {
+      getPosts();
+    }
+  }, [postId]);
+
   // isDetailOpen이 false일 경우, 모달 숨기기
   if (!isDetailOpen) {
     return null;
@@ -21,11 +35,6 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
       handleCloseDetail();
     }
   };
-
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [writerData, setWriterData] = useState(null);
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState('');
 
   async function getPosts() {
     try {
@@ -52,12 +61,6 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     }
   }
 
-  useEffect(() => {
-    if (postId) {
-      getPosts();
-    }
-  }, [postId]);
-
   // state가 null이면 렌더링 방지
   if (selectedPost === null || writerData === null || comments === null) {
     return;
@@ -75,6 +78,10 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
   const handleUploadComment = async (e) => {
     e.preventDefault();
 
+    if (!isLogin) {
+      alert('[Notification] 댓글을 추가하려면 로그인이 필요합니다.');
+      return;
+    }
     if (!newComment.trim()) {
       alert('[Notification] 댓글 내용을 입력하세요.');
       return;
@@ -92,6 +99,16 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     }
   };
 
+  // 게시글 삭제
+  const handleDeletePost = async () => {
+    // if(selectedPost.writer_id === )
+    // try {
+    //   const { data } = await supabase.from('posts').delete().match({ id: postId });
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
+
   return (
     <StDetailModalContainer onClick={handleCloseDetailByOutside}>
       <StGrClose onClick={handleCloseDetail} />
@@ -102,7 +119,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
             <h3>{writerData.nick_name}</h3>
             <StBtnWrapper>
               <button>수정</button>
-              <button>삭제</button>
+              <button onClick={handleDeletePost}>삭제</button>
             </StBtnWrapper>
           </StHeader>
           <StContents>
