@@ -1,10 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { IoMdHeart, IoMdHeartEmpty } from 'react-icons/io';
+import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5';
 import styled from 'styled-components';
+import { useAuth } from '../../../context/auth/useAuth';
 import { supabase } from '../../../services/supabaseClient';
 import { fontSize } from '../../../styles/fontSize';
-import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io';
-import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5';
-import { useAuth } from '../../../context/auth/useAuth';
+
+import { handleLikeClick } from './utils/handleLikeClick';
+import { passedTimeText } from './utils/passedTimeText';
 
 const PostCard = ({ post }) => {
   const { isLogin } = useAuth();
@@ -53,65 +56,6 @@ const PostCard = ({ post }) => {
     getUserNickname();
   }, [writer_id]);
 
-  /** 경과 시간을 계산하여 "방금 전", "몇초 전" 등으로 바꿔주는 함수 */
-  const writtenDate = useMemo(() => new Date(created_at).getTime(), [created_at]);
-
-  const passedTimeText = useMemo(() => {
-    const units = [
-      { label: '일', value: 86400 },
-      { label: '시간', value: 3600 },
-      { label: '분', value: 60 },
-      { label: '초', value: 1 }
-    ];
-
-    let passedTime = Math.trunc((Date.now() - writtenDate) / 1000); // 글 작성 시간부터 오늘 시간까지 경과된 시간(초 단위)
-
-    if (passedTime < 1) return '방금 전';
-
-    for (const { label, value } of units) {
-      const time = Math.trunc(passedTime / value);
-
-      if (time > 0) {
-        return `${time}${label} 전`;
-      }
-    }
-  }, [writtenDate]);
-
-  /** 좋아요 Boolean값 변환 함수 */
-  const handleLikeClick = async () => {
-    if (!isLogin) return; // 로그인하지 않은 유저 좋아요 기능 비활성화
-
-    // 좋아요 취소
-    if (isLikeClicked) {
-      try {
-        const { error } = await supabase.from('likes').delete().eq('send_user_id', user.id).eq('post_id', post.id);
-
-        if (error) {
-          throw error;
-        }
-
-        setIsLikeClicked(false);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    // 좋아요 추가
-    if (!isLikeClicked) {
-      try {
-        const { error } = await supabase.from('likes').insert([{ send_user_id: user.id, post_id: post.id }]);
-
-        if (error) {
-          throw error;
-        }
-
-        setIsLikeClicked(true);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
   /** 북마크 Boolean값 변환 함수 */
   const handleBookMarkClick = () => {
     if (!isLogin) return; // 로그인하지 않은 유저 북마크 기능 비활성화
@@ -125,13 +69,17 @@ const PostCard = ({ post }) => {
           <StProfileImg src="/img/LoginCat.png" alt="고양이 이미지" />
           <StContentText>{nickname}</StContentText>
         </StWrapper>
-        <StContentText>{passedTimeText}</StContentText>
+        <StContentText>{passedTimeText(created_at)}</StContentText>
       </StHeaderWrapper>
       <StImgWrapper>
         <StPostImg src="/img/LoginCat.png" alt="고양이 이미지" />
       </StImgWrapper>
       <StFooterWrapper>
-        {isLikeClicked ? <StLikeIcon onClick={handleLikeClick} /> : <StLikeEmptyIcon onClick={handleLikeClick} />}
+        {isLikeClicked ? (
+          <StLikeIcon onClick={() => handleLikeClick(isLogin, isLikeClicked, setIsLikeClicked, user, post)} />
+        ) : (
+          <StLikeEmptyIcon onClick={() => handleLikeClick(isLogin, isLikeClicked, setIsLikeClicked, user, post)} />
+        )}
         {isBookMarkClicked ? (
           <StBookMarkIcon onClick={handleBookMarkClick} />
         ) : (
