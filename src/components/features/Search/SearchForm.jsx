@@ -1,15 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SearchBar from '../Common/SearchBar';
 import { fontSize } from '../../../styles/fontSize';
+import { supabase } from '../../../services/supabaseClient';
 
 const SearchForm = () => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [_, setPosts] = useState([]);
+
+  const getPost = async () => {
+    try {
+      const { data } = await supabase.from('posts').select('*');
+      setPosts(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getPost();
+  }, []);
+
   const searchBarStyle = {
     fontSize: fontSize.medium
   };
-
-  const [activeTab, setActiveTab] = useState(0);
-
   const tabs = ['제목', '계정', '태그'];
 
   return (
