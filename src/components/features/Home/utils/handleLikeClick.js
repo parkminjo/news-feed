@@ -1,7 +1,8 @@
 import { supabase } from '../../../../services/supabaseClient';
 
 /** 좋아요 추가/취소 함수 */
-export const handleLikeClick = async (isLogin, isLikeClicked, setIsLikeClicked, user, post) => {
+export const handleLikeClick = async (e, isLogin, isLikeClicked, setIsLikeClicked, user, post) => {
+  e.stopPropagation();
   if (!isLogin) return; // 로그인하지 않은 유저 좋아요 기능 비활성화
 
   // 좋아요 취소
