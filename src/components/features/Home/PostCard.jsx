@@ -12,9 +12,23 @@ const PostCard = ({ post }) => {
   const [isLikeClicked, setIsLikeClicked] = useState(false);
   const [isBookMarkClicked, setIsBookMarkClicked] = useState(false);
 
-  const [nickname, setNickname] = useState([]); // context에 userInfo 추가되면 수정 필요
+  // context에 userInfo 추가되면 수정 필요한 코드
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user }
+      } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+    fetchUser();
+  }, []);
 
   // context에 userInfo 추가되면 수정 필요한 코드
+  const [nickname, setNickname] = useState([]);
+
   useEffect(() => {
     if (!writer_id) return;
 
