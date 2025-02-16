@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PostCard from '../components/features/Home/PostCard';
+import PostDetailModal from '../components/modals/PostDetailModal';
 import { supabase } from '../services/supabaseClient';
 import { color } from '../styles/color';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [postId, setPostId] = useState(); // 디테일 핸들러 props
 
   /** supabase에서 데이터를 가져오는 SELECT 함수 */
   const getPost = async () => {
@@ -27,14 +30,21 @@ const Home = () => {
     getPost();
   }, []);
 
+  // 디테일 열기 핸들러
+  const handleOpenDetail = (postId) => {
+    setIsDetailOpen(true);
+    setPostId(postId);
+  };
+
   /** UI */
   return (
     <StContainer>
       <StMainWrapper>
         <StContentWrapper>
           {posts.map((post) => {
-            return <PostCard key={post.id} post={post} />;
+            return <PostCard key={post.id} post={post} onClick={() => handleOpenDetail(post.id)} />;
           })}
+          <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
         </StContentWrapper>
       </StMainWrapper>
     </StContainer>
