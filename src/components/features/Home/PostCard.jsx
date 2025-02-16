@@ -9,7 +9,8 @@ import { fontSize } from '../../../styles/fontSize';
 import { handleLikeClick } from './utils/handleLikeClick';
 import { passedTimeText } from './utils/passedTimeText';
 import { handleBookMarkClick } from './utils/handleBookMarkClick';
-import { fetchLikeStatus } from './utils/fetchLikeState';
+import { fetchLikeState } from './utils/fetchLikeState';
+import { fetchBookMarkState } from './utils/fetchBookMarkState';
 
 const PostCard = ({ post }) => {
   const { isLogin } = useAuth();
@@ -60,16 +61,22 @@ const PostCard = ({ post }) => {
     getUserNickname();
   }, [writer_id]);
 
-  // 현재 사용자가 좋아요를 눌렀는지 확인하는 로직
+  // 현재 사용자가 좋아요와 북마크를 눌렀는지 확인하는 로직
   useEffect(() => {
     if (!user || !post.id) return;
 
-    const checkLikeStatus = async () => {
-      const isLiked = await fetchLikeStatus(user.id, post.id);
+    const checkLikeState = async () => {
+      const isLiked = await fetchLikeState(user.id, post.id);
       setIsLikeClicked(isLiked);
     };
 
-    checkLikeStatus();
+    const checkBookMarkState = async () => {
+      const isBookMarkClicked = await fetchBookMarkState(user.id, post.id);
+      setIsBookMarkClicked(isBookMarkClicked);
+    };
+
+    checkLikeState();
+    checkBookMarkState();
   }, [user, post.id]);
 
   return (
