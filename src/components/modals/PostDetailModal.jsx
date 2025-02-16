@@ -6,7 +6,7 @@ import { color } from '../../styles/color';
 import { useAuth } from '../../context/auth/useAuth';
 
 const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
-  const { isLogin } = useAuth();
+  const { isLogin, loginedUser } = useAuth();
 
   const [selectedPost, setSelectedPost] = useState(null);
   const [writerData, setWriterData] = useState(null);
@@ -117,10 +117,12 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
         <StContentsWrapper>
           <StHeader>
             <h3>{writerData.nick_name}</h3>
-            <StBtnWrapper>
-              <button>수정</button>
-              <button onClick={handleDeletePost}>삭제</button>
-            </StBtnWrapper>
+            {loginedUser.id === selectedPost.writer_id ? (
+              <StBtnWrapper>
+                <button>수정</button>
+                <button onClick={handleDeletePost}>삭제</button>
+              </StBtnWrapper>
+            ) : null}
           </StHeader>
           <StContents>
             <h3>{selectedPost.title}</h3>
