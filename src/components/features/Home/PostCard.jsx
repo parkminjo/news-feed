@@ -8,6 +8,7 @@ import { fontSize } from '../../../styles/fontSize';
 
 import { handleLikeClick } from './utils/handleLikeClick';
 import { passedTimeText } from './utils/passedTimeText';
+import { handleBookMarkClick } from './utils/handleBookMarkClick';
 
 const PostCard = ({ post }) => {
   const { isLogin } = useAuth();
@@ -56,12 +57,6 @@ const PostCard = ({ post }) => {
     getUserNickname();
   }, [writer_id]);
 
-  /** 북마크 Boolean값 변환 함수 */
-  const handleBookMarkClick = () => {
-    if (!isLogin) return; // 로그인하지 않은 유저 북마크 기능 비활성화
-    setIsBookMarkClicked(!isBookMarkClicked);
-  };
-
   return (
     <StCardContainer>
       <StHeaderWrapper>
@@ -81,9 +76,13 @@ const PostCard = ({ post }) => {
           <StLikeEmptyIcon onClick={() => handleLikeClick(isLogin, isLikeClicked, setIsLikeClicked, user, post)} />
         )}
         {isBookMarkClicked ? (
-          <StBookMarkIcon onClick={handleBookMarkClick} />
+          <StBookMarkIcon
+            onClick={() => handleBookMarkClick(isLogin, isBookMarkClicked, setIsBookMarkClicked, user, post)}
+          />
         ) : (
-          <StBookMarkEmptyIcon onClick={handleBookMarkClick} />
+          <StBookMarkEmptyIcon
+            onClick={() => handleBookMarkClick(isLogin, isBookMarkClicked, setIsBookMarkClicked, user, post)}
+          />
         )}
       </StFooterWrapper>
     </StCardContainer>
