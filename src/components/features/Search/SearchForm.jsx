@@ -1,18 +1,26 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import SearchBar from '../Common/SearchBar';
+import { fontSize } from '../../../styles/fontSize';
 
 const SearchForm = () => {
   const searchBarStyle = {
-    fontSize: '18px'
+    fontSize: fontSize.medium
   };
+
+  const [activeTab, setActiveTab] = useState(0);
+
+  const tabs = ['제목', '계정', '태그'];
 
   return (
     <StContainer>
       <SearchBar style={searchBarStyle} />
       <StTabMenu>
-        <StTab>제목</StTab>
-        <StTab>계정</StTab>
-        <StTab>태그</StTab>
+        {tabs.map((tab, index) => (
+          <StTab key={index} isActive={activeTab === index} onClick={() => setActiveTab(index)}>
+            {tab}
+          </StTab>
+        ))}
       </StTabMenu>
     </StContainer>
   );
@@ -27,17 +35,20 @@ const StContainer = styled.div`
 
 const StTabMenu = styled.div`
   display: flex;
+  border-bottom: 1px solid #ddd;
 `;
 
 const StTab = styled.button`
-  padding: 8px 16px;
+  padding: 10px 16px;
   border: none;
-  background: #f1f1f1;
-  border-radius: 5px;
+  background: transparent;
   cursor: pointer;
   font-weight: bold;
+  font-size: ${fontSize.medium};
+  color: ${(props) => (props.isActive ? '#000' : '#999')};
+  border-bottom: ${(props) => (props.isActive ? '2px solid #000' : 'none')};
 
   &:hover {
-    background: #e0e0e0;
+    color: #000;
   }
 `;

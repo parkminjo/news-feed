@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
+import { fontSize } from '../../../styles/fontSize';
 
 // 각 element에서 value가 독립적으로 동작
 const SearchBar = ({ style, value, setValue }) => {
@@ -41,14 +42,14 @@ const StIconWrapper = styled.div`
   position: absolute;
   left: 15px;
   color: #999;
-  font-size: 18px;
+  font-size: ${fontSize.medium};
 `;
 
 // 외부에서 전달된 style 적용
 const StSearchInput = styled.input`
   width: ${(props) => props.style?.width || '100%'};
   padding: ${(props) => props.style?.padding || '10px 10px 10px 40px'};
-  font-size: ${(props) => props.style?.fontSize || '12px'};
+  font-size: ${(props) => props.style?.fontSize || fontSize.medium};
   border: ${(props) => props.style?.border || '2px solid #ccc'};
   border-radius: ${(props) => props.style?.borderRadius || '30px'};
   background: ${(props) => props.style?.background || '#f8f8f8'};
