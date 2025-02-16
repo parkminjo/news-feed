@@ -1,33 +1,53 @@
 import styled from 'styled-components';
+import { FaSearch } from 'react-icons/fa';
 
 // 각 element에서 value가 독립적으로 동작
 const SearchBar = ({ style, value, setValue }) => {
   return (
-    <SearchContainer>
-      <SearchInput
-        type="text"
-        placeholder="검색"
-        style={style}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-    </SearchContainer>
+    <StContainer>
+      <StSearchInputWrapper>
+        <StIconWrapper>
+          <FaSearch />
+        </StIconWrapper>
+        <StSearchInput
+          type="text"
+          placeholder="검색"
+          style={style}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+      </StSearchInputWrapper>
+    </StContainer>
   );
 };
 
 export default SearchBar;
 
-const SearchContainer = styled.div`
+const StContainer = styled.div`
   display: flex;
   justify-content: left;
   align-items: center;
   padding: 15px;
 `;
 
+const StSearchInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+`;
+
+const StIconWrapper = styled.div`
+  position: absolute;
+  left: 15px;
+  color: #999;
+  font-size: 18px;
+`;
+
 // 외부에서 전달된 style 적용
-const SearchInput = styled.input`
+const StSearchInput = styled.input`
   width: ${(props) => props.style?.width || '100%'};
-  padding: ${(props) => props.style?.padding || '9px 15px'};
+  padding: ${(props) => props.style?.padding || '10px 10px 10px 40px'};
   font-size: ${(props) => props.style?.fontSize || '12px'};
   border: ${(props) => props.style?.border || '2px solid #ccc'};
   border-radius: ${(props) => props.style?.borderRadius || '30px'};

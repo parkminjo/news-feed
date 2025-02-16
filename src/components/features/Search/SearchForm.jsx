@@ -3,7 +3,6 @@ import SearchBar from '../Common/SearchBar';
 
 const SearchForm = () => {
   const searchBarStyle = {
-    padding: '12px 20px',
     fontSize: '18px'
   };
 
