@@ -30,7 +30,7 @@ const Home = () => {
     getPost();
   }, []);
 
-  // 디테일 열기 핸들러
+  /** 디테일 페이지 여는 함수 */
   const handleOpenDetail = (postId) => {
     setIsDetailOpen(true);
     setPostId(postId);
@@ -44,7 +44,9 @@ const Home = () => {
           {posts.map((post) => {
             return <PostCard key={post.id} post={post} onClick={() => handleOpenDetail(post.id)} />;
           })}
-          <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
+          {isDetailOpen && (
+            <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
+          )}
         </StContentWrapper>
       </StMainWrapper>
     </StContainer>

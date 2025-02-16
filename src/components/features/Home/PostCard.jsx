@@ -12,7 +12,7 @@ import { handleBookMarkClick } from './utils/handleBookMarkClick';
 import { fetchLikeState } from './utils/fetchLikeState';
 import { fetchBookMarkState } from './utils/fetchBookMarkState';
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, onClick }) => {
   const { isLogin } = useAuth();
   const { created_at, writer_id } = post || null;
   const [isLikeClicked, setIsLikeClicked] = useState(false);
@@ -80,7 +80,7 @@ const PostCard = ({ post }) => {
   }, [user, post.id]);
 
   return (
-    <StCardContainer>
+    <StCardContainer onClick={onClick}>
       <StHeaderWrapper>
         <StWrapper>
           <StProfileImg src="/img/LoginCat.png" alt="고양이 이미지" />
@@ -93,17 +93,17 @@ const PostCard = ({ post }) => {
       </StImgWrapper>
       <StFooterWrapper>
         {isLikeClicked ? (
-          <StLikeIcon onClick={() => handleLikeClick(isLogin, isLikeClicked, setIsLikeClicked, user, post)} />
+          <StLikeIcon onClick={(e) => handleLikeClick(e, isLogin, isLikeClicked, setIsLikeClicked, user, post)} />
         ) : (
-          <StLikeEmptyIcon onClick={() => handleLikeClick(isLogin, isLikeClicked, setIsLikeClicked, user, post)} />
+          <StLikeEmptyIcon onClick={(e) => handleLikeClick(e, isLogin, isLikeClicked, setIsLikeClicked, user, post)} />
         )}
         {isBookMarkClicked ? (
           <StBookMarkIcon
-            onClick={() => handleBookMarkClick(isLogin, isBookMarkClicked, setIsBookMarkClicked, user, post)}
+            onClick={(e) => handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, user, post)}
           />
         ) : (
           <StBookMarkEmptyIcon
-            onClick={() => handleBookMarkClick(isLogin, isBookMarkClicked, setIsBookMarkClicked, user, post)}
+            onClick={(e) => handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, user, post)}
           />
         )}
       </StFooterWrapper>
@@ -119,6 +119,7 @@ const StCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  cursor: pointer;
 `;
 
 const StHeaderWrapper = styled.div`
