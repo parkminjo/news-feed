@@ -63,6 +63,8 @@ const StContainer = styled.div`
   flex-direction: column;
   padding: 20px 10px;
   position: fixed;
+  top: 47px;
+
   transition: width 0.25s ease-in-out;
   overflow: hidden;
   height: 100%;
