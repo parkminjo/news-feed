@@ -38,7 +38,11 @@ const StTabMenu = styled.div`
   border-bottom: 1px solid #ddd;
 `;
 
-const StTab = styled.button`
+const StTab = styled.button.withConfig({
+  // isActive 속성은 직접 만든 것이므로 HTML 태그가 속성을 인식하지 못해
+  // 에러를 유발한다. shouldForwardProp를 사용해 DOM에 전달하지 않도록 한다.
+  shouldForwardProp: (prop) => prop !== 'isActive'
+})`
   padding: 10px 16px;
   border: none;
   background: transparent;
