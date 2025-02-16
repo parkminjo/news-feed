@@ -41,7 +41,7 @@ const Home = () => {
     <StContainer>
       <StMainWrapper>
         <StContentWrapper>
-          {posts.map((post) => {
+          {posts.toReversed().map((post) => {
             return <PostCard key={post.id} post={post} onClick={() => handleOpenDetail(post.id)} />;
           })}
           {isDetailOpen && (
