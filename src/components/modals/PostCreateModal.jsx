@@ -1,15 +1,32 @@
 import styled from 'styled-components';
 import { color } from '../../styles/color';
 import { fontSize } from '../../styles/fontSize';
-import { useRef, useState, useEffect} from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { supabase } from '../../services/supabaseClient';
+import * as React from 'react';
 
 const PostCreateModal = ({ isOpen, close }) => {
   const [imgPreview, setImagePreview] = useState(''); // img 파일이 imgPreview 상태에 Base64 문자열로 들어갈 것이기 때문에 기본값이 ""임
   const imgRef = useRef(null); // useRef는 컴포넌트 안에서 DOM 요소나 값을 직접 참조!! ==> useState()를 사용할 때와 달리 input태그의 값에 직접 접근할 수 있어 불필요한 리렌더링을 줄일 수 있음
+  const [image, setImage] = useState(null);
   const [posts, setPosts] = useState([]);
   const [post, setPost] = useState({ title: '', content: '', tags: '', img: '' });
   const { title, content } = post;
+  const [tagOptions, setTagOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchEnumTags = async () => {
+      try {
+        // Supabase에서 enum 값을 가져오는 쿼리
+        const { data, error } = await supabase.rpc('get_enum_values', { enum_name: 'tag_name' });
+        if (error) throw error;
+        setTagOptions(data); // 가져온 태그 목록을 상태에 저장
+      } catch (err) {
+        console.error('태그 목록 가져오기 실패:', err);
+      }
+    };
+    fetchEnumTags();
+  }, []);
 
   useEffect(() => {
     // supabase에서 posts 테이블 데이터를 가져오는 함수 (***실패할 수도 있는 요청이니 try catch로 감싸기***)
@@ -27,52 +44,66 @@ const PostCreateModal = ({ isOpen, close }) => {
     getPosts();
   }, [supabase]);
 
+  // 사용자가 파일을 선택하면 호출되는 함수
+  const handleImageChange = (e) => {
+    console.log(e.target.files); // 파일 입력에서 첫 번째 파일을 가져와서 image 상태에 저장합니다.
+    setImage(e.target.files[0]);
+  };
+
   // postImage업로드 함수
-  const handleImgUpload = async (e) => {
-    const postImgFile = e.target.files[0];
-    const fileName = `${Date.now()}_${postImgFile.name}`; // 고유한 파일 이름을 만들기 위해 시간을 추가함
-    // supabase storage에 파일 업로드
-    const { error } = await supabase.storage.from('post_images').upload(fileName, postImgFile);
-    // 에러 발생 시 실행될 기능
-    if (error) {
-      console.log('포스트 이미지 파일 업로드 중 에러 발생 ==> ', error);
+  const handleImgUpload = async () => {
+    // 만약 이미지가 선택되지 않았다면 함수를 종료
+    if (!image) {
       return;
     }
-    // 업로드한 이미지의 public URL 가져오기
-    const {data} = supabase.storage.from('post_images').getPublicUrl(fileName); // 이전에 만들어둔 post_images이름의 버켓에서 이미지 파일의 publicUrl을 가져온다
-    const publicURL = data.publicUrl;
-    // 이미지 url을 posts 테이블에 저장
-    setPost((prev) => ({...prev, img: publicURL}));
-  }
-  
+    const imageExt = image.name.split('.').pop(); // 확장자 추출
+    let baseName = image.name.replace(`.${imageExt}`, ''); // 확장자 제거한 파일명
+    // 1️⃣ 특수문자, 공백, 한글을 안전한 문자(_)로 변환
+    baseName = baseName.replace(/[^a-zA-Z0-9._-]/g, '_');
+    baseName = baseName.replace(/_+/g, '_'); // 연속된 _ 제거
+    baseName = baseName.substring(0, 50); // 너무 긴 파일명 제한
+    // supabase의 스토리지에 이미지를 업로드
+    const { data, error } = await supabase.storage
+      .from('post_images') // post_images 버킷에 업로드
+      .upload(`public/${baseName}`, image); // `public`폴더에 이미지 이름으로 저장 ==> 이 "이미지 이름이라는 건 뭐지??? 뽀로로대장.jpeg같은걸까???"
+    // 업로드 중 오류 발생 시 콘솔에 오류 메시지 출력
+    if (error) {
+      console.error('이미지 업로드 실패. 에러 발생 ==> ', error.message);
+    } else {
+      console.log('이미지 업로드 성공:', data); // 업로드 성공 시 자축 메시지 콘솔에 출력
+    }
+    const { data: publicUrlData } = supabase.storage.from('post_images').getPublicUrl(image);
+    return publicUrlData.publicUrl;
+  };
 
   // 이 함수를 실행할 떄 status: 401(unauthorized)이 나오면 RLS 관련 문제
   const handleAddPost = async (e) => {
     e.preventDefault();
+    const { data: userData } = await supabase.auth.getUser(); // supabase에서 세션정보(현재 로그인한 유저의 정보)를 받아와서 그 데이터를 userData라는 이름의 변수로 저장
+    const user = userData.user; // getUser 있는 data라는 객체안에 있는 user라는 키워드의 값을 가져와 user라는 이름의 변수로 지정 / ?. <== 이거는 Optional Chaining란 것으로 속성이 없을 떄 undefined를 반환해 오류가 발생하지 않게 함!
+    console.log(user);
 
-    const { data } = await supabase.auth.getSession(); // supabase에서 세션정보(현재 로그인한 유저의 정보)를 받아와서 그 데이터를 sessionData라는 이름의 변수로 저장
-    const user = data.session?.user; // getSession에 있는 data라는 객체안에 있는 session이라 객체안에서 user라는 키워드의 값을 가져와 user라는 이름의 변수로 지정 / ?. <== 이거는 Optional Chaining란 것으로 속성이 없을 떄 undefined를 반환해 오류가 발생하지 않게 함!
+    const imgUrl = await handleImgUpload(); // handleImgUpload의 반환값을 받아 사용
 
-    const { data: newPostData, error } = await supabase.from('posts').insert([post]).select(); // 해석: .from('posts') = posts라는 이름의 테이블에서 -> .insert(post) = post라는 이름으로 새로운 게시물 추가 -> .select() = 그렇게 추가한 데이터를 다시 가져옴 & data에 넣음 / 여기서 post는 데이터베이스에 추가될 데이터를 담고 있는 자바스크립트 객체의 이름 / .insert대신 비교하고 업데이트와 추가 둘 중 하나를 실행하는 .upsert도 있지만 게시글 추가는 말 그대로 "추가"를 하는 기능이라 보고 .insert를 사용했다.
-
+    const { data, error } = await supabase
+      .from('posts')
+      .insert([{ title: post.title, content: post.content, img: imgUrl, writer_id: user?.id }]); // 해석: .from('posts') = posts라는 이름의 테이블에서 -> .insert(post) = post라는 이름으로 새로운 게시물 추가 / 여기서 post는 데이터베이스에 추가될 데이터를 담고 있는 자바스크립트 객체의 이름 / .insert대신 비교하고 업데이트와 추가 둘 중 하나를 실행하는 .upsert도 있지만 게시글 추가는 말 그대로 "추가"를 하는 기능이라 보고 .insert를 사용했다.
     if (error) {
       console.log('게시글 추가 중 에러 발생 => ', error);
       return; // return을 사용하여 에러 발생 시 함수를 종료시킨다.
     }
 
-    setPosts((prev) => [
-      //여기에 동기화 로직!을 만들어서 supabase테이블에도 들어가는 동시에 화면에도 렌더링 되게 구현
-      ...prev, // ...prev, {...} 의 의미 ==> 기존의 게시글 목록은 그대로 유지하면서, 새로운 게시글을 추가한다는 것!
-      {
-        id: newPostData[0].id, // id는 supabase가 자동으로 만들어준다!
-        created_at: newPostData[0].created_at,
-        writer_id: user?.id, // session으로 가져오도록 바꿔주기
-        title: newPostData[0].title,
-        content: newPostData[0].content,
-        img: newPostData[0].img,
-        tag: newPostData[0].tags
-      }
-    ]);
+    const { data: selectData, error: selectError } = await supabase
+      .from('posts')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(1);
+    if (selectError) {
+      console.log('게시글 조회 중 에러 발생 => ', selectError);
+      return;
+    }
+
+    setPosts((prev) => [...prev, selectData[0]]);
   };
 
   // isOpen이 true일 때만 모달창을 여는 함수
@@ -85,11 +116,11 @@ const PostCreateModal = ({ isOpen, close }) => {
   };
 
   // 게시글 제출 함수
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleResetImgPreview();
-    await handleAddPost(); // handleAddPost가 비동기 함수라 앞에 await가 필요하다.
+    await handleAddPost(e); // handleAddPost가 비동기 함수라 앞에 await가 필요하다.
     alert('폼이 제출되었습니다!');
+    handleResetImgPreview();
     close();
   };
 
@@ -125,14 +156,18 @@ const PostCreateModal = ({ isOpen, close }) => {
           </StCloseButton>
           <StInputWrapper>
             <Stdiv imgPreview={imgPreview}>
+              {' '}
+              {/*imgPreview라 하면 대문자가 있어 React가 해석하지 못함 */}
               <label htmlFor="postImage">이미지 추가</label>
-              <img src={imgPreview ? imgPreview : undefined} alt="이미지 미리보기 실패" /> {/* undefined와 null중에 뭐가 나을지 잘 모르겠다. null은 빈값으로 오류없이 작동할 확률이 높고, undefined는 오류로 해석될 수 있어 디버깅이 쉽지 않을까? */}
+              <img src={imgPreview ? imgPreview : undefined} alt="이미지 미리보기 실패" />{' '}
+              {/* undefined와 null중에 뭐가 나을지 잘 모르겠다. null은 빈값으로 오류없이 작동할 확률이 높고, undefined는 오류로 해석될 수 있어 디버깅이 쉽지 않을까? */}
               <input
                 type="file"
                 accept="image/*, video/*"
                 multiple
                 id="postImage"
                 onChange={(e) => {
+                  handleImageChange(e);
                   handleImgUpload(e);
                   handleImgPreview(e);
                 }}
@@ -231,7 +266,9 @@ const StInputWrapper = styled.div`
   ${flexCenter};
 `;
 
-const Stdiv = styled.div`
+const Stdiv = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'imgPreview' // imgPreview를 사용해 동적으로 스타일링 되므로, 이때 imgPreview가 엉뚱하게 DOM으로 전달되지 않도록 설정
+})`
   width: 40%;
   margin: 0 5% 5% 5%;
   height: 500px;
@@ -245,7 +282,7 @@ const Stdiv = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 10px; // 이미지 비율 유지하면서 부모요소의 크기에 맞춤
-    display: ${({ imgPreview }) => (!imgPreview ? 'none' : 'block')};
+    display: ${({ imgPreview }) => (imgPreview ? 'block' : 'none')};
   }
 
   label {
@@ -290,6 +327,7 @@ const StLabel = styled.label`
     min-width: 30vw;
     min-height: 15vh;
     border-radius: 10px;
+    padding: 10px;
   }
 `;
 
