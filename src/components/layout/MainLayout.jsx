@@ -9,10 +9,14 @@ const MainLayout = () => {
   return (
     <StContainer>
       <HeaderProvider>
-        <Header />
+        <StHeader>
+          <Header />
+        </StHeader>
       </HeaderProvider>
       <SidebarProvider>
-        <Sidebar />
+        <StSidebar>
+          <Sidebar />
+        </StSidebar>
       </SidebarProvider>
       <StContentWrapper>
         <Outlet />
@@ -25,10 +29,24 @@ export default MainLayout;
 
 /** styled component */
 const StContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 50px 1fr;
+  grid-template-columns: 70px 1fr;
+  height: 100vh;
 `;
 
-const StContentWrapper = styled.div`
-  padding: 10px;
+const StHeader = styled.div`
+  grid-row: 1;
+  grid-column: span 2;
+`;
+
+const StSidebar = styled.aside`
+  grid-row: 2;
+  grid-column: 1;
+`;
+
+const StContentWrapper = styled.main`
+  grid-row: 2;
+  grid-column: 2;
+  overflow-y: auto;
 `;
