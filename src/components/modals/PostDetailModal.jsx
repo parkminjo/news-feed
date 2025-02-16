@@ -117,7 +117,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
         <StContentsWrapper>
           <StHeader>
             <h3>{writerData.nick_name}</h3>
-            {loginedUser.id === selectedPost.writer_id ? (
+            {loginedUser && loginedUser.id === selectedPost.writer_id ? (
               <StBtnWrapper>
                 <button>수정</button>
                 <button onClick={handleDeletePost}>삭제</button>
