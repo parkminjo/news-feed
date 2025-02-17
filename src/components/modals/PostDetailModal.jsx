@@ -200,7 +200,6 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
           </StContents>
           <StInteraction>
             <StBookmarkWrapper>
-              <p>생각을 공유하거나 북마크에 담아보세요!</p>
               {isBookMarkClicked ? (
                 <StBookMarkIcon
                   onClick={(e) =>
@@ -359,8 +358,8 @@ const StInput = styled.input`
 `;
 
 const StBookmarkWrapper = styled.div`
-  display: 'flex';
-  justify-content: 'space-between';
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const StBookMarkIcon = styled(IoBookmark)`
