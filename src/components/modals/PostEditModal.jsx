@@ -3,7 +3,8 @@ import { supabase } from '../../services/supabaseClient';
 import styled from 'styled-components';
 import { useAuth } from '../../context/auth/useAuth';
 
-const PostEditModal = ({ title, contents, setter: { setIsPostEditModalOpen, setSelectedPost } }) => {
+const PostEditModal = ({ title, contents, setter }) => {
+  const { setIsPostEditModalOpen, setSelectedPost } = setter;
   const [newTitle, setNewTitle] = useState(title || '');
   const [newContents, setNewContents] = useState(contents || '');
   const { loginedUser } = useAuth();
@@ -21,7 +22,7 @@ const PostEditModal = ({ title, contents, setter: { setIsPostEditModalOpen, setS
     }
   };
 
-  // PostEdit 모달 핸들러
+  // PostEdit 모달 닫기 핸들러
   const handleClosePostEditModal = () => {
     setIsPostEditModalOpen(false);
   };
