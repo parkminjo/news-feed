@@ -220,7 +220,7 @@ const StNoResultMessage = styled.div`
   color: #721c24;
   padding: 16px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: ${fontSize.medium};
   font-weight: bold;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -237,7 +237,7 @@ const StSpinner = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  font-size: 18px;
+  font-size: ${fontSize.large};
   font-weight: bold;
   padding: 20px;
   color: #333;
