@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { supabase } from '../services/supabaseClient';
 import FollowListModal from '../components/modals/FollowListModal';
 import ProfileEditModal from '../components/modals/ProfileEditModal';
-import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth/AuthContext';
 import { useContext } from 'react';
 import PostDetailModal from '../components/modals/PostDetailModal';
@@ -20,7 +19,6 @@ const MyPage = () => {
   const [followerCount, setFollowCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
 
-  const navigate = useNavigate();
   const { loginedUser } = useContext(AuthContext);
 
   //모달 On/off
@@ -52,6 +50,7 @@ const MyPage = () => {
 
   //게시물 포스트 가져오기
   useEffect(() => {
+    if (!loginedUser) return;
     const getPostsData = async () => {
       try {
         const { data, error } = await supabase.from('posts').select('*').eq('writer_id', loginedUser.id);
