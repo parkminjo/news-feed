@@ -46,22 +46,11 @@ export const StProfilUl = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
-  gap: 20px;
+  gap: 5px;
+  font-size: medium;
 
-  li {
-    margin-right: 20px;
-    font-size: medium;
-    cursor: pointer;
-
-    //게시물 수는 커서가 포인터가 아니라 그냥 갯수 카운트만 해주기 때문에 추가
-    &:nth-child(1) {
-      cursor: default;
-
-      //인스타에서도 숫자들은 bold 처리가 되어 있어서 수정
-      span {
-        font-weight: bold;
-      }
-    }
+  span {
+    font-weight: bold;
   }
 `;
 
@@ -79,7 +68,7 @@ export const StFeedPost = styled.div`
   border: 1px solid black;
   padding: 10px;
   text-align: center;
-  height: 250px;
+  height: 300px;
   cursor: pointer;
 `;
 
@@ -87,4 +76,11 @@ export const StPostImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+`;
+
+export const StProfileBio = styled.p`
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
 `;

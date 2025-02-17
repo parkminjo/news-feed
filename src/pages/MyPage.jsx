@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { supabase } from '../services/supabaseClient';
-import FollowListModal from '../components/modals/FollowListModal';
-import ProfileEditModal from '../components/modals/ProfileEditModal';
+import NicknameEditModal from '../components/modals/NicknameEditModal';
+import BioEditModal from '../components/modals/BioEditModal';
 import { AuthContext } from '../context/auth/AuthContext';
 import { useContext } from 'react';
 import PostDetailModal from '../components/modals/PostDetailModal';
@@ -16,52 +15,48 @@ import {
   StProfilUl,
   StPostGrid,
   StFeedPost,
-  StPostImg
+  StPostImg,
+  StProfileBio
 } from '../styles/profileUistyles';
 
 const MyPage = () => {
-  const [userData, setUserData] = useState([]);
+  const [profileData, setProfileData] = useState(null);
+
   const [postsData, setPostsData] = useState([]);
   const [postCount, setPostCount] = useState(0);
 
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [postId, setPostId] = useState(); // 디테일 핸들러 props
-
-  const [followerCount, setFollowCount] = useState(0);
-  const [followingCount, setFollowingCount] = useState(0);
+  const [postId, setPostId] = useState();
 
   const { loginedUser } = useContext(AuthContext);
 
   //모달 On/off
-  const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
-  const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
-  //모달 모드가 팔로우인지 팔로워인지
-  const [followMode, setFollowMode] = useState('');
+  const [isNicknameModalOpen, setIsNicknameModalOpen] = useState(false);
+  const [isBioModalOpen, setIsBioModalOpen] = useState(false);
 
   //프로필 정보 가져오기
   useEffect(() => {
-    if (!loginedUser) return;
+    if (!loginedUser?.id) return;
     const getProfileData = async () => {
       try {
         const { data, error } = await supabase
           .from('userExtraData')
-          .select('nick_name, profile_img')
+          .select('nick_name, profile_img, bio')
           .eq('user_id', loginedUser.id)
           .single();
         if (error) throw error;
 
-        setUserData(data);
+        setProfileData(data);
       } catch (error) {
         console.error('에러:', error.message);
       }
     };
     getProfileData();
-    return;
-  }, [loginedUser]);
+  }, [loginedUser?.id]);
 
   //게시물 포스트 가져오기
   useEffect(() => {
-    if (!loginedUser) return;
+    if (!loginedUser?.id) return;
     const getPostsData = async () => {
       try {
         const { data, error } = await supabase.from('posts').select('*').eq('writer_id', loginedUser.id);
@@ -74,31 +69,7 @@ const MyPage = () => {
       }
     };
     getPostsData();
-
-    return;
-  }, [loginedUser]);
-
-  //팔로워목록 모달 열기
-  const handleGotoFollowerList = () => {
-    setFollowMode('follower');
-    setIsFollowModalOpen(true);
-  };
-
-  //팔로잉 목록 모달 열기
-  const handleGotoFollowingList = () => {
-    setFollowMode('following');
-    setIsFollowModalOpen(true);
-  };
-
-  //모달 닫기
-  const handleCloseFollowModal = () => {
-    setIsFollowModalOpen(false);
-  };
-
-  //모달 닫기
-  const handleCloseProfileEditModal = () => {
-    setIsProfileEditModalOpen(false);
-  };
+  }, [loginedUser?.id]);
 
   //디테일 페이지 이동
   const handleOpenDetail = (postId) => {
@@ -106,16 +77,19 @@ const MyPage = () => {
     setPostId(postId);
   };
 
-  //프로필 수정
-  const handleGoToProFileEdit = () => {
-    setIsProfileEditModalOpen(true);
-  };
-
-  // 프로필 업데이트 후, 새 닉네임을 반영
-  const handleProfileUpdated = (newNickname) => {
-    setUserData((prevData) => ({
+  // 닉네임 업데이트
+  const handleNicknameUpdated = (newNickname) => {
+    setProfileData((prevData) => ({
       ...prevData,
       nick_name: newNickname
+    }));
+  };
+
+  // 소개글 업데이트
+  const handleBioUpdated = (newBio) => {
+    setProfileData((prevData) => ({
+      ...prevData,
+      bio: newBio
     }));
   };
 
@@ -123,21 +97,23 @@ const MyPage = () => {
     <>
       <StProfileContainer>
         <StProfileHeader>
-          <StProfileImage src={userData?.profile_img} alt="프로필 이미지" />
+          <StProfileImage src={profileData?.profile_img} alt="프로필 이미지" />
           <StProfileInfoWrapper>
-            <StNickName>{userData?.nick_name || '비로그인'}</StNickName>
+            <StNickName>{profileData?.nick_name || '비로그인'}</StNickName>
             <StProfilUl>
               <li>
                 게시물 <span>{postCount}</span>
               </li>
-              <li onClick={handleGotoFollowerList}>
-                팔로워 <span>{followerCount}</span>
-              </li>
-              <li onClick={handleGotoFollowingList}>
-                팔로잉 <span>{followingCount}</span>
-              </li>
             </StProfilUl>
-            <StProfileEditButton onClick={handleGoToProFileEdit}>닉네임 수정</StProfileEditButton>
+            {profileData?.bio ? (
+              <StProfileBio>{profileData.bio}</StProfileBio>
+            ) : (
+              <StProfileBio>소개글을 추가해주세요.</StProfileBio>
+            )}
+            <StButtonWrapper>
+              <StProfileEditButton onClick={() => setIsNicknameModalOpen(true)}>닉네임 수정</StProfileEditButton>
+              <StProfileEditButton onClick={() => setIsBioModalOpen(true)}>소개글 추가</StProfileEditButton>
+            </StButtonWrapper>
           </StProfileInfoWrapper>
         </StProfileHeader>
         <StPostGrid>
@@ -149,19 +125,21 @@ const MyPage = () => {
           <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
         </StPostGrid>
       </StProfileContainer>
-      {isFollowModalOpen && (
-        <FollowListModal
-          onClose={handleCloseFollowModal}
-          followmode={followMode}
-          listData={[]} // 데이터 생기면 추가해서 고치기
+      {isNicknameModalOpen && (
+        <NicknameEditModal
+          onClose={() => setIsNicknameModalOpen(false)}
+          loginedUser={loginedUser}
+          currentNickName={profileData?.nick_name}
+          handleNicknameUpdated={handleNicknameUpdated}
         />
       )}
-      {isProfileEditModalOpen && (
-        <ProfileEditModal
-          onClose={handleCloseProfileEditModal}
+
+      {isBioModalOpen && (
+        <BioEditModal
+          onClose={() => setIsBioModalOpen(false)}
           loginedUser={loginedUser}
-          currentNickName={userData?.nick_name}
-          handleProfileUpdated={handleProfileUpdated}
+          currentBio={profileData?.bio}
+          handleBioUpdated={handleBioUpdated}
         />
       )}
     </>
@@ -170,10 +148,17 @@ const MyPage = () => {
 
 export default MyPage;
 
+const StButtonWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+`;
+
 //프로필수정버튼
 const StProfileEditButton = styled.div`
   margin-top: 20px;
   display: flex;
+
   justify-content: center;
   padding: 10px 10px;
   border: none;
