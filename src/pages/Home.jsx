@@ -30,7 +30,7 @@ const Home = () => {
     getPost();
   }, []);
 
-  /** 디테일 페이지 여는 함수 */
+  // 디테일 모달 열기 핸들러
   const handleOpenDetail = (postId) => {
     setIsDetailOpen(true);
     setPostId(postId);
