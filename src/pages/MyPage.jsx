@@ -2,43 +2,66 @@ import { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { supabase } from '../services/supabaseClient';
-import Header from '../components/layout/Header';
-import SideBar from '../components/layout/SideBar';
 import FollowListModal from '../components/modals/FollowListModal';
+import ProfileEditModal from '../components/modals/ProfileEditModal';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/auth/AuthContext';
+import { useContext } from 'react';
+
 const MyPage = () => {
   const [userData, setUserData] = useState([]);
+  const [postsData, setPostsData] = useState([]);
   const [postCount, setPostCount] = useState(0);
-
   const [followerCount, setFollowCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
 
+  const navigate = useNavigate();
+  const { loginedUser } = useContext(AuthContext);
+
   //모달 On/off
   const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
-
-  //팔로우인지 팔로워인지
+  const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
+  //모달 모드가 팔로우인지 팔로워인지
   const [followMode, setFollowMode] = useState('');
 
+  //프로필 정보 가져오기
   useEffect(() => {
-    const getUserData = async () => {
+    if (!loginedUser) return;
+    const getProfileData = async () => {
       try {
-        const { data, error } = await supabase.from('test1').select('*');
+        const { data, error } = await supabase
+          .from('userExtraData')
+          .select('nick_name')
+          .eq('user_id', loginedUser.id)
+          .single();
         if (error) throw error;
+
         setUserData(data);
       } catch (error) {
         console.error('에러:', error.message);
       }
     };
-    getUserData();
+    getProfileData();
+    return;
+  }, [loginedUser]);
+
+  //게시물 포스트 가져오기
+  useEffect(() => {
+    const getPostsData = async () => {
+      try {
+        const { data, error } = await supabase.from('posts').select('*');
+        if (error) throw error;
+
+        setPostsData(data);
+        setPostCount(data.length);
+      } catch (error) {
+        console.error('에러:', error.message);
+      }
+    };
+    getPostsData();
 
     return;
   }, []);
-
-  //임시 게시글 30개 생성
-  const posts = Array.from({ length: 25 }, (_, index) => index + 1);
-  //임시 게시물 수 카운트
-  useEffect(() => {
-    setPostCount(posts.length);
-  }, [posts]);
 
   //팔로워목록 모달 열기
   const handleGotoFollowerList = () => {
@@ -53,18 +76,28 @@ const MyPage = () => {
   };
 
   //모달 닫기
-  const handleCloseModal = () => {
+  const handleCloseFollowModal = () => {
     setIsFollowModalOpen(false);
   };
 
-  const handleGotoDetailPage = () => {
-    //게시물 디테일로 이동
-    alert('게시물 디테일페이지로 이동');
-    // navigate();
+  //모달 닫기
+  const handleCloseProfileEditModal = () => {
+    setIsProfileEditModalOpen(false);
   };
 
-  const handleGoToProFileEditPage = () => {
-    alert('프로필 수정으로 이동');
+  //디테일 페이지 이동
+  const handleGotoDetailPage = (post) => {
+    navigate(`/post/${post.id}`);
+  };
+
+  //프로필 수정
+  const handleGoToProFileEdit = () => {
+    setIsProfileEditModalOpen(true);
+  };
+
+  // 프로필 업데이트 후, 새 닉네임을 반영
+  const handleProfileUpdated = (newNickname) => {
+    setUserData({ nick_name: newNickname });
   };
 
   return (
@@ -73,7 +106,7 @@ const MyPage = () => {
         <StProfileHeader>
           <StProfileImage src="" alt="" />
           <StProfileInfoWrapper>
-            <StNickName>{userData.length > 0 ? userData[0].nick_name : 'Loading...'}</StNickName>
+            <StNickName>{userData?.nick_name || '비로그인'}</StNickName>
             <StProfilUl>
               <li>
                 게시물 <span>{postCount}</span>
@@ -85,22 +118,30 @@ const MyPage = () => {
                 팔로잉 <span>{followingCount}</span>
               </li>
             </StProfilUl>
-            <StProfileEditButton onClick={handleGoToProFileEditPage}>프로필 수정</StProfileEditButton>
+            <StProfileEditButton onClick={handleGoToProFileEdit}>닉네임 수정</StProfileEditButton>
           </StProfileInfoWrapper>
         </StProfileHeader>
         <StPostGrid>
-          {posts.map((post) => (
-            <StFeedPost onClick={handleGotoDetailPage} key={post}>
-              게시물
+          {postsData.map((post) => (
+            <StFeedPost onClick={() => handleGotoDetailPage(post)} key={post.id}>
+              {post.title}
             </StFeedPost>
           ))}
         </StPostGrid>
       </StProfileContainer>
       {isFollowModalOpen && (
         <FollowListModal
-          onClose={handleCloseModal}
-          mode={followMode}
+          onClose={handleCloseFollowModal}
+          followmode={followMode}
           listData={[]} // 데이터 생기면 추가해서 고치기
+        />
+      )}
+      {isProfileEditModalOpen && (
+        <ProfileEditModal
+          onClose={handleCloseProfileEditModal}
+          loginedUser={loginedUser}
+          currentNickName={userData?.nick_name}
+          handleProfileUpdated={handleProfileUpdated}
         />
       )}
     </>
