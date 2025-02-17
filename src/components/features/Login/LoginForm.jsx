@@ -13,7 +13,7 @@ const LoginForm = () => {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setUserInfo({ ...userInfo, [id]: value });
+    setUserInfo((prev) => ({ prev, [id]: value }));
   };
 
   const navigate = useNavigate();
