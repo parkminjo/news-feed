@@ -5,7 +5,7 @@ import { fontSize } from '../../styles/fontSize';
 
 // 임시 게시물 데이터
 const imgData = Array.from({ length: 20 }, (_, i) => ({
-  src: '../../public/img/LoginCat.png',
+  src: '/img/LoginCat.png',
   id: i + 1,
   title: `고양이 ${i + 1}`,
   comment: '게시물 내용',
