@@ -7,7 +7,9 @@ export const AuthProvider = ({ children }) => {
   const [loginedUser, setLoginedUser] = useState(null);
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((_, session) => {
+    const {
+      data: { subscription }
+    } = supabase.auth.onAuthStateChange((_, session) => {
       if (session) {
         setIsLogin(true);
         setLoginedUser(session.user);
@@ -16,7 +18,11 @@ export const AuthProvider = ({ children }) => {
         setLoginedUser(null);
       }
     });
-  });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const value = { isLogin, loginedUser };
 
