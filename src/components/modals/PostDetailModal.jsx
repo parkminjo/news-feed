@@ -66,14 +66,6 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     return;
   }
 
-  // 작성일 처리
-  const date = new Date(selectedPost.created_at);
-  const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(date.getUTCDate()).padStart(2, '0');
-  const hours = String(date.getUTCHours()).padStart(2, '0');
-  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-
   // 댓글 업로드
   const handleUploadComment = async (e) => {
     e.preventDefault();
@@ -127,7 +119,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
           <StContents>
             <h3>{selectedPost.title}</h3>
             <p>{selectedPost.content}</p>
-            <p>{`${year}년 ${month}월 ${day}일 ${hours}:${minutes}`}</p>
+            <p>{new Date(selectedPost.created_at).toLocaleString('ko-KR')}</p>
             {comments.map((comment) => (
               <p key={comment.id}>{comment.contents}</p>
             ))}
