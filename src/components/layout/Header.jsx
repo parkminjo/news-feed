@@ -5,6 +5,7 @@ import { FaRegBell, FaUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useHeader } from '../../context/components/header/useHeader';
 import { useAuth } from '../../context/auth/useAuth';
+import { color } from '../../styles/color';
 
 const Header = () => {
   const { isLoginOpen, setIsLoginOpen, loginModalRef, handleAuthAction } = useHeader();
@@ -13,7 +14,7 @@ const Header = () => {
 
   return (
     <StContainer>
-      <StLogo>로고</StLogo>
+      <StLogo>CATTALE</StLogo>
       <StIconsWrapper>
         <StIconWrapper>
           <StBellIcon size={30} />
@@ -50,7 +51,8 @@ const StContainer = styled.header`
 `;
 
 const StLogo = styled.div`
-  font-weight: bold;
+  font-family: 'Arvo', serif;
+  font-weight: 500;
 `;
 
 const StIconsWrapper = styled(StCenterWrapper)`
