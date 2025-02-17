@@ -155,7 +155,10 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
             <p>{content}</p>
             <p>{`${passedTimeText(created_at)}, ${new Date(created_at).toLocaleString('ko-KR')}`}</p>
             {comments.map((comment) => (
-              <p key={comment.id}>{comment.contents}</p>
+              <StCommentWrapper key={comment.id}>
+                <p>{comment.contents}</p>
+                {loginedUser.id === comment.writer_id ? <button>삭제</button> : null}
+              </StCommentWrapper>
             ))}
           </StContents>
           <StInteraction>
@@ -262,6 +265,11 @@ const StContents = styled.div`
   border: 1px solid ${color.black};
   padding: 20px;
   height: 50%;
+`;
+
+const StCommentWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const StInteraction = styled.div`
