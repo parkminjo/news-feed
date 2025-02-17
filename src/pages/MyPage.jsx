@@ -7,11 +7,16 @@ import ProfileEditModal from '../components/modals/ProfileEditModal';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth/AuthContext';
 import { useContext } from 'react';
+import PostDetailModal from '../components/modals/PostDetailModal';
 
 const MyPage = () => {
   const [userData, setUserData] = useState([]);
   const [postsData, setPostsData] = useState([]);
   const [postCount, setPostCount] = useState(0);
+
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [postId, setPostId] = useState(); // 디테일 핸들러 props
+
   const [followerCount, setFollowCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
 
@@ -86,8 +91,9 @@ const MyPage = () => {
   };
 
   //디테일 페이지 이동
-  const handleGotoDetailPage = (post) => {
-    navigate(`/post/${post.id}`);
+  const handleOpenDetail = (postId) => {
+    setIsDetailOpen(true);
+    setPostId(postId);
   };
 
   //프로필 수정
@@ -123,10 +129,11 @@ const MyPage = () => {
         </StProfileHeader>
         <StPostGrid>
           {postsData.map((post) => (
-            <StFeedPost onClick={() => handleGotoDetailPage(post)} key={post.id}>
+            <StFeedPost onClick={() => handleOpenDetail(post.id)} key={post.id}>
               {post.title}
             </StFeedPost>
           ))}
+          <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
         </StPostGrid>
       </StProfileContainer>
       {isFollowModalOpen && (
