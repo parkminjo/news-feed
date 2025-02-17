@@ -5,9 +5,12 @@ import { color } from '../styles/color';
 import PostCard from '../components/features/Home/PostCard';
 import { supabase } from '../services/supabaseClient';
 import { useEffect, useState } from 'react';
+import PostDetailModal from '../components/modals/PostDetailModal';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [postId, setPostId] = useState(); // 디테일 핸들러 props
 
   const getPost = async () => {
     try {
@@ -22,6 +25,12 @@ const Home = () => {
     getPost();
   }, []);
 
+  // 디테일 열기 핸들러
+  const handleOpenDetail = (postId) => {
+    setIsDetailOpen(true);
+    setPostId(postId);
+  };
+
   return (
     <StContainer>
       <StMainWrapper>
@@ -29,6 +38,13 @@ const Home = () => {
           <PostCard />
           <PostCard />
           <PostCard />
+          {/* DB 연동 post 모달 오픈 이벤트핸들러 연결 */}
+          {posts.map((post) => (
+            <div style={{ border: '1px solid black' }} key={post.id} onClick={() => handleOpenDetail(post.id)}>
+              <p>{post.title}</p>
+            </div>
+          ))}
+          <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
         </StContentWrapper>
       </StMainWrapper>
     </StContainer>
