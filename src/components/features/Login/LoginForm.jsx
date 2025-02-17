@@ -18,6 +18,7 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
+  /** 로그인 함수 */
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -49,6 +50,7 @@ const LoginForm = () => {
     }
   };
 
+  /** 구글 로그인 함수 */
   const handleGoogleLogin = async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
