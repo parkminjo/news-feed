@@ -2,7 +2,52 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { supabase } from '../../services/supabaseClient';
 
-const ModalOverlay = styled.div`
+const ProfileEditModal = ({ onClose, loginedUser, currentNickName, handleProfileUpdated }) => {
+  const [nickname, setNickname] = useState(currentNickName);
+
+  const handleSubmit = async (e) => {
+    //닉네임 변경을 하지 않고 변경을 눌렀을 때 막기
+    if (nickname === currentNickName) {
+      alert('변경 사항이 없습니다. 닉네임을 변경해주세요');
+      return;
+    }
+
+    //업데이트
+    e.preventDefault();
+    const { error } = await supabase
+      .from('userExtraData')
+      .update({ nick_name: nickname })
+      .eq('user_id', loginedUser.id);
+    if (error) throw error;
+    else {
+      handleProfileUpdated(nickname);
+      onClose();
+    }
+  };
+
+  return (
+    <StModalContainer onClick={onClose}>
+      <StModalContent onClick={(e) => e.stopPropagation()}>
+        <StForm onSubmit={handleSubmit}>
+          <StInput
+            type="text"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            placeholder="새 닉네임 입력"
+          />
+          <StButtonWraaper>
+            <StButton type="submit">변경</StButton>
+            <StButton onClick={onClose}>취소</StButton>
+          </StButtonWraaper>
+        </StForm>
+      </StModalContent>
+    </StModalContainer>
+  );
+};
+
+export default ProfileEditModal;
+
+const StModalContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -14,75 +59,32 @@ const ModalOverlay = styled.div`
   align-items: center;
 `;
 
-const ModalContent = styled.div`
+const StModalContent = styled.div`
   background: white;
-  padding: 20px;
-  border-radius: 4px;
-  width: 80%;
+  padding: 30px 20px;
+  border-radius: 10px;
+  width: 90%;
   max-width: 400px;
 `;
 
-const Form = styled.form`
+const StForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 `;
 
-const Input = styled.input`
-  padding: 8px;
-  font-size: 16px;
-`;
-
-const Button = styled.button`
+const StInput = styled.input`
   padding: 10px;
-  background-color: #3897f0;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  font-size: medium;
 `;
 
-const ProfileEditModal = ({ onClose, loginedUser, currentNickName, onProfileUpdated }) => {
-  const [nickname, setNickname] = useState(currentNickName || '');
+const StButton = styled.button`
+  flex: 1;
+  padding: 5px 10px;
+`;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // 업데이트 쿼리: userExtraData 테이블에서 해당 사용자의 닉네임 업데이트
-    const { error } = await supabase
-      .from('userExtraData')
-      .update({ nick_name: nickname })
-      .eq('user_id', loginedUser.id);
-    if (error) {
-      console.error('프로필 업데이트 오류:', error.message);
-    } else {
-      // 업데이트 성공하면 부모에게 알림
-      onProfileUpdated(nickname);
-      onClose();
-    }
-  };
-
-  return (
-    <ModalOverlay onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
-        <h3>프로필 수정</h3>
-        <Form onSubmit={handleSubmit}>
-          <label>
-            닉네임:
-            <Input
-              type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              placeholder="새 닉네임 입력"
-            />
-          </label>
-          <Button type="submit">저장</Button>
-        </Form>
-        <Button onClick={onClose} style={{ marginTop: '10px', backgroundColor: 'gray' }}>
-          취소
-        </Button>
-      </ModalContent>
-    </ModalOverlay>
-  );
-};
-
-export default ProfileEditModal;
+const StButtonWraaper = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+`;

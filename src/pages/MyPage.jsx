@@ -11,8 +11,6 @@ import { useContext } from 'react';
 const MyPage = () => {
   const [userData, setUserData] = useState([]);
   const [postsData, setPostsData] = useState([]);
-  const [followData, setFollowData] = useState([]);
-
   const [postCount, setPostCount] = useState(0);
   const [followerCount, setFollowCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
@@ -120,7 +118,7 @@ const MyPage = () => {
                 팔로잉 <span>{followingCount}</span>
               </li>
             </StProfilUl>
-            <StProfileEditButton onClick={handleGoToProFileEdit}>프로필 수정</StProfileEditButton>
+            <StProfileEditButton onClick={handleGoToProFileEdit}>닉네임 수정</StProfileEditButton>
           </StProfileInfoWrapper>
         </StProfileHeader>
         <StPostGrid>
@@ -134,7 +132,7 @@ const MyPage = () => {
       {isFollowModalOpen && (
         <FollowListModal
           onClose={handleCloseFollowModal}
-          mode={followMode}
+          followmode={followMode}
           listData={[]} // 데이터 생기면 추가해서 고치기
         />
       )}
@@ -143,7 +141,7 @@ const MyPage = () => {
           onClose={handleCloseProfileEditModal}
           loginedUser={loginedUser}
           currentNickName={userData?.nick_name}
-          onProfileUpdated={handleProfileUpdated}
+          handleProfileUpdated={handleProfileUpdated}
         />
       )}
     </>

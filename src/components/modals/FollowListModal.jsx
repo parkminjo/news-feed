@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const FollowListModal = ({ onClose, mode, listData }) => {
+const FollowListModal = ({ onClose, followmode, listData }) => {
   return (
     <StModalContainer onClick={onClose}>
       <StModalContent onClick={(e) => e.stopPropagation()}>
@@ -8,7 +8,7 @@ const FollowListModal = ({ onClose, mode, listData }) => {
           {listData && listData.length > 0 ? (
             listData.map((item, index) => <li key={index}>{item}</li>)
           ) : (
-            <li>{mode === 'follower' ? '팔로워가 없습니다.' : '팔로잉 목록이 없습니다.'}</li>
+            <li>{followmode === 'follower' ? '팔로워가 없습니다.' : '팔로잉 목록이 없습니다.'}</li>
           )}
         </ul>
         <button onClick={onClose}>닫기</button>
