@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FiHome, FiSearch, FiHeart, FiPlusCircle } from 'react-icons/fi';
+import { FiHome, FiSearch, FiPlusCircle } from 'react-icons/fi';
 import { FaRegBookmark } from 'react-icons/fa';
 import { fontSize } from '../../styles/fontSize';
 import { useNavigate } from 'react-router-dom';
@@ -18,11 +18,12 @@ const SideBar = () => {
   
   const handleOpenOnlyForUsers = async () => {
     const { data: userData } = await supabase.auth.getUser(); 
-    if (userData.user === null) {
-      return setIsPostCreateOpen(false);
+    if (userData.user) {
+      return setIsPostCreateOpen(true);
     } else {
-      return setIsPostCreateOpen(true); 
-    };
+      alert("로그인을 먼저 해주십시오!");
+      return;
+    }
   };
 //-----------------------------------------------------------
 
@@ -46,12 +47,6 @@ const SideBar = () => {
             </StIconWrapper>
             <StText $isExpand={isSidebarExpand}>검색</StText>
           </StMenuItem>
-          <StMenuItem>
-            <StIconWrapper>
-              <FiHeart />
-            </StIconWrapper>
-            <StText $isExpand={isSidebarExpand}>좋아요</StText>
-          </StMenuItem>
           <StMenuItem onClick={() => setIsBookMarkOpen(true)}>
             <StIconWrapper>
               <FaRegBookmark />
@@ -59,7 +54,7 @@ const SideBar = () => {
             <StText $isExpand={isSidebarExpand}>북마크</StText>
           </StMenuItem>
 
-          <StMenuItem onClick={() => setIsPostCreateOpen(true)}>
+          <StMenuItem onClick={handleOpenOnlyForUsers}>
             <StIconWrapper>
               <FiPlusCircle />
             </StIconWrapper>
