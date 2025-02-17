@@ -5,6 +5,8 @@ import { fontSize } from '../../styles/fontSize';
 import { useNavigate } from 'react-router-dom';
 import { useSidebar } from '../../context/components/sidebar/useSidebar';
 import { useState } from 'react';
+import { useAuth } from '../../context/auth/useAuth';
+
 import BookMarkModal from '../modals/BookMarkModal';
 import PostCreateModal from '../modals/PostCreateModal';
 import { supabase } from '../../services/supabaseClient';
@@ -13,6 +15,7 @@ import { supabase } from '../../services/supabaseClient';
 const SideBar = () => {
   const { isSidebarExpand, setIsSidebarExpand } = useSidebar();
   const [isBookMarkOpen, setIsBookMarkOpen] = useState(false);
+  const { isLogin } = useAuth();
   const navigate = useNavigate();
   const [isPostCreateOpen, setIsPostCreateOpen] = useState(false);
   
@@ -25,6 +28,15 @@ const SideBar = () => {
     };
   };
 //-----------------------------------------------------------
+
+  /* 북마크 버튼 클릭 시 동작 */
+  const handleBookMarkClick = () => {
+    if (!isLogin) {
+      alert('로그인이 필요합니다!');
+      return;
+    }
+    setIsBookMarkOpen(true);
+  }
 
   return (
     <>
@@ -52,7 +64,7 @@ const SideBar = () => {
             </StIconWrapper>
             <StText $isExpand={isSidebarExpand}>좋아요</StText>
           </StMenuItem>
-          <StMenuItem onClick={() => setIsBookMarkOpen(true)}>
+          <StMenuItem onClick={() => { handleBookMarkClick() }}>
             <StIconWrapper>
               <FaRegBookmark />
             </StIconWrapper>
