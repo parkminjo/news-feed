@@ -40,7 +40,7 @@ const ProfilePage = () => {
         if (error) throw error;
         setProfileData(data);
       } catch (error) {
-        console.error('프로필 데이터 에러:', error.message);
+        console.error(error);
       }
     };
     getProfileData();
@@ -57,7 +57,7 @@ const ProfilePage = () => {
         setPostsData(data);
         setPostCount(data.length);
       } catch (error) {
-        console.error('에러:', error.message);
+        console.error(error);
       }
     };
     getPostsData();
