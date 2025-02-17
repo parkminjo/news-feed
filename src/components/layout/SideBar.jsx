@@ -1,16 +1,30 @@
 import styled from 'styled-components';
-import { FiHome, FiSearch, FiHeart } from 'react-icons/fi';
+import { FiHome, FiSearch, FiHeart, FiPlusCircle } from 'react-icons/fi';
 import { FaRegBookmark } from 'react-icons/fa';
 import { fontSize } from '../../styles/fontSize';
 import { useNavigate } from 'react-router-dom';
 import { useSidebar } from '../../context/components/sidebar/useSidebar';
 import { useState } from 'react';
 import BookMarkModal from '../modals/BookMarkModal';
+import PostCreateModal from '../modals/PostCreateModal';
+import { supabase } from '../../services/supabaseClient';
+
 
 const SideBar = () => {
   const { isSidebarExpand, setIsSidebarExpand } = useSidebar();
   const [isBookMarkOpen, setIsBookMarkOpen] = useState(false);
   const navigate = useNavigate();
+  const [isPostCreateOpen, setIsPostCreateOpen] = useState(false);
+  
+  const handleOpenOnlyForUsers = async () => {
+    const { data: userData } = await supabase.auth.getUser(); 
+    if (userData.user === null) {
+      return setIsPostCreateOpen(false);
+    } else {
+      return setIsPostCreateOpen(true); 
+    };
+  };
+//-----------------------------------------------------------
 
   return (
     <>
@@ -44,6 +58,15 @@ const SideBar = () => {
             </StIconWrapper>
             <StText $isExpand={isSidebarExpand}>북마크</StText>
           </StMenuItem>
+
+          <StMenuItem onClick={() => setIsPostCreateOpen(true)}>
+            <StIconWrapper>
+              <FiPlusCircle />
+            </StIconWrapper>
+            <StText $isExpand={isSidebarExpand}>모달 열기</StText>
+            <PostCreateModal isPostCreateOpen={isPostCreateOpen} onClose={() => setIsPostCreateOpen(false)} />
+          </StMenuItem>
+          
         </StMenu>
       </StContainer>
 
