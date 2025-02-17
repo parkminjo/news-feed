@@ -9,6 +9,7 @@ import PostEditModal from './PostEditModal';
 import { fetchBookMarkState } from '../../utils/fetchBookMarkState';
 import { handleBookMarkClick } from '../../utils/handleBookMarkClick';
 import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5';
+import { fontSize } from '../../styles/fontSize';
 
 const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
   const { isLogin, loginedUser } = useAuth();
@@ -67,7 +68,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
       // userExtraData
       const { data: userData } = await supabase
         .from('userExtraData')
-        .select('nick_name')
+        .select('nick_name, profile_img')
         .eq('user_id', postData[0].writer_id);
       if (userData?.length) {
         setWriterData(userData[0]);
@@ -173,7 +174,10 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
         <StImgWrapper>{img_url ? <StPostImg src={img_url} alt="Post Image" /> : null}</StImgWrapper>
         <StContentsWrapper>
           <StHeader>
-            <h3>{writerData.nick_name}</h3>
+            <StWriterWrapper>
+              <StProfileImage src={writerData?.profile_img} alt="프로필 이미지" />
+              <p>{writerData.nick_name}</p>
+            </StWriterWrapper>
             {loginedUser && loginedUser.id === writer_id ? (
               <StBtnWrapper>
                 <button onClick={handleOpenPostEditModal}>수정</button>
@@ -302,6 +306,22 @@ const StHeader = styled.div`
   padding: 20px;
   display: flex;
   justify-content: space-between;
+`;
+
+const StWriterWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: ${fontSize.large};
+  font-weight: 500;
+`;
+
+const StProfileImage = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid black;
+  object-fit: cover;
 `;
 
 const StBtnWrapper = styled.div`
