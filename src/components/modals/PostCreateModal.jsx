@@ -186,7 +186,7 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
             <StTextInputWrapper>
               <StLabel>
                 제목
-                <input type="text" required onChange={(e) => setPost((prev) => ({ ...post, title: e.target.value }))} />
+                <input type="text" required onChange={(e) => setPost((prev) => ({ ...prev, title: e.target.value }))} />
                 {/*개별 데이터가 아닌 post를 useState로 관리해주고 있기 때문에 setPost에 기존 데이터를 유지하면서 개별데이터를(title, content 등등) 추가하는 방식으로 작성*/}
               </StLabel>
               <StLabel>

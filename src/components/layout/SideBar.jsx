@@ -63,7 +63,7 @@ const SideBar = () => {
             <StIconWrapper>
               <FiPlusCircle />
             </StIconWrapper>
-            <StText $isExpand={isSidebarExpand}>모달 열기</StText>
+            <StText $isExpand={isSidebarExpand}>글 작성</StText>
             <PostCreateModal isPostCreateOpen={isPostCreateOpen} onClose={() => setIsPostCreateOpen(false)} />
           </StMenuItem>
           
