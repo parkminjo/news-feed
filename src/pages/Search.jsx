@@ -1,5 +1,7 @@
+import SearchForm from '../components/features/Search/SearchForm';
+
 const Search = () => {
-  return <div>Search</div>;
+  return <SearchForm />;
 };
 
 export default Search;
