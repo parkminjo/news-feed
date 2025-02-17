@@ -38,6 +38,7 @@ const StContainer = styled.div`
 const StHeader = styled.div`
   grid-row: 1;
   grid-column: span 2;
+  z-index: 100;
 `;
 
 const StSidebar = styled.aside`
