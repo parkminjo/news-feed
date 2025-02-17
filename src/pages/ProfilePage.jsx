@@ -7,9 +7,12 @@ import ProfileEditModal from '../components/modals/ProfileEditModal';
 import { AuthContext } from '../context/auth/AuthContext';
 import { useContext } from 'react';
 import PostDetailModal from '../components/modals/PostDetailModal';
+import { useParams } from 'react-router-dom';
 
-const MyPage = () => {
-  const [userData, setUserData] = useState([]);
+const ProfilePage = () => {
+  const { userId } = useParams();
+  const [profileData, setProfileData] = useState(null);
+
   const [postsData, setPostsData] = useState([]);
   const [postCount, setPostCount] = useState(0);
 
@@ -19,41 +22,36 @@ const MyPage = () => {
   const [followerCount, setFollowCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
 
-  const { loginedUser } = useContext(AuthContext);
-
   //모달 On/off
   const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
-  const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
   //모달 모드가 팔로우인지 팔로워인지
   const [followMode, setFollowMode] = useState('');
 
   //프로필 정보 가져오기
   useEffect(() => {
-    if (!loginedUser) return;
+    if (!userId) return;
     const getProfileData = async () => {
       try {
         const { data, error } = await supabase
           .from('userExtraData')
           .select('nick_name, profile_img')
-          .eq('user_id', loginedUser.id)
+          .eq('user_id', userId)
           .single();
         if (error) throw error;
-
-        setUserData(data);
+        setProfileData(data);
       } catch (error) {
-        console.error('에러:', error.message);
+        console.error('프로필 데이터 에러:', error.message);
       }
     };
     getProfileData();
-    return;
-  }, [loginedUser]);
+  }, [userId]);
 
   //게시물 포스트 가져오기
   useEffect(() => {
-    if (!loginedUser) return;
+    if (!userId) return;
     const getPostsData = async () => {
       try {
-        const { data, error } = await supabase.from('posts').select('*').eq('writer_id', loginedUser.id);
+        const { data, error } = await supabase.from('posts').select('*').eq('writer_id', userId);
         if (error) throw error;
 
         setPostsData(data);
@@ -65,7 +63,7 @@ const MyPage = () => {
     getPostsData();
 
     return;
-  }, [loginedUser]);
+  }, [userId]);
 
   //팔로워목록 모달 열기
   const handleGotoFollowerList = () => {
@@ -84,34 +82,19 @@ const MyPage = () => {
     setIsFollowModalOpen(false);
   };
 
-  //모달 닫기
-  const handleCloseProfileEditModal = () => {
-    setIsProfileEditModalOpen(false);
-  };
-
   //디테일 페이지 이동
   const handleOpenDetail = (postId) => {
     setIsDetailOpen(true);
     setPostId(postId);
   };
 
-  //프로필 수정
-  const handleGoToProFileEdit = () => {
-    setIsProfileEditModalOpen(true);
-  };
-
-  // 프로필 업데이트 후, 새 닉네임을 반영
-  const handleProfileUpdated = (newNickname) => {
-    setUserData({ nick_name: newNickname });
-  };
-
   return (
     <>
       <StProfileContainer>
         <StProfileHeader>
-          <StProfileImage src={userData?.profile_img} alt="프로필 이미지" />
+          <StProfileImage src={profileData?.profile_img} alt="" />
           <StProfileInfoWrapper>
-            <StNickName>{userData?.nick_name || '비로그인'}</StNickName>
+            <StNickName>{profileData?.nick_name}</StNickName>
             <StProfilUl>
               <li>
                 게시물 <span>{postCount}</span>
@@ -123,7 +106,6 @@ const MyPage = () => {
                 팔로잉 <span>{followingCount}</span>
               </li>
             </StProfilUl>
-            <StProfileEditButton onClick={handleGoToProFileEdit}>닉네임 수정</StProfileEditButton>
           </StProfileInfoWrapper>
         </StProfileHeader>
         <StPostGrid>
@@ -142,19 +124,11 @@ const MyPage = () => {
           listData={[]} // 데이터 생기면 추가해서 고치기
         />
       )}
-      {isProfileEditModalOpen && (
-        <ProfileEditModal
-          onClose={handleCloseProfileEditModal}
-          loginedUser={loginedUser}
-          currentNickName={userData?.nick_name}
-          handleProfileUpdated={handleProfileUpdated}
-        />
-      )}
     </>
   );
 };
 
-export default MyPage;
+export default ProfilePage;
 
 //전체영역
 const StProfileContainer = styled.div`
@@ -219,20 +193,6 @@ const StProfilUl = styled.ul`
       }
     }
   }
-`;
-
-//프로필수정버튼
-const StProfileEditButton = styled.div`
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  padding: 10px 10px;
-  border: none;
-  border-radius: 10px;
-  width: 50%;
-  background-color: gray;
-  color: white;
-  cursor: pointer;
 `;
 
 //게시글
