@@ -72,9 +72,7 @@ const LoginForm = () => {
 
         <StSignUpWrapper>
           <StContextText>아직 계정이 없으신가요?</StContextText>
-          <Link to={'/signup'} style={{ color: `${color.main}` }}>
-            회원가입 하러 가기
-          </Link>
+          <StLink to={'/signup'}>회원가입 하러 가기</StLink>
         </StSignUpWrapper>
       </StWrapper>
     </StContainer>
@@ -144,6 +142,10 @@ const StLoginButton = styled.button`
 const StSignUpWrapper = styled(StLoginWrapper)`
   height: 100px;
   gap: 15px;
+`;
+
+const StLink = styled(Link)`
+  color: ${color.main};
 `;
 
 const StCatImg = styled.img`
