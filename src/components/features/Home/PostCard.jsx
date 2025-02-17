@@ -62,7 +62,7 @@ const PostCard = ({ post, onClick }) => {
 
     checkLikeState();
     checkBookMarkState();
-  }, [loginedUser, post.id]);
+  }, [loginedUser?.id, post.id]);
 
   return (
     <StCardContainer onClick={onClick}>
