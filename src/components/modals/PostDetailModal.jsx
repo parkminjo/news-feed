@@ -14,6 +14,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
   const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
+    console.log(loginedUser?.id);
     if (postId) {
       getPosts();
     }
@@ -91,14 +92,23 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     }
   };
 
-  // 게시글 삭제
+  // 게시글 삭제 핸들러
   const handleDeletePost = async () => {
-    // if(selectedPost.writer_id === )
-    // try {
-    //   const { data } = await supabase.from('posts').delete().match({ id: postId });
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    const isConfirmed = window.confirm('정말 삭제하시겠습니까?');
+
+    if (!isConfirmed) {
+      return;
+    }
+
+    try {
+      await supabase.from('comments').delete().match({ post_id: postId });
+      await supabase.from('posts').delete().match({ id: postId });
+
+      alert('[Notification] 게시글이 삭제되었습니다.');
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
