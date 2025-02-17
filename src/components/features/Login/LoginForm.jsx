@@ -13,7 +13,7 @@ const LoginForm = () => {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setUserInfo((prev) => ({ prev, [id]: value }));
+    setUserInfo({ ...userInfo, [id]: value });
   };
 
   const navigate = useNavigate();
@@ -23,10 +23,10 @@ const LoginForm = () => {
     e.preventDefault();
 
     /** 예외상황 처리 */
-    if (!userInfo.email) {
+    if (userInfo.email === '') {
       alert('이메일을 입력해주세요');
     }
-    if (!userInfo.password) {
+    if (userInfo.password === '') {
       alert('비밀번호를 입력해주세요');
       return;
     }
@@ -72,7 +72,9 @@ const LoginForm = () => {
 
         <StSignUpWrapper>
           <StContextText>아직 계정이 없으신가요?</StContextText>
-          <StLink to={'/signup'}>회원가입 하러 가기</StLink>
+          <Link to={'/signup'} style={{ color: `${color.main}` }}>
+            회원가입 하러 가기
+          </Link>
         </StSignUpWrapper>
       </StWrapper>
     </StContainer>
@@ -139,13 +141,18 @@ const StLoginButton = styled.button`
   }
 `;
 
+const StSocialLogin = styled.button`
+  font-size: ${fontSize.medium};
+  color: ${color.main};
+  background-color: transparent;
+  text-decoration: underline;
+  border: none;
+  cursor: pointer;
+`;
+
 const StSignUpWrapper = styled(StLoginWrapper)`
   height: 100px;
   gap: 15px;
-`;
-
-const StLink = styled(Link)`
-  color: ${color.main};
 `;
 
 const StCatImg = styled.img`
