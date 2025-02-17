@@ -23,10 +23,10 @@ const LoginForm = () => {
     e.preventDefault();
 
     /** 예외상황 처리 */
-    if (userInfo.email === '') {
+    if (!userInfo.email) {
       alert('이메일을 입력해주세요');
     }
-    if (userInfo.password === '') {
+    if (!userInfo.password) {
       alert('비밀번호를 입력해주세요');
       return;
     }
