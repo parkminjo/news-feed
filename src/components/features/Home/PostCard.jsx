@@ -13,25 +13,10 @@ import { handleLikeClick } from '../../../utils/handleLikeClick';
 import { handleBookMarkClick } from '../../../utils/handleBookMarkClick';
 
 const PostCard = ({ post, onClick }) => {
-  const { isLogin } = useAuth();
+  const { isLogin, loginedUser } = useAuth();
   const { created_at, writer_id } = post || null;
   const [isLikeClicked, setIsLikeClicked] = useState(false);
   const [isBookMarkClicked, setIsBookMarkClicked] = useState(false);
-
-  // context에 userInfo 추가되면 수정 필요한 코드
-  // 사용자의 id를 가져오는 함수
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user }
-      } = await supabase.auth.getUser();
-      setUser(user);
-    };
-
-    fetchUser();
-  }, []);
 
   // context에 userInfo 추가되면 수정 필요한 코드
   // 사용자의 닉네임을 가져오는 함수
@@ -63,21 +48,21 @@ const PostCard = ({ post, onClick }) => {
 
   // 현재 사용자가 좋아요와 북마크를 눌렀는지 확인하는 로직
   useEffect(() => {
-    if (!user || !post.id) return;
+    if (!loginedUser || !post.id) return;
 
     const checkLikeState = async () => {
-      const isLiked = await fetchLikeState(user.id, post.id);
+      const isLiked = await fetchLikeState(loginedUser.id, post.id);
       setIsLikeClicked(isLiked);
     };
 
     const checkBookMarkState = async () => {
-      const isBookMarkClicked = await fetchBookMarkState(user.id, post.id);
+      const isBookMarkClicked = await fetchBookMarkState(loginedUser.id, post.id);
       setIsBookMarkClicked(isBookMarkClicked);
     };
 
     checkLikeState();
     checkBookMarkState();
-  }, [user, post.id]);
+  }, [loginedUser, post.id]);
 
   return (
     <StCardContainer onClick={onClick}>
@@ -93,19 +78,25 @@ const PostCard = ({ post, onClick }) => {
       </StImgWrapper>
       <StFooterWrapper>
         {isLikeClicked ? (
-          <StLikeIcon onClick={(e) => handleLikeClick(e, isLogin, isLikeClicked, setIsLikeClicked, user, post.id)} />
+          <StLikeIcon
+            onClick={(e) => handleLikeClick(e, isLogin, isLikeClicked, setIsLikeClicked, loginedUser, post.id)}
+          />
         ) : (
           <StLikeEmptyIcon
-            onClick={(e) => handleLikeClick(e, isLogin, isLikeClicked, setIsLikeClicked, user, post.id)}
+            onClick={(e) => handleLikeClick(e, isLogin, isLikeClicked, setIsLikeClicked, loginedUser, post.id)}
           />
         )}
         {isBookMarkClicked ? (
           <StBookMarkIcon
-            onClick={(e) => handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, user, post.id)}
+            onClick={(e) =>
+              handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, loginedUser, post.id)
+            }
           />
         ) : (
           <StBookMarkEmptyIcon
-            onClick={(e) => handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, user, post.id)}
+            onClick={(e) =>
+              handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, loginedUser, post.id)
+            }
           />
         )}
       </StFooterWrapper>
