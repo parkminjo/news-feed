@@ -49,7 +49,7 @@ const MyPage = () => {
   useEffect(() => {
     const getPostsData = async () => {
       try {
-        const { data, error } = await supabase.from('posts').select('*');
+        const { data, error } = await supabase.from('posts').select('*').eq('writer_id', loginedUser.id);
         if (error) throw error;
 
         setPostsData(data);
@@ -61,7 +61,7 @@ const MyPage = () => {
     getPostsData();
 
     return;
-  }, []);
+  }, [loginedUser]);
 
   //팔로워목록 모달 열기
   const handleGotoFollowerList = () => {
