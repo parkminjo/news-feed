@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from 'react';
 import { supabase } from '../../services/supabaseClient';
 import * as React from 'react';
 
-const PostCreateModal = ({ isOpen, close }) => {
+const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
   const [imgPreview, setImagePreview] = useState(''); // img 파일이 imgPreview 상태에 Base64 문자열로 들어갈 것이기 때문에 기본값이 ""임
   const imgRef = useRef(null); // useRef는 컴포넌트 안에서 DOM 요소나 값을 직접 참조!! ==> useState()를 사용할 때와 달리 input태그의 값에 직접 접근할 수 있어 불필요한 리렌더링을 줄일 수 있음
   const [image, setImage] = useState(null);
@@ -50,6 +50,10 @@ const PostCreateModal = ({ isOpen, close }) => {
     setImage(e.target.files[0]);
   };
 
+
+  // 
+
+
   // postImage업로드 함수
   const handleImgUpload = async () => {
     // 만약 이미지가 선택되지 않았다면 함수를 종료
@@ -72,10 +76,12 @@ const PostCreateModal = ({ isOpen, close }) => {
     } else {
       console.log('이미지 업로드 성공:', data); // 업로드 성공 시 자축 메시지 콘솔에 출력
     }
-    const { data: publicUrlData } = supabase.storage.from('post_images').getPublicUrl(image);
-    return publicUrlData.publicUrl;
+    const postImgUrl = `https://abtgpogydlsfqgmzgunp.supabase.co/storage/v1/object/public/${data.fullPath}`;
+    return postImgUrl;
   };
 
+
+  
   // 이 함수를 실행할 떄 status: 401(unauthorized)이 나오면 RLS 관련 문제
   const handleAddPost = async (e) => {
     e.preventDefault();
@@ -106,10 +112,12 @@ const PostCreateModal = ({ isOpen, close }) => {
     setPosts((prev) => [...prev, selectData[0]]);
   };
 
-  // isOpen이 true일 때만 모달창을 여는 함수
-  if (!isOpen) {
+  // isPostCreateOpen이 true일 때만 모달창을 여는 함수
+  if (!isPostCreateOpen) {
     return null;
   }
+
+
 
   const handleResetImgPreview = () => {
     setImagePreview('');
@@ -121,7 +129,7 @@ const PostCreateModal = ({ isOpen, close }) => {
     await handleAddPost(e); // handleAddPost가 비동기 함수라 앞에 await가 필요하다.
     alert('폼이 제출되었습니다!');
     handleResetImgPreview();
-    close();
+    onClose();
   };
 
   // 이미지 미리보기 함수
@@ -147,9 +155,9 @@ const PostCreateModal = ({ isOpen, close }) => {
           <StCloseButton
             type="button"
             onClick={() => {
-              close();
               setPost({ title: '', content: '', tags: '', img: '' });
               handleResetImgPreview();
+              onClose();
             }}
           >
             닫기
