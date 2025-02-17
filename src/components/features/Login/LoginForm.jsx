@@ -49,6 +49,27 @@ const LoginForm = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent'
+          }
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      alert('소셜 로그인 중 오류가 발생하였습니다');
+      console.error('소셜 로그인 오류: ', error);
+    }
+  };
+
   /** UI */
   return (
     <StContainer>
@@ -65,11 +86,17 @@ const LoginForm = () => {
               value={userInfo.password}
               onChange={handleChange}
             />
-            <StSignButton>로그인하기</StSignButton>
+            <StLoginButton>로그인하기</StLoginButton>
           </StLoginWrapper>
         </form>
         <StSignUpWrapper>
-          <p style={{ fontSize: `${fontSize.medium}` }}>아직 계정이 없으신가요?</p>
+          <StContextText>구글 계정으로 로그인 해보세요!</StContextText>
+          <StSocialLogin type="button" onClick={handleGoogleLogin}>
+            구글 로그인 하러 가기
+          </StSocialLogin>
+        </StSignUpWrapper>
+        <StSignUpWrapper>
+          <StContextText>아직 계정이 없으신가요?</StContextText>
           <Link to={'/signup'} style={{ color: `${color.main}` }}>
             회원가입 하러 가기
           </Link>
@@ -100,7 +127,7 @@ const StWrapper = styled.div`
 
 const StLoginWrapper = styled.div`
   width: 400px;
-  height: 300px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -124,7 +151,7 @@ const StInput = styled.input`
   }
 `;
 
-const StSignButton = styled.button`
+const StLoginButton = styled.button`
   width: 300px;
   height: 40px;
   border-radius: 5px;
@@ -139,6 +166,15 @@ const StSignButton = styled.button`
   }
 `;
 
+const StSocialLogin = styled.button`
+  font-size: ${fontSize.medium};
+  color: ${color.main};
+  background-color: transparent;
+  text-decoration: underline;
+  border: none;
+  cursor: pointer;
+`;
+
 const StSignUpWrapper = styled(StLoginWrapper)`
   height: 100px;
   gap: 15px;
@@ -147,4 +183,8 @@ const StSignUpWrapper = styled(StLoginWrapper)`
 const StCatImg = styled.img`
   width: 500px;
   object-fit: cover;
+`;
+
+const StContextText = styled.p`
+  font-size: ${fontSize.medium};
 `;
