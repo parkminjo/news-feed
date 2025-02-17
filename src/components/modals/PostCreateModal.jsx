@@ -14,17 +14,18 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
   const { title, content } = post;
   const [tagOptions, setTagOptions] = useState([]);
 
+  // supabase에서 Tags가져오기 함수
   useEffect(() => {
     const fetchEnumTags = async () => {
       try {
-        // Supabase에서 enum 값을 가져오는 쿼리
-        const { data, error } = await supabase.rpc('get_enum_values', { enum_name: 'tag_name' });
+        const { data, error } = await supabase.rpc('get_enum_values', { enum_name: 'tag' });
         if (error) throw error;
-        setTagOptions(data); // 가져온 태그 목록을 상태에 저장
+        setTagOptions(data); // 가져온 태그를 상태에 저장
       } catch (err) {
         console.error('태그 목록 가져오기 실패:', err);
       }
     };
+
     fetchEnumTags();
   }, []);
 
@@ -49,8 +50,6 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
     console.log(e.target.files); // 파일 입력에서 첫 번째 파일을 가져와서 image 상태에 저장합니다.
     setImage(e.target.files[0]);
   };
-
-
 
   // postImage업로드 함수
   const handleImgUpload = async () => {
@@ -89,7 +88,7 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
 
     const { data, error } = await supabase
       .from('posts')
-      .insert([{ title: post.title, content: post.content, img: imgUrl, writer_id: user?.id }]); // 해석: .from('posts') = posts라는 이름의 테이블에서 -> .insert(post) = post라는 이름으로 새로운 게시물 추가 / 여기서 post는 데이터베이스에 추가될 데이터를 담고 있는 자바스크립트 객체의 이름 / .insert대신 비교하고 업데이트와 추가 둘 중 하나를 실행하는 .upsert도 있지만 게시글 추가는 말 그대로 "추가"를 하는 기능이라 보고 .insert를 사용했다.
+      .insert([{ title: post.title, content: post.content, img: imgUrl, writer_id: user?.id, post_tag: post.tags[0] }]); // 해석: .from('posts') = posts라는 이름의 테이블에서 -> .insert(post) = post라는 이름으로 새로운 게시물 추가 / 여기서 post는 데이터베이스에 추가될 데이터를 담고 있는 자바스크립트 객체의 이름 / .insert대신 비교하고 업데이트와 추가 둘 중 하나를 실행하는 .upsert도 있지만 게시글 추가는 말 그대로 "추가"를 하는 기능이라 보고 .insert를 사용했다.
     if (error) {
       console.log('게시글 추가 중 에러 발생 => ', error);
       return; // return을 사용하여 에러 발생 시 함수를 종료시킨다.
@@ -167,7 +166,6 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
               <input
                 type="file"
                 accept="image/*, video/*"
-                multiple
                 id="postImage"
                 onChange={(e) => {
                   handleImageChange(e);
@@ -190,15 +188,19 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
               </StLabel>
               <StLabel>
                 태그
-                <input type="text" required onChange={(e) => setPost({ ...post, tags: e.target.value })} />
-                {/* <input list="post-tags" required onChange={(e) => setPost({ ...post, tags: e.target.value })} />
-                <datalist id='post-tags'>
-                  {태그이름무언가.map((태그이름) => {
-                    return (
-                      <option value=""></option>
-                    )
-                  })}
-                </datalist> */}
+                <input
+                  list="post-tags"
+                  onChange={(e) => setPost({ ...post, tags: e.target.value.split(',') })}
+                  placeholder="태그를 선택하세요"
+                  required
+                />
+                <datalist id="post-tags">
+                  {tagOptions.map((tag, index) => (
+                    <option key={index} value={tag}>
+                      {tag}
+                    </option>
+                  ))}
+                </datalist>
               </StLabel>
             </StTextInputWrapper>
           </StInputWrapper>
