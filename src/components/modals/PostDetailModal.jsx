@@ -40,6 +40,8 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     checkBookMarkState();
   }, [loginedUser?.id, postId]);
 
+  const BookMarkIcon = isBookMarkClicked ? StBookMarkIcon : StBookMarkEmptyIcon;
+
   // isDetailOpen이 false일 경우, 모달 숨기기
   if (!isDetailOpen) {
     return null;
@@ -146,22 +148,8 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     }
   };
 
-  // PostEdit 모달 핸들러
-  const handleClosePostEditModal = () => {
-    setIsPostEditModalOpen(false);
-  };
-
   const handleOpenPostEditModal = () => {
     setIsPostEditModalOpen(true);
-  };
-
-  // 수정된 데이터를 받아서 selectedPost 상태 업데이트
-  const handleSubmitPostEdit = (newTitle, newContents) => {
-    setSelectedPost((prevPost) => ({
-      ...prevPost,
-      title: newTitle,
-      content: newContents
-    }));
   };
 
   // 변수명 컨트롤
@@ -200,19 +188,13 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
           </StContents>
           <StInteraction>
             <StBookmarkWrapper>
-              {isBookMarkClicked ? (
-                <StBookMarkIcon
+              {
+                <BookMarkIcon
                   onClick={(e) =>
                     handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, loginedUser, postId)
                   }
                 />
-              ) : (
-                <StBookMarkEmptyIcon
-                  onClick={(e) =>
-                    handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, loginedUser, postId)
-                  }
-                />
-              )}
+              }
             </StBookmarkWrapper>
             <StCommentsForm onSubmit={handleUploadComment}>
               <StInput
@@ -226,13 +208,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
           </StInteraction>
         </StContentsWrapper>
         {isPostEditModalOpen && (
-          <PostEditModal
-            onClose={handleClosePostEditModal}
-            title={title}
-            loginedUser={loginedUser}
-            contents={content}
-            onSubmit={handleSubmitPostEdit}
-          />
+          <PostEditModal title={title} contents={content} setter={{ setIsPostEditModalOpen, setSelectedPost }} />
         )}
       </StModalContentsContainer>
     </StDetailModalContainer>

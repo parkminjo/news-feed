@@ -1,34 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { color } from '../styles/color';
 import styled from 'styled-components';
 import PostCard from '../components/features/Home/PostCard';
 import PostDetailModal from '../components/modals/PostDetailModal';
-import { supabase } from '../services/supabaseClient';
-import { color } from '../styles/color';
+import usePosts from '../hooks/usePosts';
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
+  const posts = usePosts();
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [postId, setPostId] = useState(); // 디테일 핸들러 props
-
-  /** supabase에서 데이터를 가져오는 SELECT 함수 */
-  const getPost = async () => {
-    try {
-      const { data: postData, error } = await supabase.from('posts').select('*');
-
-      if (error) {
-        throw error;
-      }
-
-      setPosts(postData);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  /** 초기 렌더링 시에만 데이터 fetch */
-  useEffect(() => {
-    getPost();
-  }, []);
 
   // 디테일 모달 열기 핸들러
   const handleOpenDetail = (postId) => {
