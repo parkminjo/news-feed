@@ -156,6 +156,7 @@ const StFooterWrapper = styled.div`
   flex: 0.5;
   display: flex;
   align-items: center;
+  padding: 10px 0 10px 0;
 `;
 
 const StLikeIcon = styled(IoMdHeart)`
