@@ -7,20 +7,23 @@ import { supabase } from '../../../services/supabaseClient';
 const SearchForm = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [searchValue, setSearchValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   // 검색 결과
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
+    setIsLoading(true);
     const timer = setTimeout(() => {
       updateItem(searchValue, activeTab);
-    }, 1000); // 1초 디바운싱 적용
+    }, 600); // 0.6초 디바운싱 적용
 
     return () => clearTimeout(timer);
   }, [searchValue, activeTab]);
 
   const updateItem = async (searchQuery = '', tab) => {
+    setIsLoading(true);
     try {
       if (tab === 0) {
         // 제목 탭
@@ -43,6 +46,8 @@ const SearchForm = () => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -72,14 +77,18 @@ const SearchForm = () => {
         ))}
       </StTabMenu>
       <StFeedWrapper>
-        {activeTab === 0 &&
+        {isLoading ? (
+          <StSpinner>Loading...</StSpinner>
+        ) : (
+          activeTab === 0 &&
           (posts.length === 0
             ? renderNoResultsMessage()
             : posts.map((post) => (
                 <StFeedItem key={post.id}>
                   <img src={post.img} alt={post.title} />
                 </StFeedItem>
-              )))}
+              )))
+        )}
         {activeTab === 1 &&
           (users.length === 0
             ? renderNoResultsMessage()
@@ -196,7 +205,7 @@ const StUserItem = styled.div`
 
 const StNoResultMessage = styled.div`
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #f8d7da;
@@ -212,4 +221,16 @@ const StNoResultMessage = styled.div`
   margin-left: auto;
   margin-right: auto;
   border: 1px solid #f5c6cb;
+`;
+
+const StSpinner = styled.div`
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 20px;
+  color: #333;
 `;
