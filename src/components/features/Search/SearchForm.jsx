@@ -51,6 +51,7 @@ const SearchForm = () => {
   };
 
   const handleTabChange = (index) => {
+    if (activeTab === index) return;
     setActiveTab(index);
     updateItem(searchValue, index);
   };
