@@ -175,6 +175,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
           <PostEditModal
             onClose={handleClosePostEditModal}
             title={title}
+            loginedUser={loginedUser}
             contents={content}
             onSubmit={handleSubmitPostEdit}
           />

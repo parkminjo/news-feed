@@ -2,14 +2,21 @@ import React, { useState } from 'react';
 import { supabase } from '../../services/supabaseClient';
 import styled from 'styled-components';
 
-const PostEditModal = ({ title, contents, onClose, onSubmit }) => {
+const PostEditModal = ({ title, contents, loginedUser, onClose, onSubmit }) => {
   const [newTitle, setNewTitle] = useState(title);
   const [newContents, setNewContents] = useState(contents);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(newTitle, newContents);
-    onClose();
+    const { error } = await supabase
+      .from('posts')
+      .update({ title: newTitle, content: newContents })
+      .eq('writer_id', loginedUser.id);
+    if (error) throw error;
+    else {
+      onSubmit(newTitle, newContents);
+      onClose();
+    }
   };
 
   return (
