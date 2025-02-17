@@ -12,6 +12,10 @@ const SearchForm = () => {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
 
+  useEffect(() => {
+    updateItem(searchValue, activeTab);
+  }, [searchValue]);
+
   const updateItem = async (searchQuery = '', tab) => {
     try {
       if (tab === 0) {
@@ -38,9 +42,9 @@ const SearchForm = () => {
     }
   };
 
-  useEffect(() => {
-    updateItem(searchValue, activeTab);
-  }, [searchValue]);
+  const renderNoResultsMessage = () => {
+    return <StNoResultMessage>일치하는 결과가 없습니다.</StNoResultMessage>;
+  };
 
   const handleTabChange = (index) => {
     setActiveTab(index);
@@ -65,18 +69,22 @@ const SearchForm = () => {
       </StTabMenu>
       <StFeedWrapper>
         {activeTab === 0 &&
-          posts.map((post) => (
-            <StFeedItem key={post.id}>
-              <img src={post.img} alt={post.title} />
-            </StFeedItem>
-          ))}
+          (posts.length === 0
+            ? renderNoResultsMessage()
+            : posts.map((post) => (
+                <StFeedItem key={post.id}>
+                  <img src={post.img} alt={post.title} />
+                </StFeedItem>
+              )))}
         {activeTab === 1 &&
-          users.map((user) => (
-            <StUserItem key={user.user_id}>
-              <img src={user.profile_img} alt={user.nick_name} />
-              <span>{user.nick_name}</span>
-            </StUserItem>
-          ))}
+          (users.length === 0
+            ? renderNoResultsMessage()
+            : users.map((user) => (
+                <StUserItem key={user.user_id}>
+                  <img src={user.profile_img} alt={user.nick_name} />
+                  <span>{user.nick_name}</span>
+                </StUserItem>
+              )))}
         {activeTab === 2 && (
           <div>태그 검색은 아직 구현되지 않았습니다.</div> // 태그탭을 위한 기본 메시지
         )}
@@ -180,4 +188,24 @@ const StUserItem = styled.div`
   span {
     font-weight: bold;
   }
+`;
+
+const StNoResultMessage = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #f5c6cb;
 `;
