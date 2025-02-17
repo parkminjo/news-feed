@@ -48,7 +48,7 @@ const MyPage = () => {
 
         setProfileData(data);
       } catch (error) {
-        console.error('에러:', error.message);
+        console.error(error);
       }
     };
     getProfileData();
@@ -65,7 +65,7 @@ const MyPage = () => {
         setPostsData(data);
         setPostCount(data.length);
       } catch (error) {
-        console.error('에러:', error.message);
+        console.error(error);
       }
     };
     getPostsData();
