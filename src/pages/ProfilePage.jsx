@@ -1,13 +1,21 @@
 import { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+
 import { supabase } from '../services/supabaseClient';
-import FollowListModal from '../components/modals/FollowListModal';
-import ProfileEditModal from '../components/modals/ProfileEditModal';
-import { AuthContext } from '../context/auth/AuthContext';
-import { useContext } from 'react';
 import PostDetailModal from '../components/modals/PostDetailModal';
 import { useParams } from 'react-router-dom';
+import {
+  StProfileContainer,
+  StProfileHeader,
+  StProfileImage,
+  StProfileInfoWrapper,
+  StNickName,
+  StProfilUl,
+  StPostGrid,
+  StFeedPost,
+  StPostImg,
+  StProfileBio
+} from '../styles/profileUistyles';
 
 const ProfilePage = () => {
   const { userId } = useParams();
@@ -19,14 +27,6 @@ const ProfilePage = () => {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [postId, setPostId] = useState(); // 디테일 핸들러 props
 
-  const [followerCount, setFollowCount] = useState(0);
-  const [followingCount, setFollowingCount] = useState(0);
-
-  //모달 On/off
-  const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
-  //모달 모드가 팔로우인지 팔로워인지
-  const [followMode, setFollowMode] = useState('');
-
   //프로필 정보 가져오기
   useEffect(() => {
     if (!userId) return;
@@ -34,7 +34,7 @@ const ProfilePage = () => {
       try {
         const { data, error } = await supabase
           .from('userExtraData')
-          .select('nick_name, profile_img')
+          .select('nick_name, profile_img, bio')
           .eq('user_id', userId)
           .single();
         if (error) throw error;
@@ -65,23 +65,6 @@ const ProfilePage = () => {
     return;
   }, [userId]);
 
-  //팔로워목록 모달 열기
-  const handleGotoFollowerList = () => {
-    setFollowMode('follower');
-    setIsFollowModalOpen(true);
-  };
-
-  //팔로잉 목록 모달 열기
-  const handleGotoFollowingList = () => {
-    setFollowMode('following');
-    setIsFollowModalOpen(true);
-  };
-
-  //모달 닫기
-  const handleCloseFollowModal = () => {
-    setIsFollowModalOpen(false);
-  };
-
   //디테일 페이지 이동
   const handleOpenDetail = (postId) => {
     setIsDetailOpen(true);
@@ -99,13 +82,12 @@ const ProfilePage = () => {
               <li>
                 게시물 <span>{postCount}</span>
               </li>
-              <li onClick={handleGotoFollowerList}>
-                팔로워 <span>{followerCount}</span>
-              </li>
-              <li onClick={handleGotoFollowingList}>
-                팔로잉 <span>{followingCount}</span>
-              </li>
             </StProfilUl>
+            {profileData?.bio ? (
+              <StProfileBio>{profileData.bio}</StProfileBio>
+            ) : (
+              <StProfileBio>소개글이 없습니다.</StProfileBio>
+            )}
           </StProfileInfoWrapper>
         </StProfileHeader>
         <StPostGrid>
@@ -117,104 +99,8 @@ const ProfilePage = () => {
           <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
         </StPostGrid>
       </StProfileContainer>
-      {isFollowModalOpen && (
-        <FollowListModal
-          onClose={handleCloseFollowModal}
-          followmode={followMode}
-          listData={[]} // 데이터 생기면 추가해서 고치기
-        />
-      )}
     </>
   );
 };
 
 export default ProfilePage;
-
-//전체영역
-const StProfileContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-//헤더
-const StProfileHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 30px;
-  gap: 20px;
-  max-width: 900px;
-  width: 100%;
-
-  border-bottom: 1px dashed black;
-  margin-top: 50px;
-`;
-
-//이미지
-const StProfileImage = styled.img`
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  border: 1px solid black;
-  object-fit: cover;
-`;
-
-const StProfileInfoWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-//닉네임 영역
-const StNickName = styled.h2`
-  font-size: large;
-  margin-bottom: 20px;
-`;
-
-const StProfilUl = styled.ul`
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  gap: 20px;
-
-  li {
-    margin-right: 20px;
-    font-size: medium;
-    cursor: pointer;
-
-    //게시물 수는 커서가 포인터가 아니라 그냥 갯수 카운트만 해주기 때문에 추가
-    &:nth-child(1) {
-      cursor: default;
-
-      //인스타에서도 숫자들은 bold 처리가 되어 있어서 수정
-      span {
-        font-weight: bold;
-      }
-    }
-  }
-`;
-
-//게시글
-const StPostGrid = styled.section`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  width: 100%;
-  max-width: 900px;
-  margin: 40px auto;
-`;
-
-const StFeedPost = styled.div`
-  border: 1px solid black;
-  padding: 10px;
-  text-align: center;
-  height: 250px;
-  cursor: pointer;
-`;
-
-const StPostImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;

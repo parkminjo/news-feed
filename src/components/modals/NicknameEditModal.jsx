@@ -2,18 +2,16 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { supabase } from '../../services/supabaseClient';
 
-const ProfileEditModal = ({ onClose, loginedUser, currentNickName, handleProfileUpdated }) => {
+const NicknameEditModal = ({ onClose, loginedUser, currentNickName, handleProfileUpdated }) => {
   const [nickname, setNickname] = useState(currentNickName);
 
   const handleSubmit = async (e) => {
-    //닉네임 변경을 하지 않고 변경을 눌렀을 때 막기
+    e.preventDefault();
+
     if (nickname === currentNickName) {
       alert('변경 사항이 없습니다. 닉네임을 변경해주세요');
       return;
     }
-
-    //업데이트
-    e.preventDefault();
     const { error } = await supabase
       .from('userExtraData')
       .update({ nick_name: nickname })
@@ -45,7 +43,7 @@ const ProfileEditModal = ({ onClose, loginedUser, currentNickName, handleProfile
   );
 };
 
-export default ProfileEditModal;
+export default NicknameEditModal;
 
 const StModalContainer = styled.div`
   position: fixed;

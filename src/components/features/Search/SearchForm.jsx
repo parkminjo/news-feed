@@ -3,11 +3,15 @@ import styled from 'styled-components';
 import SearchBar from '../Common/SearchBar';
 import { fontSize } from '../../../styles/fontSize';
 import { supabase } from '../../../services/supabaseClient';
+import SimplePostCard from './SimplePostCard';
+import PostDetailModal from '../../modals/PostDetailModal';
 
 const SearchForm = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [searchValue, setSearchValue] = useState('');
   const [isLoading, setIsLoading] = useState(true); // 초기 로딩 상태를 true로 설정
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [postId, setPostId] = useState(); // 디테일 핸들러 props
 
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
@@ -56,6 +60,12 @@ const SearchForm = () => {
     updateItem(searchValue, index);
   };
 
+  // 디테일 모달 열기 핸들러
+  const handleOpenDetail = (postId) => {
+    setIsDetailOpen(true);
+    setPostId(postId);
+  };
+
   const searchBarStyle = {
     fontSize: fontSize.medium
   };
@@ -78,11 +88,7 @@ const SearchForm = () => {
           posts.length === 0 ? (
             renderNoResultsMessage()
           ) : (
-            posts.map((post) => (
-              <StFeedItem key={post.id}>
-                <img src={post.img} alt={post.title} />
-              </StFeedItem>
-            ))
+            posts.map((post) => <SimplePostCard key={post.id} post={post} onClick={() => handleOpenDetail(post.id)} />)
           )
         ) : activeTab === 1 ? (
           users.length === 0 ? (
@@ -97,6 +103,9 @@ const SearchForm = () => {
           )
         ) : (
           <div>태그 검색은 아직 구현되지 않았습니다.</div>
+        )}
+        {isDetailOpen && (
+          <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
         )}
       </StFeedWrapper>
     </StContainer>
@@ -161,21 +170,21 @@ const StFeedWrapper = styled.div`
   }
 `;
 
-const StFeedItem = styled.div`
-  width: 100%;
-  margin-bottom: 16px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+// const StFeedItem = styled.div`
+//   width: 100%;
+//   margin-bottom: 16px;
+//   border-radius: 10px;
+//   overflow: hidden;
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-  img {
-    width: 100%;
-    height: auto;
-    min-height: 100px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-`;
+//   img {
+//     width: 100%;
+//     height: auto;
+//     min-height: 100px;
+//     object-fit: cover;
+//     border-radius: 10px;
+//   }
+// `;
 
 const StUserItem = styled.div`
   display: flex;
@@ -211,7 +220,7 @@ const StNoResultMessage = styled.div`
   color: #721c24;
   padding: 16px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: ${fontSize.medium};
   font-weight: bold;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -228,7 +237,7 @@ const StSpinner = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  font-size: 18px;
+  font-size: ${fontSize.large};
   font-weight: bold;
   padding: 20px;
   color: #333;
