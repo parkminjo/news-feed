@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { color } from '../../styles/color';
 import { fontSize } from '../../styles/fontSize';
-import { supabase } from '../../services/supabaseClient';
+// import { supabase } from '../../services/supabaseClient';
 import { fetchUserBookmarks } from '../../utils/fetchUserBookmarks';
 import { useAuth } from '../../context/auth/useAuth';
 
@@ -25,17 +25,7 @@ const BookMarkModal = ({ onClose }) => {
 
     const getBookmarks = async () => {
       const postIds = await fetchUserBookmarks(user.id); // 북마크한 게시물 목록 가져오기
-      if (postIds.length === 0) return;
-
-      // post_id로 실제 게시글 데이터 가져오기
-      const { data, error } = await supabase.from('posts').select('*').in('id', postIds);
-
-      if (error) {
-        console.error('북마크 게시물 가져오기 오류:', error);
-        return;
-      }
-
-      setBookmarkedPosts(data);
+      setBookmarkedPosts(postIds); // 북마크한 게시물 목록 설정
     };
 
     getBookmarks();
@@ -47,25 +37,17 @@ const BookMarkModal = ({ onClose }) => {
         <StBackButton onClick={selectedPost ? () => setSelectedPost(null) : onClose}>
           &lt; {selectedPost ? '뒤로가기' : '저장됨'}
         </StBackButton>
-        {!selectedPost ? (
-          <StImgGrid>
-            {bookmarkedPosts.length > 0 ? (
-              bookmarkedPosts.map((post) => (
-                <StPostImg key={post.id} src={post.src} alt={post.title} onClick={() => setSelectedPost(post)} />
-              ))
-            ) : (
-              <p>북마크된 게시물이 없습니다.</p>
-            )}
-          </StImgGrid>
-        ) : (
-          <StDetailView>
-            <StImg src={selectedPost.img} alt={selectedPost.title} />
-            <StTextContent>
-              <h2>{selectedPost.title}</h2>
-              <p>{selectedPost.comment}</p>
-            </StTextContent>
-          </StDetailView>
-        )}
+        <StImgGrid>
+          {bookmarkedPosts.length > 0 ? (
+            bookmarkedPosts.map((post) => (
+              <StPostWrapper key={post.id}>
+                <StPostImg src={post.img} alt={`북마크된 게시물 ${post.id}`} />
+              </StPostWrapper>
+            ))
+          ) : (
+            <p>북마크된 게시물이 없습니다.</p>
+          )}
+        </StImgGrid>
       </StModal>
     </StContainer>
   );
@@ -116,6 +98,14 @@ const StBackButton = styled.button`
   }
 `;
 
+const StPostWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  overflow: hidden;
+`;
+
 const StImgGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -123,29 +113,6 @@ const StImgGrid = styled.div`
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-`;
-
-const StDetailView = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  max-width: 80%;
-  gap: 20px;
-  margin-top: 50px;
-`;
-
-const StImg = styled.img`
-  max-width: 50%;
-  height: auto;
-  border-radius: 5px;
-`;
-
-const StTextContent = styled.div`
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 `;
 
 const StPostImg = styled.img`
