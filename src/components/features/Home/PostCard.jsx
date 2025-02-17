@@ -11,6 +11,7 @@ import { fetchBookMarkState } from '../../../utils/fetchBookMarkState';
 import { passedTimeText } from '../../../utils/passedTimeText';
 import { handleLikeClick } from '../../../utils/handleLikeClick';
 import { handleBookMarkClick } from '../../../utils/handleBookMarkClick';
+import { useNavigate } from 'react-router-dom';
 
 const PostCard = ({ post, onClick }) => {
   const { isLogin, loginedUser } = useAuth();
@@ -21,6 +22,7 @@ const PostCard = ({ post, onClick }) => {
   // context에 userInfo 추가되면 수정 필요한 코드
   // 사용자의 닉네임을 가져오는 함수
   const [nickname, setNickname] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!writer_id) return;
@@ -67,7 +69,12 @@ const PostCard = ({ post, onClick }) => {
   return (
     <StCardContainer onClick={onClick}>
       <StHeaderWrapper>
-        <StWrapper>
+        <StWrapper
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/profile/${writer_id}`);
+          }}
+        >
           <StProfileImg src="/img/LoginCat.png" alt="프로필 이미지" />
           <StContentText>{nickname}</StContentText>
         </StWrapper>
