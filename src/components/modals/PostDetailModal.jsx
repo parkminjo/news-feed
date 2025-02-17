@@ -5,6 +5,7 @@ import { GrClose } from 'react-icons/gr';
 import { color } from '../../styles/color';
 import { useAuth } from '../../context/auth/useAuth';
 import { passedTimeText } from '../../utils/passedTimeText';
+import PostEditModal from './PostEditModal';
 
 const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
   const { isLogin, loginedUser } = useAuth();
@@ -13,6 +14,8 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
   const [writerData, setWriterData] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
+
+  const [isPostEditModalOpen, setIsPostEditModalOpen] = useState(false);
 
   useEffect(() => {
     if (postId) {
@@ -67,7 +70,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     return;
   }
 
-  // 댓글 업로드
+  // 댓글 업로드 핸들러
   const handleUploadComment = async (e) => {
     e.preventDefault();
 
@@ -111,27 +114,46 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     }
   };
 
+  // PostEdit 모달 핸들러
+  const handleClosePostEditModal = () => {
+    setIsPostEditModalOpen(false);
+  };
+
+  const handleOpenPostEditModal = () => {
+    setIsPostEditModalOpen(true);
+  };
+
+  // 수정된 데이터를 받아서 selectedPost 상태 업데이트
+  const handleSubmitPostEdit = (newTitle, newContents) => {
+    setSelectedPost((prevPost) => ({
+      ...prevPost,
+      title: newTitle,
+      content: newContents
+    }));
+  };
+
+  // 변수명 컨트롤
+  const { img: img_url, title, content, writer_id, created_at } = selectedPost;
+
   return (
     <StDetailModalContainer onClick={handleCloseDetailByOutside}>
       <StGrClose onClick={handleCloseDetail} />
       <StModalContentsContainer>
-        <StImgWrapper>{selectedPost.img ? <StPostImg src={selectedPost.img} alt="Post Image" /> : null}</StImgWrapper>
+        <StImgWrapper>{img_url ? <StPostImg src={img_url} alt="Post Image" /> : null}</StImgWrapper>
         <StContentsWrapper>
           <StHeader>
             <h3>{writerData.nick_name}</h3>
-            {loginedUser && loginedUser.id === selectedPost.writer_id ? (
+            {loginedUser && loginedUser.id === writer_id ? (
               <StBtnWrapper>
-                <button>수정</button>
+                <button onClick={handleOpenPostEditModal}>수정</button>
                 <button onClick={handleDeletePost}>삭제</button>
               </StBtnWrapper>
             ) : null}
           </StHeader>
           <StContents>
-            <h3>{selectedPost.title}</h3>
-            <p>{selectedPost.content}</p>
-            <p>{`${passedTimeText(selectedPost.created_at)}, ${new Date(selectedPost.created_at).toLocaleString(
-              'ko-KR'
-            )}`}</p>
+            <h3>{title}</h3>
+            <p>{content}</p>
+            <p>{`${passedTimeText(created_at)}, ${new Date(created_at).toLocaleString('ko-KR')}`}</p>
             {comments.map((comment) => (
               <p key={comment.id}>{comment.contents}</p>
             ))}
@@ -149,6 +171,14 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
             </StCommentsForm>
           </StInteraction>
         </StContentsWrapper>
+        {isPostEditModalOpen && (
+          <PostEditModal
+            onClose={handleClosePostEditModal}
+            title={title}
+            contents={content}
+            onSubmit={handleSubmitPostEdit}
+          />
+        )}
       </StModalContentsContainer>
     </StDetailModalContainer>
   );
