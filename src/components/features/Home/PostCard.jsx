@@ -41,7 +41,7 @@ const PostCard = ({ post, onClick }) => {
 
         setNickname(userData.nick_name);
       } catch (error) {
-        console.error(error);
+        console.error('닉네임 추가 오류', error);
       }
     };
 
