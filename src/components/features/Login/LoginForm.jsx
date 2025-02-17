@@ -92,7 +92,7 @@ const LoginForm = () => {
         <StSignUpWrapper>
           <StContextText>구글 계정으로 로그인 해보세요!</StContextText>
           <StSocialLogin type="button" onClick={handleGoogleLogin}>
-            구글 로그인
+            구글 로그인 하러 가기
           </StSocialLogin>
         </StSignUpWrapper>
         <StSignUpWrapper>
