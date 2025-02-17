@@ -141,15 +141,6 @@ const StLoginButton = styled.button`
   }
 `;
 
-const StSocialLogin = styled.button`
-  font-size: ${fontSize.medium};
-  color: ${color.main};
-  background-color: transparent;
-  text-decoration: underline;
-  border: none;
-  cursor: pointer;
-`;
-
 const StSignUpWrapper = styled(StLoginWrapper)`
   height: 100px;
   gap: 15px;
