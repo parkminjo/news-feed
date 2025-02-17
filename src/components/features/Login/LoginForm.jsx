@@ -25,6 +25,7 @@ const LoginForm = () => {
     /** 예외상황 처리 */
     if (userInfo.email === '') {
       alert('이메일을 입력해주세요');
+      return;
     }
     if (userInfo.password === '') {
       alert('비밀번호를 입력해주세요');
