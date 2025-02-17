@@ -2,33 +2,14 @@ import styled from 'styled-components';
 import { fontSize } from '../../styles/fontSize';
 import { StCenterWrapper } from '../../styles/GlobalStyle';
 import { FaRegBell, FaUserCircle } from 'react-icons/fa';
-import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useHeader } from '../../context/components/header/useHeader';
+import { useAuth } from '../../context/auth/useAuth';
 
 const Header = () => {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const { isLoginOpen, setIsLoginOpen, loginModalRef, handleAuthAction } = useHeader();
+  const { isLogin } = useAuth();
   const navigate = useNavigate();
-  const modalRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setIsLoginOpen(false);
-      }
-    };
-
-    // 모달이 열린 상태에서만 외부 클릭 감지 활성화
-    if (isLoginOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
-    // 언마운트되면 이벤트 리스너 제거
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isLoginOpen]);
 
   return (
     <StContainer>
@@ -43,9 +24,9 @@ const Header = () => {
       </StIconsWrapper>
 
       {isLoginOpen && (
-        <StModal ref={modalRef}>
+        <StModal ref={loginModalRef}>
           <StAccountName>계정</StAccountName>
-          <StButton onClick={() => navigate('/login')}>로그인</StButton>
+          <StButton onClick={handleAuthAction}>{isLogin ? '로그아웃' : '로그인'}</StButton>
           <StButton onClick={() => navigate('/mypage')}>프로필</StButton>
         </StModal>
       )}
@@ -57,6 +38,9 @@ export default Header;
 
 /** styled component */
 const StContainer = styled.header`
+  position: fixed;
+  width: 100%;
+  background-color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -4,7 +4,8 @@ import Login from '../pages/Login';
 import MyPage from '../pages/MyPage';
 import Search from '../pages/Search';
 import SignUp from '../pages/SignUp';
-import { useAuth } from '../Hooks/useAuth';
+import { useAuth } from '../context/auth/useAuth';
+import MainLayout from '../components/layout/MainLayout';
 
 const Router = () => {
   const { isLogin } = useAuth();
@@ -12,11 +13,13 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/mypage" element={<MyPage />} />
+        </Route>
         <Route path="/login" element={isLogin ? <Navigate to="/" /> : <Login />} />
         <Route path="/signup" element={isLogin ? <Navigate to="/" /> : <SignUp />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/search" element={<Search />} />
       </Routes>
     </BrowserRouter>
   );

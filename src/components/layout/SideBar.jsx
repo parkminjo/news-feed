@@ -2,42 +2,53 @@ import styled from 'styled-components';
 import { FiHome, FiSearch, FiHeart } from 'react-icons/fi';
 import { FaRegBookmark } from 'react-icons/fa';
 import { fontSize } from '../../styles/fontSize';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSidebar } from '../../context/components/sidebar/useSidebar';
+import { useState } from 'react';
+import BookMarkModal from '../modals/BookMarkModal';
 
 const SideBar = () => {
-  const [isExpand, setIsExpand] = useState(false);
+  const { isSidebarExpand, setIsSidebarExpand } = useSidebar();
+  const [isBookMarkOpen, setIsBookMarkOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
-    <StContainer $isExpand={isExpand} onMouseEnter={() => setIsExpand(true)} onMouseLeave={() => setIsExpand(false)}>
-      <StMenu>
-        <StMenuItem onClick={() => navigate('/')}>
-          <StIconWrapper>
-            <FiHome />
-          </StIconWrapper>
-          <StText $isExpand={isExpand}>홈</StText>
-        </StMenuItem>
-        <StMenuItem onClick={() => navigate('/search')}>
-          <StIconWrapper>
-            <FiSearch />
-          </StIconWrapper>
-          <StText $isExpand={isExpand}>검색</StText>
-        </StMenuItem>
-        <StMenuItem>
-          <StIconWrapper>
-            <FiHeart />
-          </StIconWrapper>
-          <StText $isExpand={isExpand}>좋아요</StText>
-        </StMenuItem>
-        <StMenuItem>
-          <StIconWrapper>
-            <FaRegBookmark />
-          </StIconWrapper>
-          <StText $isExpand={isExpand}>북마크</StText>
-        </StMenuItem>
-      </StMenu>
-    </StContainer>
+    <>
+      <StContainer
+        $isExpand={isSidebarExpand}
+        onMouseEnter={() => setIsSidebarExpand(true)}
+        onMouseLeave={() => setIsSidebarExpand(false)}
+      >
+        <StMenu>
+          <StMenuItem onClick={() => navigate('/')}>
+            <StIconWrapper>
+              <FiHome />
+            </StIconWrapper>
+            <StText $isExpand={isSidebarExpand}>홈</StText>
+          </StMenuItem>
+          <StMenuItem onClick={() => navigate('/search')}>
+            <StIconWrapper>
+              <FiSearch />
+            </StIconWrapper>
+            <StText $isExpand={isSidebarExpand}>검색</StText>
+          </StMenuItem>
+          <StMenuItem>
+            <StIconWrapper>
+              <FiHeart />
+            </StIconWrapper>
+            <StText $isExpand={isSidebarExpand}>좋아요</StText>
+          </StMenuItem>
+          <StMenuItem onClick={() => setIsBookMarkOpen(true)}>
+            <StIconWrapper>
+              <FaRegBookmark />
+            </StIconWrapper>
+            <StText $isExpand={isSidebarExpand}>북마크</StText>
+          </StMenuItem>
+        </StMenu>
+      </StContainer>
+
+      {isBookMarkOpen && <BookMarkModal onClose={() => setIsBookMarkOpen(false)} />}
+    </>
   );
 };
 
@@ -52,6 +63,8 @@ const StContainer = styled.div`
   flex-direction: column;
   padding: 20px 10px;
   position: fixed;
+  top: 47px;
+
   transition: width 0.25s ease-in-out;
   overflow: hidden;
   height: 100%;
