@@ -7,41 +7,36 @@ import { supabase } from '../../../services/supabaseClient';
 const SearchForm = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [searchValue, setSearchValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // 초기 로딩 상태를 true로 설정
 
-  // 검색 결과
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      updateItem(searchValue, activeTab);
-    }, 600); // 0.6초 디바운싱 적용
-
-    return () => clearTimeout(timer);
+    updateItem(searchValue, activeTab);
   }, [searchValue, activeTab]);
 
   const updateItem = async (searchQuery = '', tab) => {
     setIsLoading(true);
     try {
+      let data = [];
       if (tab === 0) {
-        // 제목 탭
-        const { data } = await supabase
+        const response = await supabase
           .from('posts')
           .select('*')
-          .ilike('title', `%${searchQuery}%`) // 제목에 검색어 포함된 데이터 가져오기(대소문자 구분 X)
-          .order('created_at', { ascending: false }); // 최신순 정렬
-        setUsers([]);
+          .ilike('title', `%${searchQuery}%`)
+          .order('created_at', { ascending: false });
+        data = response.data || [];
+        setUsers([]); // 계정 탭 데이터를 초기화
         setPosts(data);
       } else if (tab === 1) {
-        // 계정 탭
-        const { data } = await supabase
+        const response = await supabase
           .from('userExtraData')
           .select('*')
           .ilike('nick_name', `%${searchQuery}%`)
           .order('nick_name', { ascending: true });
-        setPosts([]);
+        data = response.data || [];
+        setPosts([]); // 포스트 데이터를 초기화
         setUsers(data);
       }
     } catch (error) {
@@ -57,7 +52,6 @@ const SearchForm = () => {
 
   const handleTabChange = (index) => {
     setActiveTab(index);
-    // 탭 클릭 시 해당 탭에 맞는 데이터 가져오기
     updateItem(searchValue, index);
   };
 
@@ -79,27 +73,29 @@ const SearchForm = () => {
       <StFeedWrapper>
         {isLoading ? (
           <StSpinner>Loading...</StSpinner>
+        ) : activeTab === 0 ? (
+          posts.length === 0 ? (
+            renderNoResultsMessage()
+          ) : (
+            posts.map((post) => (
+              <StFeedItem key={post.id}>
+                <img src={post.img} alt={post.title} />
+              </StFeedItem>
+            ))
+          )
+        ) : activeTab === 1 ? (
+          users.length === 0 ? (
+            renderNoResultsMessage()
+          ) : (
+            users.map((user) => (
+              <StUserItem key={user.user_id}>
+                <img src={user.profile_img} alt={user.nick_name} />
+                <span>{user.nick_name}</span>
+              </StUserItem>
+            ))
+          )
         ) : (
-          activeTab === 0 &&
-          (posts.length === 0
-            ? renderNoResultsMessage()
-            : posts.map((post) => (
-                <StFeedItem key={post.id}>
-                  <img src={post.img} alt={post.title} />
-                </StFeedItem>
-              )))
-        )}
-        {activeTab === 1 &&
-          (users.length === 0
-            ? renderNoResultsMessage()
-            : users.map((user) => (
-                <StUserItem key={user.user_id}>
-                  <img src={user.profile_img} alt={user.nick_name} />
-                  <span>{user.nick_name}</span>
-                </StUserItem>
-              )))}
-        {activeTab === 2 && (
-          <div>태그 검색은 아직 구현되지 않았습니다.</div> // 태그탭을 위한 기본 메시지
+          <div>태그 검색은 아직 구현되지 않았습니다.</div>
         )}
       </StFeedWrapper>
     </StContainer>
