@@ -83,13 +83,13 @@ const PostCard = ({ post, onClick }) => {
     <StCardContainer onClick={onClick}>
       <StHeaderWrapper>
         <StWrapper>
-          <StProfileImg src="/img/LoginCat.png" alt="고양이 이미지" />
+          <StProfileImg src="/img/LoginCat.png" alt="프로필 이미지" />
           <StContentText>{nickname}</StContentText>
         </StWrapper>
         <StContentText>{passedTimeText(created_at)}</StContentText>
       </StHeaderWrapper>
       <StImgWrapper>
-        <StPostImg src="/img/LoginCat.png" alt="고양이 이미지" />
+        <StPostImg src={post.img} alt="게시글 이미지" />
       </StImgWrapper>
       <StFooterWrapper>
         {isLikeClicked ? (
