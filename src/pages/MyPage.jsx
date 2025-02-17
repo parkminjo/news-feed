@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { supabase } from '../services/supabaseClient';
-import Header from '../components/layout/Header';
-import SideBar from '../components/layout/SideBar';
 import FollowListModal from '../components/modals/FollowListModal';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthProvider';
+import { AuthContext } from '../context/auth/AuthContext';
 import { useContext } from 'react';
 
 const MyPage = () => {
@@ -19,7 +17,7 @@ const MyPage = () => {
   const [followingCount, setFollowingCount] = useState(0);
 
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { loginedUser } = useContext(AuthContext);
 
   //모달 On/off
   const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
@@ -27,13 +25,13 @@ const MyPage = () => {
   const [followMode, setFollowMode] = useState('');
 
   useEffect(() => {
-    if (!user) return;
+    if (!loginedUser) return;
     const getProfileData = async () => {
       try {
         const { data, error } = await supabase
           .from('userExtraData')
           .select('nick_name')
-          .eq('user_id', user.id)
+          .eq('user_id', loginedUser.id)
           .single();
         if (error) throw error;
 
@@ -44,7 +42,7 @@ const MyPage = () => {
     };
     getProfileData();
     return;
-  }, [user]);
+  }, [loginedUser]);
 
   //게시물 포스트 가져오기
   useEffect(() => {
