@@ -180,20 +180,20 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
             </StWriterWrapper>
             {loginedUser && loginedUser.id === writer_id ? (
               <StBtnWrapper>
-                <button onClick={handleOpenPostEditModal}>수정</button>
-                <button onClick={handleDeletePost}>삭제</button>
+                <StBtn onClick={handleOpenPostEditModal}>수정</StBtn>
+                <StBtn onClick={handleDeletePost}>삭제</StBtn>
               </StBtnWrapper>
             ) : null}
           </StHeader>
           <StContents>
             <h3>{title}</h3>
             <p>{content}</p>
-            <p>{`${passedTimeText(created_at)}, ${new Date(created_at).toLocaleString('ko-KR')}`}</p>
+            <span>{`${passedTimeText(created_at)}, ${new Date(created_at).toLocaleString('ko-KR')}`}</span>
             {comments.map((comment) => (
               <StCommentWrapper key={comment.id}>
                 <p>{comment.contents}</p>
                 {loginedUser.id === comment.writer_id ? (
-                  <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
+                  <StBtn onClick={() => handleDeleteComment(comment.id)}>삭제</StBtn>
                 ) : null}
               </StCommentWrapper>
             ))}
@@ -221,7 +221,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
                 type="text"
                 placeholder="댓글 달기..."
               />
-              <button type="submit">업로드</button>
+              <StBtn type="submit">업로드</StBtn>
             </StCommentsForm>
           </StInteraction>
         </StContentsWrapper>
@@ -297,11 +297,11 @@ const StContentsWrapper = styled.div`
   margin-left: 15px;
   padding: 20px;
   width: 50%;
-  background-color: ${color.gray};
 `;
 
 const StHeader = styled.div`
   border: 1px solid ${color.black};
+  border-radius: 5px;
   padding: 20px;
   display: flex;
   justify-content: space-between;
@@ -330,17 +330,33 @@ const StBtnWrapper = styled.div`
 
 const StContents = styled.div`
   border: 1px solid ${color.black};
+  border-radius: 5px;
   padding: 20px;
-  height: 50%;
+  height: 55%;
+  overflow-y: auto;
+  h3 {
+    font-size: ${fontSize.large};
+    line-height: 1.5;
+  }
+  p {
+    font-size: ${fontSize.medium};
+    line-height: 1.5;
+  }
+  span {
+    font-size: ${fontSize.small};
+    line-height: 2;
+  }
 `;
 
 const StCommentWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 5px;
 `;
 
 const StInteraction = styled.div`
   border: 1px solid ${color.black};
+  border-radius: 5px;
   padding: 20px;
   height: 20%;
   display: flex;
@@ -368,5 +384,13 @@ const StBookMarkIcon = styled(IoBookmark)`
 `;
 const StBookMarkEmptyIcon = styled(IoBookmarkOutline)`
   font-size: 30px;
+  cursor: pointer;
+`;
+
+const StBtn = styled.button`
+  border: none;
+  border-radius: 3px;
+  background-color: gray;
+  color: ${color.white};
   cursor: pointer;
 `;
