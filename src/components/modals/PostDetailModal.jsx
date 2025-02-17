@@ -14,7 +14,6 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
   const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
-    console.log(loginedUser?.id);
     if (postId) {
       getPosts();
     }
