@@ -95,6 +95,16 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     }
   };
 
+  // 댓글 삭제 핸들러
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await supabase.from('comments').delete().match({ id: commentId });
+      setComments((prev) => prev.filter((comment) => comment.id !== commentId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // 게시글 삭제 핸들러
   const handleDeletePost = async () => {
     const isConfirmed = window.confirm('정말 삭제하시겠습니까?');
@@ -157,7 +167,9 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
             {comments.map((comment) => (
               <StCommentWrapper key={comment.id}>
                 <p>{comment.contents}</p>
-                {loginedUser.id === comment.writer_id ? <button>삭제</button> : null}
+                {loginedUser.id === comment.writer_id ? (
+                  <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
+                ) : null}
               </StCommentWrapper>
             ))}
           </StContents>
