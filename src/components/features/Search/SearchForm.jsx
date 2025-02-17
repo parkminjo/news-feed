@@ -6,11 +6,16 @@ import { supabase } from '../../../services/supabaseClient';
 
 const SearchForm = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [_, setPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
 
-  const getPost = async () => {
+  const getPost = async (searchQuery = '') => {
     try {
-      const { data } = await supabase.from('posts').select('*');
+      const { data } = await supabase
+        .from('posts')
+        .select('*')
+        .ilike('title', `%${searchQuery}%`) // 제목에 검색어 포함된 데이터 가져오기
+        .order('created_at', { ascending: false }); // 최신순 정렬
       setPosts(data);
     } catch (error) {
       console.error(error);
@@ -18,8 +23,14 @@ const SearchForm = () => {
   };
 
   useEffect(() => {
-    getPost();
-  }, []);
+    getPost(searchValue);
+  }, [searchValue]);
+
+  const handleTabChange = (index) => {
+    setActiveTab(index);
+    // 탭 클릭 시 해당 탭에 맞는 데이터 가져오기
+    getPost(searchValue);
+  };
 
   const searchBarStyle = {
     fontSize: fontSize.medium
@@ -28,14 +39,21 @@ const SearchForm = () => {
 
   return (
     <StContainer>
-      <SearchBar style={searchBarStyle} />
+      <SearchBar style={searchBarStyle} value={searchValue} setValue={setSearchValue} />
       <StTabMenu>
         {tabs.map((tab, index) => (
-          <StTab key={index} isActive={activeTab === index} onClick={() => setActiveTab(index)}>
+          <StTab key={index} isActive={activeTab === index} onClick={() => handleTabChange(index)}>
             {tab}
           </StTab>
         ))}
       </StTabMenu>
+      <StFeedGrid>
+        {posts.map((post) => (
+          <StFeedItem key={post.id}>
+            <img src={post.image_url} alt={post.title} />
+          </StFeedItem>
+        ))}
+      </StFeedGrid>
     </StContainer>
   );
 };
@@ -68,5 +86,48 @@ const StTab = styled.button.withConfig({
 
   &:hover {
     color: #000;
+  }
+`;
+
+const StFeedGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 16px;
+  width: 100%;
+  padding: 20px;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (min-width: 1500px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  @media (min-width: 1800px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+`;
+
+const StFeedItem = styled.div`
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  img {
+    width: 100%;
+    height: auto; // 세로 크기는 이미지 비율에 맞게 자동 조정
+    object-fit: cover;
+    border-radius: 10px;
   }
 `;
