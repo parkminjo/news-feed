@@ -4,6 +4,7 @@ import { supabase } from '../../services/supabaseClient';
 import { GrClose } from 'react-icons/gr';
 import { color } from '../../styles/color';
 import { useAuth } from '../../context/auth/useAuth';
+import { passedTimeText } from '../../utils/passedTimeText';
 
 const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
   const { isLogin, loginedUser } = useAuth();
@@ -128,7 +129,9 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
           <StContents>
             <h3>{selectedPost.title}</h3>
             <p>{selectedPost.content}</p>
-            <p>{new Date(selectedPost.created_at).toLocaleString('ko-KR')}</p>
+            <p>{`${passedTimeText(selectedPost.created_at)}, ${new Date(selectedPost.created_at).toLocaleString(
+              'ko-KR'
+            )}`}</p>
             {comments.map((comment) => (
               <p key={comment.id}>{comment.contents}</p>
             ))}
