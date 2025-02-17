@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { supabase } from '../services/supabaseClient';
 import FollowListModal from '../components/modals/FollowListModal';
+import ProfileEditModal from '../components/modals/ProfileEditModal';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth/AuthContext';
 import { useContext } from 'react';
@@ -21,9 +22,11 @@ const MyPage = () => {
 
   //모달 On/off
   const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
+  const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
   //모달 모드가 팔로우인지 팔로워인지
   const [followMode, setFollowMode] = useState('');
 
+  //프로필 정보 가져오기
   useEffect(() => {
     if (!loginedUser) return;
     const getProfileData = async () => {
@@ -75,16 +78,28 @@ const MyPage = () => {
   };
 
   //모달 닫기
-  const handleCloseModal = () => {
+  const handleCloseFollowModal = () => {
     setIsFollowModalOpen(false);
   };
 
+  //모달 닫기
+  const handleCloseProfileEditModal = () => {
+    setIsProfileEditModalOpen(false);
+  };
+
+  //디테일 페이지 이동
   const handleGotoDetailPage = (post) => {
     navigate(`/post/${post.id}`);
   };
 
-  const handleGoToProFileEditPage = () => {
-    alert('프로필 수정으로 이동');
+  //프로필 수정
+  const handleGoToProFileEdit = () => {
+    setIsProfileEditModalOpen(true);
+  };
+
+  // 프로필 업데이트 후, 새 닉네임을 반영
+  const handleProfileUpdated = (newNickname) => {
+    setUserData({ nick_name: newNickname });
   };
 
   return (
@@ -105,7 +120,7 @@ const MyPage = () => {
                 팔로잉 <span>{followingCount}</span>
               </li>
             </StProfilUl>
-            <StProfileEditButton onClick={handleGoToProFileEditPage}>프로필 수정</StProfileEditButton>
+            <StProfileEditButton onClick={handleGoToProFileEdit}>프로필 수정</StProfileEditButton>
           </StProfileInfoWrapper>
         </StProfileHeader>
         <StPostGrid>
@@ -118,9 +133,17 @@ const MyPage = () => {
       </StProfileContainer>
       {isFollowModalOpen && (
         <FollowListModal
-          onClose={handleCloseModal}
+          onClose={handleCloseFollowModal}
           mode={followMode}
           listData={[]} // 데이터 생기면 추가해서 고치기
+        />
+      )}
+      {isProfileEditModalOpen && (
+        <ProfileEditModal
+          onClose={handleCloseProfileEditModal}
+          loginedUser={loginedUser}
+          currentNickName={userData?.nick_name}
+          onProfileUpdated={handleProfileUpdated}
         />
       )}
     </>
