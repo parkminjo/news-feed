@@ -18,6 +18,7 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
+  /** 로그인 함수 */
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -45,28 +46,7 @@ const LoginForm = () => {
       navigate('/');
     } catch (error) {
       alert('로그인 오류가 발생하였습니다');
-      console.error(error.message);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent'
-          }
-        }
-      });
-
-      if (error) {
-        throw error;
-      }
-    } catch (error) {
-      alert('소셜 로그인 중 오류가 발생하였습니다');
-      console.error('소셜 로그인 오류: ', error);
+      console.error('로그인 오류', error.message);
     }
   };
 
@@ -89,12 +69,7 @@ const LoginForm = () => {
             <StLoginButton>로그인하기</StLoginButton>
           </StLoginWrapper>
         </form>
-        <StSignUpWrapper>
-          <StContextText>구글 계정으로 로그인 해보세요!</StContextText>
-          <StSocialLogin type="button" onClick={handleGoogleLogin}>
-            구글 로그인 하러 가기
-          </StSocialLogin>
-        </StSignUpWrapper>
+
         <StSignUpWrapper>
           <StContextText>아직 계정이 없으신가요?</StContextText>
           <Link to={'/signup'} style={{ color: `${color.main}` }}>
