@@ -49,6 +49,28 @@ const LoginForm = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent'
+          }
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+      alert('로그인에 성공하였습니다');
+    } catch (error) {
+      alert('소셜 로그인 중 오류가 발생하였습니다');
+      console.error('소셜 로그인 오류: ', error);
+    }
+  };
+
   /** UI */
   return (
     <StContainer>
@@ -68,6 +90,7 @@ const LoginForm = () => {
             <StSignButton>로그인하기</StSignButton>
           </StLoginWrapper>
         </form>
+        <StSocialLoginWrapper></StSocialLoginWrapper>
         <StSignUpWrapper>
           <p style={{ fontSize: `${fontSize.medium}` }}>아직 계정이 없으신가요?</p>
           <Link to={'/signup'} style={{ color: `${color.main}` }}>
@@ -137,6 +160,11 @@ const StSignButton = styled.button`
   &:hover {
     background-color: #cd5200;
   }
+`;
+
+const StSocialLoginWrapper = styled(StLoginWrapper)`
+  height: 100px;
+  gap: 15px;
 `;
 
 const StSignUpWrapper = styled(StLoginWrapper)`
