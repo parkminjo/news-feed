@@ -3,8 +3,8 @@ import { supabase } from '../../services/supabaseClient';
 import styled from 'styled-components';
 
 const PostEditModal = ({ title, contents, loginedUser, onClose, onSubmit }) => {
-  const [newTitle, setNewTitle] = useState(title);
-  const [newContents, setNewContents] = useState(contents);
+  const [newTitle, setNewTitle] = useState(title || '');
+  const [newContents, setNewContents] = useState(contents || '');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
