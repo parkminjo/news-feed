@@ -47,13 +47,13 @@ const SearchForm = () => {
           </StTab>
         ))}
       </StTabMenu>
-      <StFeedGrid>
+      <StFeedWrapper>
         {posts.map((post) => (
           <StFeedItem key={post.id}>
-            <img src={post.image_url} alt={post.title} />
+            <img src={post.img} alt={post.title} />
           </StFeedItem>
         ))}
-      </StFeedGrid>
+      </StFeedWrapper>
     </StContainer>
   );
 };
@@ -89,44 +89,43 @@ const StTab = styled.button.withConfig({
   }
 `;
 
-const StFeedGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 16px;
+const StFeedWrapper = styled.div`
+  column-count: 1;
+  column-gap: 16px;
   width: 100%;
   padding: 20px;
 
   @media (min-width: 600px) {
-    grid-template-columns: repeat(2, 1fr);
+    column-count: 2;
   }
 
   @media (min-width: 900px) {
-    grid-template-columns: repeat(3, 1fr);
+    column-count: 3;
   }
 
   @media (min-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr);
+    column-count: 4;
   }
 
   @media (min-width: 1500px) {
-    grid-template-columns: repeat(5, 1fr);
+    column-count: 5;
   }
 
   @media (min-width: 1800px) {
-    grid-template-columns: repeat(6, 1fr);
+    column-count: 6;
   }
 `;
 
 const StFeedItem = styled.div`
   width: 100%;
+  margin-bottom: 16px;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
 
   img {
     width: 100%;
-    height: auto; // 세로 크기는 이미지 비율에 맞게 자동 조정
+    height: auto;
     object-fit: cover;
     border-radius: 10px;
   }
