@@ -13,8 +13,12 @@ const SearchForm = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    updateItem(searchValue, activeTab);
-  }, [searchValue]);
+    const timer = setTimeout(() => {
+      updateItem(searchValue, activeTab);
+    }, 1000); // 1초 디바운싱 적용
+
+    return () => clearTimeout(timer);
+  }, [searchValue, activeTab]);
 
   const updateItem = async (searchQuery = '', tab) => {
     try {
