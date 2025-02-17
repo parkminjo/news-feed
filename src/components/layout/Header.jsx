@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import { fontSize } from '../../styles/fontSize';
 import { StCenterWrapper } from '../../styles/GlobalStyle';
 import { FaRegBell, FaUserCircle } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useHeader } from '../../context/components/header/useHeader';
 import { useAuth } from '../../context/auth/useAuth';
+import { color } from '../../styles/color';
 
 const Header = () => {
   const { isLoginOpen, setIsLoginOpen, loginModalRef, handleAuthAction } = useHeader();
@@ -13,7 +14,7 @@ const Header = () => {
 
   return (
     <StContainer>
-      <StLogo>로고</StLogo>
+      <StLogo to={'/'}>CATTALE</StLogo>
       <StIconsWrapper>
         <StIconWrapper>
           <StBellIcon size={30} />
@@ -49,8 +50,11 @@ const StContainer = styled.header`
   border-bottom: 1px solid #e0e0e0;
 `;
 
-const StLogo = styled.div`
-  font-weight: bold;
+const StLogo = styled(Link)`
+  font-family: 'Arvo', serif;
+  font-weight: 500;
+  color: ${color.black};
+  text-decoration: none;
 `;
 
 const StIconsWrapper = styled(StCenterWrapper)`
