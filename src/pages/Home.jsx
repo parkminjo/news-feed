@@ -76,6 +76,6 @@ const StContentWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 60px;
+  padding-top: 10px;
   gap: 40px;
 `;
