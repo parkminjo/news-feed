@@ -34,7 +34,7 @@ const MyPage = () => {
       try {
         const { data, error } = await supabase
           .from('userExtraData')
-          .select('nick_name')
+          .select('nick_name, profile_img')
           .eq('user_id', loginedUser.id)
           .single();
         if (error) throw error;
@@ -109,7 +109,7 @@ const MyPage = () => {
     <>
       <StProfileContainer>
         <StProfileHeader>
-          <StProfileImage src="" alt="" />
+          <StProfileImage src={userData?.profile_img} alt="프로필 이미지" />
           <StProfileInfoWrapper>
             <StNickName>{userData?.nick_name || '비로그인'}</StNickName>
             <StProfilUl>
@@ -129,7 +129,7 @@ const MyPage = () => {
         <StPostGrid>
           {postsData.map((post) => (
             <StFeedPost onClick={() => handleOpenDetail(post.id)} key={post.id}>
-              {post.title}
+              <StPostImg src={post.img} alt={post.title} />
             </StFeedPost>
           ))}
           <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
@@ -251,4 +251,10 @@ const StFeedPost = styled.div`
   text-align: center;
   height: 250px;
   cursor: pointer;
+`;
+
+const StPostImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
