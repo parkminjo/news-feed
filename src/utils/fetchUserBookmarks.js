@@ -1,4 +1,4 @@
-import { supabase } from '../../services/supabaseClient';
+import { supabase } from '../services/supabaseClient';
 
 /** 사용자의 북마크 목록 가져오는 함수 */
 export const fetchUserBookmarks = async (userId) => {
