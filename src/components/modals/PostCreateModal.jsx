@@ -50,7 +50,7 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
     setImage(e.target.files[0]);
   };
 
-  //
+
 
   // postImage업로드 함수
   const handleImgUpload = async () => {
@@ -148,7 +148,8 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
           <h2>모달창</h2>
           <StCloseButton
             type="button"
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation(); // 이벤트 버블링을 막는 함수 ==> "이제 내 위로(내 이상의 부모요소로) 이벤트를 보내지마!"
               setPost({ title: '', content: '', tags: '', img: '' });
               handleResetImgPreview();
               onClose();
@@ -190,6 +191,14 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
               <StLabel>
                 태그
                 <input type="text" required onChange={(e) => setPost({ ...post, tags: e.target.value })} />
+                {/* <input list="post-tags" required onChange={(e) => setPost({ ...post, tags: e.target.value })} />
+                <datalist id='post-tags'>
+                  {태그이름무언가.map((태그이름) => {
+                    return (
+                      <option value=""></option>
+                    )
+                  })}
+                </datalist> */}
               </StLabel>
             </StTextInputWrapper>
           </StInputWrapper>
