@@ -40,6 +40,8 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     checkBookMarkState();
   }, [loginedUser?.id, postId]);
 
+  const BookMarkIcon = isBookMarkClicked ? StBookMarkIcon : StBookMarkEmptyIcon;
+
   // isDetailOpen이 false일 경우, 모달 숨기기
   if (!isDetailOpen) {
     return null;
@@ -186,19 +188,13 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
           </StContents>
           <StInteraction>
             <StBookmarkWrapper>
-              {isBookMarkClicked ? (
-                <StBookMarkIcon
+              {
+                <BookMarkIcon
                   onClick={(e) =>
                     handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, loginedUser, postId)
                   }
                 />
-              ) : (
-                <StBookMarkEmptyIcon
-                  onClick={(e) =>
-                    handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, loginedUser, postId)
-                  }
-                />
-              )}
+              }
             </StBookmarkWrapper>
             <StCommentsForm onSubmit={handleUploadComment}>
               <StInput
