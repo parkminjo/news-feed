@@ -174,6 +174,7 @@ const StFeedItem = styled.div`
   img {
     width: 100%;
     height: auto;
+    min-height: 100px;
     object-fit: cover;
     border-radius: 10px;
   }
@@ -193,6 +194,7 @@ const StUserItem = styled.div`
   img {
     width: 40px;
     height: 40px;
+    min-height: 10px;
     border-radius: 50%;
     object-fit: cover;
     margin-right: 10px;
