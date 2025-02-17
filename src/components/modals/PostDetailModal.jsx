@@ -6,6 +6,9 @@ import { color } from '../../styles/color';
 import { useAuth } from '../../context/auth/useAuth';
 import { passedTimeText } from '../../utils/passedTimeText';
 import PostEditModal from './PostEditModal';
+import { fetchBookMarkState } from '../../utils/fetchBookMarkState';
+import { handleBookMarkClick } from '../../utils/handleBookMarkClick';
+import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5';
 
 const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
   const { isLogin, loginedUser } = useAuth();
@@ -16,12 +19,25 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
   const [newComment, setNewComment] = useState('');
 
   const [isPostEditModalOpen, setIsPostEditModalOpen] = useState(false);
+  const [isBookMarkClicked, setIsBookMarkClicked] = useState(false);
 
   useEffect(() => {
     if (postId) {
       getPosts();
     }
   }, [postId]);
+
+  // 현재 사용자가 북마크를 눌렀는지 확인하는 로직
+  useEffect(() => {
+    if (!loginedUser || !postId) return;
+
+    const checkBookMarkState = async () => {
+      const isBookMarkClicked = await fetchBookMarkState(loginedUser.id, postId);
+      setIsBookMarkClicked(isBookMarkClicked);
+    };
+
+    checkBookMarkState();
+  }, [loginedUser?.id, postId]);
 
   // isDetailOpen이 false일 경우, 모달 숨기기
   if (!isDetailOpen) {
@@ -179,7 +195,22 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
             ))}
           </StContents>
           <StInteraction>
-            <div>좋아요</div>
+            <StBookmarkWrapper>
+              <p>생각을 공유하거나 북마크에 담아보세요!</p>
+              {isBookMarkClicked ? (
+                <StBookMarkIcon
+                  onClick={(e) =>
+                    handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, loginedUser, postId)
+                  }
+                />
+              ) : (
+                <StBookMarkEmptyIcon
+                  onClick={(e) =>
+                    handleBookMarkClick(e, isLogin, isBookMarkClicked, setIsBookMarkClicked, loginedUser, postId)
+                  }
+                />
+              )}
+            </StBookmarkWrapper>
             <StCommentsForm onSubmit={handleUploadComment}>
               <StInput
                 value={newComment}
@@ -305,4 +336,18 @@ const StCommentsForm = styled.form`
 
 const StInput = styled.input`
   width: 85%;
+`;
+
+const StBookmarkWrapper = styled.div`
+  display: 'flex';
+  justify-content: 'space-between';
+`;
+
+const StBookMarkIcon = styled(IoBookmark)`
+  font-size: 30px;
+  cursor: pointer;
+`;
+const StBookMarkEmptyIcon = styled(IoBookmarkOutline)`
+  font-size: 30px;
+  cursor: pointer;
 `;
