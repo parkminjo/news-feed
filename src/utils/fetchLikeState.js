@@ -16,7 +16,7 @@ export const fetchLikeState = async (userId, postId) => {
       throw error;
     }
 
-    return !!data; // 북마크가 존재하면 true, 아니면 false 반환
+    return !!data; // 좋아요가 존재하면 true, 아니면 false 반환
   } catch (error) {
     console.error('좋아요 상태 조회 오류:', error);
   }

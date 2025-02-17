@@ -6,30 +6,54 @@ import { supabase } from '../../../services/supabaseClient';
 
 const SearchForm = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [posts, setPosts] = useState([]);
   const [searchValue, setSearchValue] = useState('');
+  const [isLoading, setIsLoading] = useState(true); // 초기 로딩 상태를 true로 설정
 
-  const getPost = async (searchQuery = '') => {
+  const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    updateItem(searchValue, activeTab);
+  }, [searchValue, activeTab]);
+
+  const updateItem = async (searchQuery = '', tab) => {
+    setIsLoading(true);
     try {
-      const { data } = await supabase
-        .from('posts')
-        .select('*')
-        .ilike('title', `%${searchQuery}%`) // 제목에 검색어 포함된 데이터 가져오기
-        .order('created_at', { ascending: false }); // 최신순 정렬
-      setPosts(data);
+      let data = [];
+      if (tab === 0) {
+        const response = await supabase
+          .from('posts')
+          .select('*')
+          .ilike('title', `%${searchQuery}%`)
+          .order('created_at', { ascending: false });
+        data = response.data || [];
+        setUsers([]); // 계정 탭 데이터를 초기화
+        setPosts(data);
+      } else if (tab === 1) {
+        const response = await supabase
+          .from('userExtraData')
+          .select('*')
+          .ilike('nick_name', `%${searchQuery}%`)
+          .order('nick_name', { ascending: true });
+        data = response.data || [];
+        setPosts([]); // 포스트 데이터를 초기화
+        setUsers(data);
+      }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    getPost(searchValue);
-  }, [searchValue]);
+  const renderNoResultsMessage = () => {
+    return <StNoResultMessage>일치하는 결과가 없습니다.</StNoResultMessage>;
+  };
 
   const handleTabChange = (index) => {
+    if (activeTab === index) return;
     setActiveTab(index);
-    // 탭 클릭 시 해당 탭에 맞는 데이터 가져오기
-    getPost(searchValue);
+    updateItem(searchValue, index);
   };
 
   const searchBarStyle = {
@@ -48,11 +72,32 @@ const SearchForm = () => {
         ))}
       </StTabMenu>
       <StFeedWrapper>
-        {posts.map((post) => (
-          <StFeedItem key={post.id}>
-            <img src={post.img} alt={post.title} />
-          </StFeedItem>
-        ))}
+        {isLoading ? (
+          <StSpinner>Loading...</StSpinner>
+        ) : activeTab === 0 ? (
+          posts.length === 0 ? (
+            renderNoResultsMessage()
+          ) : (
+            posts.map((post) => (
+              <StFeedItem key={post.id}>
+                <img src={post.img} alt={post.title} />
+              </StFeedItem>
+            ))
+          )
+        ) : activeTab === 1 ? (
+          users.length === 0 ? (
+            renderNoResultsMessage()
+          ) : (
+            users.map((user) => (
+              <StUserItem key={user.user_id}>
+                <img src={user.profile_img} alt={user.nick_name} />
+                <span>{user.nick_name}</span>
+              </StUserItem>
+            ))
+          )
+        ) : (
+          <div>태그 검색은 아직 구현되지 않았습니다.</div>
+        )}
       </StFeedWrapper>
     </StContainer>
   );
@@ -126,7 +171,65 @@ const StFeedItem = styled.div`
   img {
     width: 100%;
     height: auto;
+    min-height: 100px;
     object-fit: cover;
     border-radius: 10px;
   }
+`;
+
+const StUserItem = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+
+  img {
+    width: 40px;
+    height: 40px;
+    min-height: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+
+  span {
+    font-weight: bold;
+  }
+`;
+
+const StNoResultMessage = styled.div`
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #f5c6cb;
+`;
+
+const StSpinner = styled.div`
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 20px;
+  color: #333;
 `;

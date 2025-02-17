@@ -35,7 +35,7 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
         const { data, error } = await supabase.from('posts').select('*'); //외부(supabase)에서 데이터를 가져옴 (posts테이블에 있는 데이터 모두)
         if (error) throw error;
         setPosts(data); // 가져온 데이터를 setPosts에 넣으므로서 외부데이터를 내부에서 관리 가능한 상태로 만듬
-        console.log('데이터 확인 ==>', data);
+        // console.log('데이터 확인 ==>', data);
       } catch (error) {
         console.log(error);
       }
@@ -49,8 +49,6 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
     console.log(e.target.files); // 파일 입력에서 첫 번째 파일을 가져와서 image 상태에 저장합니다.
     setImage(e.target.files[0]);
   };
-
-  // enum 데이터 가져오기 함수
 
 
 
@@ -80,8 +78,6 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
     return postImgUrl;
   };
 
-
-  
   // 이 함수를 실행할 떄 status: 401(unauthorized)이 나오면 RLS 관련 문제
   const handleAddPost = async (e) => {
     e.preventDefault();
@@ -116,8 +112,6 @@ const PostCreateModal = ({ isPostCreateOpen, onClose }) => {
   if (!isPostCreateOpen) {
     return null;
   }
-
-
 
   const handleResetImgPreview = () => {
     setImagePreview('');
