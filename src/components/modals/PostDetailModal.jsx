@@ -192,7 +192,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
             {comments.map((comment) => (
               <StCommentWrapper key={comment.id}>
                 <p>{comment.contents}</p>
-                {loginedUser.id === comment.writer_id ? (
+                {loginedUser && loginedUser.id === comment.writer_id ? (
                   <StBtn onClick={() => handleDeleteComment(comment.id)}>삭제</StBtn>
                 ) : null}
               </StCommentWrapper>
