@@ -115,20 +115,15 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
 
     const deleteTables = ['comments', 'bookmarks', 'posts'];
     try {
-      const results = await Promise.all(
-        deleteTables.map((table) =>
-          supabase
-            .from(table)
-            .delete()
-            .eq(table === 'posts' ? 'id' : 'post_id', postId)
-        )
-      );
-      if (results.some((res) => res.error)) {
-        throw new Error('삭제 실패');
-      } else {
-        alert('[Notification] 게시글이 삭제되었습니다.');
-        window.location.reload();
+      for (const table of deleteTables) {
+        await supabase
+          .from(table)
+          .delete()
+          .eq(table === 'posts' ? 'id' : 'post_id', postId);
       }
+
+      alert('[Notification] 게시글이 삭제되었습니다.');
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
