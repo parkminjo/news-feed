@@ -10,7 +10,7 @@ import { AuthContext } from '../context/AuthProvider';
 import { useContext } from 'react';
 
 const MyPage = () => {
-  // const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState([]);
   const [postsData, setPostsData] = useState([]);
   const [followData, setFollowData] = useState([]);
 
@@ -25,6 +25,26 @@ const MyPage = () => {
   const [isFollowModalOpen, setIsFollowModalOpen] = useState(false);
   //모달 모드가 팔로우인지 팔로워인지
   const [followMode, setFollowMode] = useState('');
+
+  useEffect(() => {
+    if (!user) return;
+    const getProfileData = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('userExtraData')
+          .select('nick_name')
+          .eq('user_id', user.id)
+          .single();
+        if (error) throw error;
+
+        setUserData(data);
+      } catch (error) {
+        console.error('에러:', error.message);
+      }
+    };
+    getProfileData();
+    return;
+  }, [user]);
 
   //게시물 포스트 가져오기
   useEffect(() => {
@@ -77,7 +97,7 @@ const MyPage = () => {
         <StProfileHeader>
           <StProfileImage src="" alt="" />
           <StProfileInfoWrapper>
-            <StNickName>{user?.email || '비로그인'}</StNickName>
+            <StNickName>{userData?.nick_name || '비로그인'}</StNickName>
             <StProfilUl>
               <li>
                 게시물 <span>{postCount}</span>
