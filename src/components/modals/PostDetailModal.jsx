@@ -146,22 +146,8 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
     }
   };
 
-  // PostEdit 모달 핸들러
-  const handleClosePostEditModal = () => {
-    setIsPostEditModalOpen(false);
-  };
-
   const handleOpenPostEditModal = () => {
     setIsPostEditModalOpen(true);
-  };
-
-  // 수정된 데이터를 받아서 selectedPost 상태 업데이트
-  const handleSubmitPostEdit = (newTitle, newContents) => {
-    setSelectedPost((prevPost) => ({
-      ...prevPost,
-      title: newTitle,
-      content: newContents
-    }));
   };
 
   // 변수명 컨트롤
@@ -226,13 +212,7 @@ const PostDetailModal = ({ isDetailOpen, setIsDetailOpen, postId }) => {
           </StInteraction>
         </StContentsWrapper>
         {isPostEditModalOpen && (
-          <PostEditModal
-            onClose={handleClosePostEditModal}
-            title={title}
-            loginedUser={loginedUser}
-            contents={content}
-            onSubmit={handleSubmitPostEdit}
-          />
+          <PostEditModal title={title} contents={content} setter={{ setIsPostEditModalOpen, setSelectedPost }} />
         )}
       </StModalContentsContainer>
     </StDetailModalContainer>

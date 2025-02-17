@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { supabase } from '../../services/supabaseClient';
 import styled from 'styled-components';
+import { useAuth } from '../../context/auth/useAuth';
 
-const PostEditModal = ({ title, contents, loginedUser, onClose, onSubmit }) => {
+const PostEditModal = ({ title, contents, setter: { setIsPostEditModalOpen, setSelectedPost } }) => {
   const [newTitle, setNewTitle] = useState(title || '');
   const [newContents, setNewContents] = useState(contents || '');
+  const { loginedUser } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,13 +16,27 @@ const PostEditModal = ({ title, contents, loginedUser, onClose, onSubmit }) => {
       .eq('writer_id', loginedUser.id);
     if (error) throw error;
     else {
-      onSubmit(newTitle, newContents);
-      onClose();
+      handleSubmitPostEdit(newTitle, newContents);
+      handleClosePostEditModal();
     }
   };
 
+  // PostEdit 모달 핸들러
+  const handleClosePostEditModal = () => {
+    setIsPostEditModalOpen(false);
+  };
+
+  // 수정된 데이터를 받아서 selectedPost 상태 업데이트
+  const handleSubmitPostEdit = (newTitle, newContents) => {
+    setSelectedPost((prevPost) => ({
+      ...prevPost,
+      title: newTitle,
+      content: newContents
+    }));
+  };
+
   return (
-    <StModalContainer onClick={onClose}>
+    <StModalContainer onClick={handleClosePostEditModal}>
       <StModalContent onClick={(e) => e.stopPropagation()}>
         <StForm onSubmit={handleSubmit}>
           <label>
@@ -41,17 +57,17 @@ const PostEditModal = ({ title, contents, loginedUser, onClose, onSubmit }) => {
               placeholder="내용을 입력해주세요.."
             />
           </label>
-          <StButtonWraaper>
+          <StButtonWrapper>
             <StButton type="submit">변경</StButton>
             <StButton
               onClick={(e) => {
                 e.preventDefault();
-                onClose();
+                handleClosePostEditModal();
               }}
             >
               취소
             </StButton>
-          </StButtonWraaper>
+          </StButtonWrapper>
         </StForm>
       </StModalContent>
     </StModalContainer>
@@ -99,7 +115,7 @@ const StButton = styled.button`
   padding: 5px 10px;
 `;
 
-const StButtonWraaper = styled.div`
+const StButtonWrapper = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 10px;
