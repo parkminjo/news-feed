@@ -40,6 +40,10 @@ const SignUpForm = () => {
       alert('2글자 이상의 닉네임을 적어주세요');
       return;
     }
+    if (userInfo.nickName.length > 10) {
+      alert('10글자 이하의 닉네임을 적어주세요');
+      return;
+    }
     if (userInfo.passwordCheck !== userInfo.password) {
       alert('비밀번호가 동일하지 않습니다');
       return;
