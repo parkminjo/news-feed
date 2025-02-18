@@ -20,24 +20,23 @@
 <h3>🔨 DB Structure</h3>
 <img src="https://i.ibb.co/Kx09x8PS/2025-02-18-10-49-20.png">
 
-<h3>Stacks</h3>
+<h3>🪜 Stacks</h3>
 
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=redux&logoColor=white)
 
+![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white)
 ![StyledComponents](https://img.shields.io/badge/styledcomponents-DB7093?style=flat-square&logo=styledcomponents&logoColor=white)
 ![react-router-dom](https://img.shields.io/badge/react--router--dom-CA4245?style=flat-square&logo=react-router&logoColor=white)
-
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-
-![Supabase](https://img.shields.io/badge/supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white)
-![Eslint](https://img.shields.io/badge/eslint-4B32C3?style=flat-square&logo=eslint&logoColor=white)
 ![Prettier](https://img.shields.io/badge/prettier-F7B93E?style=flat-square&logo=prettier&logoColor=white)
+![Supabase](https://img.shields.io/badge/supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white)
 
-![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
 ![Excalidraw](https://img.shields.io/badge/Excalidraw-6965DB?style=flat-square&logo=excalidraw&logoColor=white)
+![Eslint](https://img.shields.io/badge/eslint-4B32C3?style=flat-square&logo=eslint&logoColor=white)
 
 <h2>⭐ 주요 기능 소개</h2>
 <h3>🔨 로그인 / 회원가입 기능 </h3>
