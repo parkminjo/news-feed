@@ -1,8 +1,8 @@
-# React + Vite
+# 북마크 기능 구현 사항
+북마크한 게시물을 모달 창에서 확인하고, 개별 게시물의 상세 내용을 볼 수 있는 기능을 제공합니다.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 기능 요약
+1. 북마크한 게시물 표시: 사용자가 저장한 게시물을 그리드 형태로 나열
+2. 게시물 상세보기: 개별 게시물을 클릭하면 사진, 제목, 작성자, 내용과 함께 상세 정보 표시
+3. 뒤로가기 버튼: 상세 페이지에서 뒤로가기 버튼을 눌러 목록으로 이동 가능
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
