@@ -9,7 +9,12 @@ import { FaUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const SearchForm = () => {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(() => {
+    // 로컬 저장소에서 탭 상태를 불러온다. 없으면 기본값 0을 사용
+    const savedTab = localStorage.getItem('activeTab');
+    return savedTab ? parseInt(savedTab) : 0;
+  });
+
   const [searchValue, setSearchValue] = useState('');
   const [isLoading, setIsLoading] = useState(true); // 초기 로딩 상태를 true로 설정
   const [isDetailOpen, setIsDetailOpen] = useState(false);
@@ -23,6 +28,10 @@ const SearchForm = () => {
   useEffect(() => {
     updateItem(searchValue, activeTab);
   }, [searchValue, activeTab]);
+
+  useEffect(() => {
+    localStorage.setItem('activeTab', activeTab);
+  }, [activeTab]);
 
   const updateItem = async (searchQuery = '', tab) => {
     setIsLoading(true);
