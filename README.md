@@ -1,9 +1,9 @@
 <h1>냥덕을 위한 이 곳은 바로 🐱CATTALE🐱</h1>
 <h2>🎙️ 프로젝트 개요</h2>
 
-- 프로젝트명 : 고양이 집사 커뮤니티, **캣테일(CatTale)**!
+- 프로젝트 명 : 고양이 집사 커뮤니티, **캣테일(CatTale)**!
 
-- 소개 : 고양이 집사 커뮤니티는 고양이와 살아가는 집사들이 자신들의 생활과 고양이 사진을 공유하고 어울릴 수 있는 공간입니다.
+- 한 줄 소개 : 고양이 집사 커뮤니티는 고양이와 살아가는 집사들이 자신들의 생활과 고양이 사진을 공유하고 어울릴 수 있는 공간입니다.
 - **캣테일**은 **React**와 **Supabase**를 활용한 서버리스 뉴스피드 웹 애플리케이션입니다. **styled-components** 기반의 컴포넌트 스타일링을 적용하고, React의 **Context API**로 전역 상태 관리를 구현했습니다. **react-router-dom(RRD)**을 사용해 효율적인 클라이언트 사이드 라우팅을 제공하며, Supabase를 이용하여 백엔드 서비스를 구축했습니다. 또한 **Git, GitHub, Vercel**을 활용해 프로젝트 관리 및 배포를 처리했습니다.
 
 <h2>🗂️ 캣테일 미리보기</h2>
@@ -14,7 +14,7 @@
 
 <h2>⚙️ 프로젝트 구조</h2>
 <h3>🌱 Ideation on **Figma**</h3>
-[FigmaCaptured](https://i.ibb.co/yczJS55t/2025-02-18-10-29-40.png)
+![FigmaCaptured](https://i.ibb.co/yczJS55t/2025-02-18-10-29-40.png)
 
 <h3>🔨 DB Structure</h3>
 <img src="https://i.ibb.co/XZtzkkv5/supabase-schema-abtgpogydlsfqgmzgunp-1.png">
