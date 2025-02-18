@@ -1,18 +1,34 @@
 <h1>냥덕을 위한 이 곳은 바로 🐱CATTALE🐱</h1>
 <h2>🎙️ 프로젝트 개요</h2>
 
-- 프로젝트명 : 고양이 집사 커뮤니티, 캣테일(CatTale)
+- 프로젝트명 : 고양이 집사 커뮤니티, **캣테일(CatTale)**!
 
 - 소개 : 고양이 집사 커뮤니티는 고양이와 살아가는 집사들이 자신들의 생활과 고양이 사진을 공유하고 어울릴 수 있는 공간입니다.
+- **캣테일**은 **React**와 **Supabase**를 활용한 서버리스 뉴스피드 웹 애플리케이션입니다. **styled-components** 기반의 컴포넌트 스타일링을 적용하고, React의 **Context API**로 전역 상태 관리를 구현했습니다. **react-router-dom(RRD)**을 사용해 효율적인 클라이언트 사이드 라우팅을 제공하며, Supabase를 이용하여 백엔드 서비스를 구축했습니다. 또한 **Git, GitHub, Vercel**을 활용해 프로젝트 관리 및 배포를 처리했습니다.
+
+<h2>🗂️ 캣테일 미리보기</h2>
+
+- 여기에 미리보기 영상을 넣어주세요..
+
+![링크 여기에](https://sssss)
 
 <h2>⚙️ 프로젝트 구조</h2>
+<h3>🌱 Ideation on **Figma**</h3>
+![alt text](image.png)
+
 <h3>🔨 DB Structure</h3>
 <img src="https://i.ibb.co/XZtzkkv5/supabase-schema-abtgpogydlsfqgmzgunp-1.png">
 
 <h3>기술스택</h3>
-<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white"><img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"><img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"><img src="https://img.shields.io/badge/Styled%20Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"><img src="https://img.shields.io/badge/React%20Router%20Dom-CA4245?style=for-the-badge&logo=react-router&logoColor=white"><img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"><img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"><img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white">
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white"><img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"><img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"><img src="https://img.shields.io/badge/Styled%20Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"><img src="https://img.shields.io/badge/React%20Router%20Dom-CA4245?style=for-the-badge&logo=react-router&logoColor=white"><img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"><img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"><img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white"><img src="https://img.shields.io/badge/Figma-000000?style=for-the-badge&logo=figma&logoColor=white"><img src="https://img.shields.io/badge/Excalidraw-000000?style=for-the-badge&logo=excalidraw&logoColor=white">
 
 <h2>⭐ 주요 기능 소개</h2>
+<h3>🔨 여기에 주제 추가해 주세요</h3>
+
+<h3>🔨 여기에 주제 추가해 주세요</h3>
+
+<h3>🔨 여기에 주제 추가해 주세요</h3>
+
 <h3>🔨 여기에 주제 추가해 주세요</h3>
 
 <h3>🔨 디테일 페이지 구현 사항</h3>
@@ -24,14 +40,18 @@
     <th style="width: 25%;">D (Delete)</th>
   </tr>
   <tr>
-    <td style="width: 25%;">댓글 업로드<br>북마크 추가</td>
-    <td style="width: 25%;">포스트 내용 표시<br>댓글 표시<br>포스트 업데이트 시간 표시<br>사진 표시<br>포스트 제목 표시</td>
-    <td style="width: 25%;">내 글 수정</td>
-    <td style="width: 25%;">내 글 삭제<br>내 댓글 삭제<br>북마크 삭제</td>
+    <td>댓글 업로드<br>북마크 추가</td>
+    <td">포스트 내용 표시<br>댓글 표시<br>포스트 업데이트 시간 표시<br>사진 표시<br>포스트 제목 표시</td>
+    <td">내 글 수정</td>
+    <td">내 글 삭제<br>내 댓글 삭제<br>북마크 삭제</td>
   </tr>
 </table>
 
-<h2>🗂️ 캣테일 미리보기</h2>
+<h2>🔥 TroubleShooting</h2>
+
+![[React/뉴스피드] 리액트 모달 열고닫기](https://velog.io/@ye21iin/React%EB%89%B4%EC%8A%A4%ED%94%BC%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%AA%A8%EB%8B%AC-%EC%97%B4%EA%B3%A0%EB%8B%AB%EA%B8%B0)
+![[React] 리액트 팀에 문의해볼 사람?](https://velog.io/@ye21iin/React)
+![[트러블 슈팅] 난 분명 supabaseURL을 작성했는데 왜 콘솔창 너는 없다하는 거야...?](https://velog.io/@suminlee0409/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EB%82%9C-%EB%B6%84%EB%AA%85-supabaseURL%EC%9D%84-%EC%9E%91%EC%84%B1%ED%96%88%EB%8A%94%EB%8D%B0-%EC%99%9C-%EC%BD%98%EC%86%94%EC%B0%BD-%EB%84%88%EB%8A%94-%EC%97%86%EB%8B%A4%ED%95%98%EB%8A%94-%EA%B1%B0%EC%95%BC)
 
 <h3>👩‍💻 Developers of CatTale</h3>
 <table border="1" style="table-layout: fixed; width: 100%;">
