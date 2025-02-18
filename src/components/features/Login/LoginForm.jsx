@@ -25,6 +25,7 @@ const LoginForm = () => {
     /** 예외상황 처리 */
     if (userInfo.email === '') {
       alert('이메일을 입력해주세요');
+      return;
     }
     if (userInfo.password === '') {
       alert('비밀번호를 입력해주세요');
@@ -139,15 +140,6 @@ const StLoginButton = styled.button`
   &:hover {
     background-color: #cd5200;
   }
-`;
-
-const StSocialLogin = styled.button`
-  font-size: ${fontSize.medium};
-  color: ${color.main};
-  background-color: transparent;
-  text-decoration: underline;
-  border: none;
-  cursor: pointer;
 `;
 
 const StSignUpWrapper = styled(StLoginWrapper)`

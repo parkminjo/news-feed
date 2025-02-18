@@ -147,10 +147,8 @@ const SignUpForm = () => {
         </StSignUpWrapper>
       </form>
       <StLoginWrapper>
-        <p style={{ fontSize: `${fontSize.medium}` }}>계정이 있으신가요?</p>
-        <Link to={'/login'} style={{ color: `${color.main}` }}>
-          로그인 하러 가기
-        </Link>
+        <StContentText>계정이 있으신가요?</StContentText>
+        <StLink to={'/login'}>로그인 하러 가기</StLink>
       </StLoginWrapper>
     </StContainer>
   );
@@ -212,4 +210,12 @@ const StSignButton = styled.button`
 const StLoginWrapper = styled(StSignUpWrapper)`
   height: 100px;
   gap: 15px;
+`;
+
+const StContentText = styled.p`
+  font-size: ${fontSize.medium};
+`;
+
+const StLink = styled(Link)`
+  color: ${color.main};
 `;
