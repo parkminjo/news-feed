@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { supabase } from '../../services/supabaseClient';
 
-const NicknameEditModal = ({ onClose, loginedUser, currentNickName, handleProfileUpdated }) => {
+const NicknameEditModal = ({ onClose, loginedUser, currentNickName, handleNicknameUpdated }) => {
   const [nickname, setNickname] = useState(currentNickName);
 
   const handleSubmit = async (e) => {
@@ -18,7 +18,7 @@ const NicknameEditModal = ({ onClose, loginedUser, currentNickName, handleProfil
       .eq('user_id', loginedUser.id);
     if (error) throw error;
     else {
-      handleProfileUpdated(nickname);
+      handleNicknameUpdated(nickname);
       onClose();
     }
   };
