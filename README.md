@@ -5,7 +5,7 @@
 
 - 소개 : 무슨무슨 법에 의해서 **고양이 사진**을 3개 이상 올리지 않으면 불법인 거 아세요? 고양이 집사 커뮤니티 캣테일은 고양이와 살아가는 집사들이 자신들의 생활과 고양이 사진을 공유하고 어울릴 수 있는 공간입니다. 고양이를 향한 당신의 사심을 채워보세요!
 -
-- **캣테일**은 **React**와 **Supabase**를 활용한 서버리스 뉴스피드 웹 애플리케이션입니다. **styled-components** 기반의 컴포넌트 스타일링을 적용하고, React의 **Context API**로 전역 상태 관리를 구현했습니다. **react-router-dom(RRD)**을 사용해 효율적인 클라이언트 사이드 라우팅을 제공하며, Supabase를 이용하여 백엔드 서비스를 구축했습니다. **Git, GitHub, Vercel**을 활용해 프로젝트 관리 및 배포를 처리했습니다.
+- **캣테일**은 **React**와 **Supabase**를 활용한 서버리스 뉴스피드 웹 애플리케이션입니다. **styled-components** 기반의 컴포넌트 스타일링을 적용하고, React의 **Context API**로 전역 상태 관리를 구현했습니다. **react-router-dom**을 사용해 효율적인 클라이언트 사이드 라우팅을 제공하며, Supabase를 이용하여 백엔드 서비스를 구축했습니다. **Git, GitHub, Vercel**을 활용해 프로젝트 관리 및 배포를 처리했습니다.
 
 <h2>🗂️ 캣테일 미리보기</h2>
 
@@ -14,26 +14,30 @@
 ![링크 여기에]()
 
 <h2>⚙️ 프로젝트 구조</h2>
-<h3>🌱 Ideation on **Figma**</h3>
+<h3>🌱 Ideation on Figma</h3>
 <img src="https://i.ibb.co/yczJS55t/2025-02-18-10-29-40.png">
 
 <h3>🔨 DB Structure</h3>
 <img src="https://i.ibb.co/Kx09x8PS/2025-02-18-10-49-20.png">
 
-<h3>기술스택</h3>
+<h3>Stacks</h3>
 
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=redux&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+
 ![StyledComponents](https://img.shields.io/badge/styledcomponents-DB7093?style=flat-square&logo=styledcomponents&logoColor=white)
 ![react-router-dom](https://img.shields.io/badge/react--router--dom-CA4245?style=flat-square&logo=react-router&logoColor=white)
+
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white)
-![Excalidraw](https://img.shields.io/badge/Excalidraw-6965DB?style=flat-square&logo=excalidraw&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+
 ![Supabase](https://img.shields.io/badge/supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white)
 ![Eslint](https://img.shields.io/badge/eslint-4B32C3?style=flat-square&logo=eslint&logoColor=white)
 ![Prettier](https://img.shields.io/badge/prettier-F7B93E?style=flat-square&logo=prettier&logoColor=white)
+
+![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white)
+![Excalidraw](https://img.shields.io/badge/Excalidraw-6965DB?style=flat-square&logo=excalidraw&logoColor=white)
 
 <h2>⭐ 주요 기능 소개</h2>
 <h3>🔨 로그인 / 회원가입 기능 </h3>
