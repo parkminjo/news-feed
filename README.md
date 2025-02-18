@@ -1,10 +1,12 @@
 <h1>냥덕을 위한 이 곳은 바로 🐱CATTALE🐱</h1>
 <h2>프로젝트 개요</h2>
-- 프로젝트명 : 고양이 집사 커뮤니티 - 캣테일(CatTale)
+- 프로젝트명 : 고양이 집사 커뮤니티, 캣테일(CatTale)
+
 - 소개 : 고양이 집사 커뮤니티는 고양이와 살아가는 집사들이 자신들의 생활과 고양이 사진을 공유하고 어울릴 수 있는 공간입니다.
 
 <h2>프로젝트 구조</h2>
 <h3>DB Structure</h3>
+<img src="https://i.ibb.co/XZtzkkv5/supabase-schema-abtgpogydlsfqgmzgunp-1.png">
 
 <h3>기술스택</h3>
 <!-- React -->
