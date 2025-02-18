@@ -1,5 +1,6 @@
 <h1>냥덕을 위한 이 곳은 바로 🐱CATTALE🐱</h1>
 <h2>프로젝트 개요</h2>
+
 - 프로젝트명 : 고양이 집사 커뮤니티, 캣테일(CatTale)
 
 - 소개 : 고양이 집사 커뮤니티는 고양이와 살아가는 집사들이 자신들의 생활과 고양이 사진을 공유하고 어울릴 수 있는 공간입니다.
@@ -9,24 +10,9 @@
 <img src="https://i.ibb.co/XZtzkkv5/supabase-schema-abtgpogydlsfqgmzgunp-1.png">
 
 <h3>기술스택</h3>
-<!-- React -->
-<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white">
-<!-- Vite -->
-<img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white">
-<!-- Vercel -->
-<img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">
-<!-- HTML5 -->
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-<!-- Styled-Components -->
-<img src="https://img.shields.io/badge/Styled%20Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
-<!-- React-Router-Dom -->
-<img src="https://img.shields.io/badge/React%20Router%20Dom-CA4245?style=for-the-badge&logo=react-router&logoColor=white">
-<!-- Supabase -->
-<img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white">
-<!-- ESLint -->
-<img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white">
-<!-- Prettier -->
-<img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white">
+<!-- React --><img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white"><!-- Vite --><img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"><!-- Vercel --><img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">
+<!-- HTML5 --><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"><!-- Styled-Components --><img src="https://img.shields.io/badge/Styled%20Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"><!-- React-Router-Dom --><img src="https://img.shields.io/badge/React%20Router%20Dom-CA4245?style=for-the-badge&logo=react-router&logoColor=white">
+<!-- Supabase --><img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"><!-- ESLint --><img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"><!-- Prettier --><img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white">
 
 <h2>주요 기능 소개</h2>
 <h3>여기에 주제 추가해 주세요</h3>
