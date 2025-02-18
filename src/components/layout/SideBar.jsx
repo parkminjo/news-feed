@@ -59,7 +59,7 @@ const SideBar = () => {
             </StIconWrapper>
             <StText $isExpand={isSidebarExpand}>검색</StText>
           </StMenuItem>
-          <StMenuItem onClick={() => setIsBookMarkOpen(true)}>
+          <StMenuItem onClick={() => handleBookMarkClick()}>
             <StIconWrapper>
               <FaRegBookmark />
             </StIconWrapper>
