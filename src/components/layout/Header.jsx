@@ -5,13 +5,10 @@ import { FaRegBell, FaUserCircle } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { useHeader } from '../../context/components/header/useHeader';
 import { useAuth } from '../../context/auth/useAuth';
-
 import { useEffect } from 'react';
 import { supabase } from '../../services/supabaseClient';
 import { useState } from 'react';
-
 import { color } from '../../styles/color';
-
 
 const Header = () => {
   const { isLoginOpen, setIsLoginOpen, loginModalRef, handleAuthAction } = useHeader();

@@ -1,109 +1,99 @@
-<h3>디테일 페이지 구현 사항</h3>
-<table border="1">
-  <tr>
-    <th>C (Create)</th>
-    <th>R (Read)</th>
-    <th>U (Update)</th>
-    <th>D (Delete)</th>
-  </tr>
-  <tr>
-    <td>댓글 업로드<br>북마크 추가</td>
-    <td>포스트 내용 표시<br>댓글 표시<br>포스트 업데이트 시간 표시<br>사진 표시<br>포스트 제목 표시</td>
-    <td>내 글 수정</td>
-    <td>내 글 삭제<br>내 댓글 삭제<br>북마크 삭제</td>
-  </tr>
-</table>
+소개글
+저희 어플리케이션은 고양이 사진을 3개이상 올리지 않으면 불법이라는 말이 있듯이 웹 애플리케이션입니다. 이 프로젝트는 React를 기반으로 하며, Supabase를 백엔드로 활용하여 사용자 인증, 데이터 관리, 실시간 업데이트 등의 기능을 구현했습니다.
 
-```
-news-feed
-├─ .prettierrc
-├─ LICENSE
-├─ README.md
-├─ eslint.config.js
-├─ index.html
-├─ package.json
-├─ public
-│  ├─ img
-│  │  └─ LoginCat.png
-│  └─ vite.svg
-├─ src
-│  ├─ App.jsx
-│  ├─ assets
-│  │  └─ react.svg
-│  ├─ components
-│  │  ├─ features
-│  │  │  ├─ Common
-│  │  │  │  └─ SearchBar.jsx
-│  │  │  ├─ Home
-│  │  │  │  └─ PostCard.jsx
-│  │  │  ├─ Login
-│  │  │  │  └─ LoginForm.jsx
-│  │  │  ├─ Search
-│  │  │  │  └─ SearchForm.jsx
-│  │  │  └─ SignUp
-│  │  │     └─ SignUpForm.jsx
-│  │  ├─ layout
-│  │  │  ├─ Footer.jsx
-│  │  │  ├─ Header.jsx
-│  │  │  ├─ MainLayout.jsx
-│  │  │  └─ SideBar.jsx
-│  │  └─ modals
-│  │     ├─ BookMarkModal.jsx
-│  │     ├─ FollowListModal.jsx
-│  │     ├─ FollowingListModal.jsx
-│  │     ├─ PassWordSearchModal.jsx
-│  │     ├─ PostCreateModal.jsx
-│  │     ├─ PostDetailModal.jsx
-│  │     ├─ PostEditModal.jsx
-│  │     ├─ PostLikesListModal.jsx
-│  │     └─ ProfileEditModal.jsx
-│  ├─ constant.js
-│  ├─ context
-│  │  ├─ auth
-│  │  │  ├─ AuthContext.js
-│  │  │  ├─ AuthProvider.jsx
-│  │  │  └─ useAuth.js
-│  │  ├─ components
-│  │  │  ├─ header
-│  │  │  │  ├─ HeaderContext.js
-│  │  │  │  ├─ HeaderProvider.jsx
-│  │  │  │  └─ useHeader.js
-│  │  │  └─ sidebar
-│  │  │     ├─ SidebarContext.js
-│  │  │     ├─ SidebarProvider.jsx
-│  │  │     └─ useSidebar.js
-│  │  ├─ post
-│  │  │  ├─ PostContext.js
-│  │  │  ├─ PostProvider.jsx
-│  │  │  └─ usePost.js
-│  │  └─ user
-│  │     ├─ UserContext.js
-│  │     ├─ UserProvider.jsx
-│  │     └─ useUser.js
-│  ├─ main.jsx
-│  ├─ pages
-│  │  ├─ Home.jsx
-│  │  ├─ Login.jsx
-│  │  ├─ MyPage.jsx
-│  │  ├─ ProfilePage.jsx
-│  │  ├─ Search.jsx
-│  │  └─ SignUp.jsx
-│  ├─ services
-│  │  └─ supabaseClient.js
-│  ├─ shared
-│  │  └─ Router.jsx
-│  ├─ styles
-│  │  ├─ GlobalStyle.jsx
-│  │  ├─ color.js
-│  │  └─ fontSize.js
-│  └─ utils
-│     ├─ fetchBookMarkState.js
-│     ├─ fetchLikeState.js
-│     ├─ fetchUserBookmarks.js
-│     ├─ handleBookMarkClick.js
-│     ├─ handleLikeClick.js
-│     └─ passedTimeText.js
-├─ vite.config.js
-└─ yarn.lock
+<img src="./경로/이미지파일명.png" alt="대체 텍스트" width="300" />
+주요 기능
 
-```
+React Context API를 사용한 프로필 상태 관리 (ProfileContext.js 참고: ProfileContext)
+기술 스택
+Frontend: React, styled-components
+Backend: Supabase (데이터베이스, 인증, 실시간 기능)
+Routing: react-router-dom
+
+public
+│ ├── img
+│ │ └── LoginCat.png
+│ └── vite.svg
+├── src
+│ ├── App.jsx
+│ ├── assets
+│ │ └── react.svg
+│ ├── components
+│ │ ├── features
+│ │ │ ├── Common
+│ │ │ │ └── SearchBar.jsx
+│ │ │ ├── Home
+│ │ │ │ └── PostCard.jsx
+│ │ │ ├── Login
+│ │ │ │ └── LoginForm.jsx
+│ │ │ ├── Search
+│ │ │ │ ├── SearchForm.jsx
+│ │ │ │ └── SimplePostCard.jsx
+│ │ │ └── SignUp
+│ │ │ └── SignUpForm.jsx
+│ │ ├── layout
+│ │ │ ├── Footer.jsx
+│ │ │ ├── Header.jsx
+│ │ │ ├── MainLayout.jsx
+│ │ │ └── SideBar.jsx
+│ │ └── modals
+│ │ ├── BioEditModal.jsx
+│ │ ├── BookMarkModal.jsx
+│ │ ├── FollowListModal.jsx
+│ │ ├── FollowingListModal.jsx
+│ │ ├── NicknameEditModal.jsx
+│ │ ├── PassWordSearchModal.jsx
+│ │ ├── PostCreateModal.jsx
+│ │ ├── PostDetailModal.jsx
+│ │ ├── PostEditModal.jsx
+│ │ └── PostLikesListModal.jsx
+│ ├── constant.js
+│ ├── context
+│ │ ├── auth
+│ │ │ ├── AuthContext.js
+│ │ │ ├── AuthProvider.jsx
+│ │ │ └── useAuth.js
+│ │ ├── components
+│ │ │ ├── header
+│ │ │ │ ├── HeaderContext.js
+│ │ │ │ ├── HeaderProvider.jsx
+│ │ │ │ └── useHeader.js
+│ │ │ └── sidebar
+│ │ │ ├── SidebarContext.js
+│ │ │ ├── SidebarProvider.jsx
+│ │ │ └── useSidebar.js
+│ │ ├── post
+│ │ │ ├── PostContext.js
+│ │ │ ├── PostProvider.jsx
+│ │ │ └── usePost.js
+│ │ ├── profile
+│ │ │ ├── ProfileContext.js
+│ │ │ └── ProfileProvider.jsx
+│ │ └── user
+│ │ ├── UserContext.js
+│ │ ├── UserProvider.jsx
+│ │ └── useUser.js
+│ ├── main.jsx
+│ ├── pages
+│ │ ├── Home.jsx
+│ │ ├── Login.jsx
+│ │ ├── MyPage.jsx
+│ │ ├── ProfilePage.jsx
+│ │ ├── Search.jsx
+│ │ └── SignUp.jsx
+│ ├── services
+│ │ └── supabaseClient.js
+│ ├── shared
+│ │ └── Router.jsx
+│ ├── styles
+│ │ ├── GlobalStyle.jsx
+│ │ ├── color.js
+│ │ ├── fontSize.js
+│ │ └── profileUistyles.js
+│ └── utils
+│ ├── fetchBookMarkState.js
+│ ├── fetchLikeState.js
+│ ├── fetchUserBookmarks.js
+│ ├── handleBookMarkClick.js
+│ ├── handleLikeClick.js
+│ └── passedTimeText.js
