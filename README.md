@@ -17,7 +17,7 @@
 <img src="https://i.ibb.co/yczJS55t/2025-02-18-10-29-40.png">
 
 <h3>🔨 DB Structure</h3>
-<img src="https://i.ibb.co/XZtzkkv5/supabase-schema-abtgpogydlsfqgmzgunp-1.png">
+<img src="https://i.ibb.co/Kx09x8PS/2025-02-18-10-49-20.png">
 
 <h3>기술스택</h3>
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white"><img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"><img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"><img src="https://img.shields.io/badge/Styled%20Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"><img src="https://img.shields.io/badge/React%20Router%20Dom-CA4245?style=for-the-badge&logo=react-router&logoColor=white"><img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"><img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"><img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"><img src="https://img.shields.io/badge/Excalidraw-6965DB?style=for-the-badge&logo=excalidraw&logoColor=white">
@@ -42,14 +42,14 @@
   </tr>
   <tr>
     <td>댓글 업로드<br>북마크 추가</td>
-    <td">포스트 내용 표시<br>댓글 표시<br>포스트 업데이트 시간 표시<br>사진 표시<br>포스트 제목 표시</td>
-    <td">내 글 수정</td>
-    <td">내 글 삭제<br>내 댓글 삭제<br>북마크 삭제</td>
+    <td>포스트 내용 표시<br>댓글 표시<br>포스트 업데이트 시간 표시<br>사진 표시<br>포스트 제목 표시</td>
+    <td>내 글 수정</td>
+    <td>내 글 삭제<br>내 댓글 삭제<br>북마크 삭제</td>
   </tr>
 </table>
 
 <h2>🔥 TroubleShooting</h2>
-<h3>[React/뉴스피드] 리액트 모달 열고닫기</h3><a href="https://velog.io/@ye21iin/React%EB%89%B4%EC%8A%A4%ED%94%BC%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%AA%A8%EB%8B%AC-%EC%97%B4%EA%B3%A0%EB%8B%AB%EA%B8%B0">링크</a>
+<h3>[React/뉴스피드] 리액트 모달 열고닫기 <a href="https://velog.io/@ye21iin/React%EB%89%B4%EC%8A%A4%ED%94%BC%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%AA%A8%EB%8B%AC-%EC%97%B4%EA%B3%A0%EB%8B%AB%EA%B8%B0">링크</a></h3>
 <h3>[React] 리액트 팀에 문의해볼 사람?</h3><a href="https://velog.io/@ye21iin/React">링크</a>
 <h3>[트러블 슈팅] 난 분명 supabaseURL을 작성했는데 왜 콘솔창 너는 없다하는 거야...?</h3><a href="https://velog.io/@suminlee0409/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EB%82%9C-%EB%B6%84%EB%AA%85-supabaseURL%EC%9D%84-%EC%9E%91%EC%84%B1%ED%96%88%EB%8A%94%EB%8D%B0-%EC%99%9C-%EC%BD%98%EC%86%94%EC%B0%BD-%EB%84%88%EB%8A%94-%EC%97%86%EB%8B%A4%ED%95%98%EB%8A%94-%EA%B1%B0%EC%95%BC">링크</a>
 <h4>TIL 25_02_18 | 트러블슈팅: 로그인했는데 undefined...</h4><a href="https://velog.io/@shoney02/TIL-250218-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85-%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%96%88%EB%8A%94%EB%8D%B0-undefined">링크</a>
