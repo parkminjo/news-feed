@@ -49,10 +49,10 @@
 </table>
 
 <h2>🔥 TroubleShooting</h2>
-<h3>[React/뉴스피드] 리액트 모달 열고닫기 <a href="https://velog.io/@ye21iin/React%EB%89%B4%EC%8A%A4%ED%94%BC%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%AA%A8%EB%8B%AC-%EC%97%B4%EA%B3%A0%EB%8B%AB%EA%B8%B0">링크</a></h3>
-<h3>[React] 리액트 팀에 문의해볼 사람?</h3><a href="https://velog.io/@ye21iin/React">링크</a>
-<h3>[트러블 슈팅] 난 분명 supabaseURL을 작성했는데 왜 콘솔창 너는 없다하는 거야...?</h3><a href="https://velog.io/@suminlee0409/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EB%82%9C-%EB%B6%84%EB%AA%85-supabaseURL%EC%9D%84-%EC%9E%91%EC%84%B1%ED%96%88%EB%8A%94%EB%8D%B0-%EC%99%9C-%EC%BD%98%EC%86%94%EC%B0%BD-%EB%84%88%EB%8A%94-%EC%97%86%EB%8B%A4%ED%95%98%EB%8A%94-%EA%B1%B0%EC%95%BC">링크</a>
-<h4>TIL 25_02_18 | 트러블슈팅: 로그인했는데 undefined...</h4><a href="https://velog.io/@shoney02/TIL-250218-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85-%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%96%88%EB%8A%94%EB%8D%B0-undefined">링크</a>
+<h4>[React/뉴스피드] 리액트 모달 열고닫기 👉🏻 <a href="https://velog.io/@ye21iin/React%EB%89%B4%EC%8A%A4%ED%94%BC%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%AA%A8%EB%8B%AC-%EC%97%B4%EA%B3%A0%EB%8B%AB%EA%B8%B0">링크</a></h4>
+<h4>[React] 리액트 팀에 문의해볼 사람?  👉🏻 <a href="https://velog.io/@ye21iin/React">링크</a></h4>
+<h4>[트러블 슈팅] 난 분명 supabaseURL을 작성했는데 왜 콘솔창 너는 없다하는 거야...?  👉🏻 <a href="https://velog.io/@suminlee0409/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EB%82%9C-%EB%B6%84%EB%AA%85-supabaseURL%EC%9D%84-%EC%9E%91%EC%84%B1%ED%96%88%EB%8A%94%EB%8D%B0-%EC%99%9C-%EC%BD%98%EC%86%94%EC%B0%BD-%EB%84%88%EB%8A%94-%EC%97%86%EB%8B%A4%ED%95%98%EB%8A%94-%EA%B1%B0%EC%95%BC">링크</a></h4>
+<h4>TIL 25_02_18 | 트러블슈팅: 로그인했는데 undefined...  👉🏻 <a href="https://velog.io/@shoney02/TIL-250218-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85-%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%96%88%EB%8A%94%EB%8D%B0-undefined">링크</a></h4>
 
 <h3>👩‍💻 Developers of CatTale</h3>
 <table border="1" style="table-layout: fixed; width: 100%;">
@@ -66,7 +66,7 @@
   </tr>
   </tr>
   <tr>
-    <td><a href="https://github.com/Sumin-Lee12">이수민</a><br><span>PM, 글 작성 페이지</span></td>
+    <td><a href="https://github.com/Sumin-Lee12">이수민</a><br><p>PM</p><p>글 작성 페이지</p></td>
     <td><a href="https://github.com/mbdyjk">고용준</a><br><span>메인 레이아웃, 검색창 페이지</span></td>
     <td><a href="https://github.com/ye21iin">김예린</a><br><span>게시글 디테일 페이지</span></td>
     <td><a href="https://github.com/shoney02">김시헌</a><br><span>북마크 페이지</span></td>
