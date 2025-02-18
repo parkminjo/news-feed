@@ -55,6 +55,7 @@
 </table>
 
 <h3>Project Tree</h3>
+
 ```
 news-feed
 ├─ .prettierrc
@@ -138,7 +139,4 @@ news-feed
 ├─ vercel.json
 ├─ vite.config.js
 └─ yarn.lock
-
-```
-
 ```
