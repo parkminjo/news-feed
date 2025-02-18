@@ -182,6 +182,7 @@
 <h4>1️⃣ [React] 리액트 팀에 문의해볼 사람?  👉🏻 <a href="https://velog.io/@ye21iin/React">링크</a></h4>
 <h4>2️⃣ [트러블 슈팅] 난 분명 supabaseURL을 작성했는데 왜 콘솔창 너는 없다하는 거야...?  👉🏻 <a href="https://velog.io/@suminlee0409/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EB%82%9C-%EB%B6%84%EB%AA%85-supabaseURL%EC%9D%84-%EC%9E%91%EC%84%B1%ED%96%88%EB%8A%94%EB%8D%B0-%EC%99%9C-%EC%BD%98%EC%86%94%EC%B0%BD-%EB%84%88%EB%8A%94-%EC%97%86%EB%8B%A4%ED%95%98%EB%8A%94-%EA%B1%B0%EC%95%BC">링크</a></h4>
 <h4>3️⃣ TIL 25_02_18 | 트러블슈팅: 로그인했는데 undefined...  👉🏻 <a href="https://velog.io/@shoney02/TIL-250218-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85-%EB%A1%9C%EA%B7%B8%EC%9D%B8%ED%96%88%EB%8A%94%EB%8D%B0-undefined">링크</a></h4>
+<h4>4️⃣ TIL 25_02_18 | news-feed 프로젝트 트러블슈팅  👉🏻 <a href="https://velog.io/@rpyjko/news-feed-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85">링크</a></h4>
 
 <h3>👩‍💻 Developers of CatTale</h3>
 <table border="1" style="table-layout: fixed; width: 100%;">
