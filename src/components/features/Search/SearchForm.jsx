@@ -42,6 +42,28 @@ const SearchForm = () => {
         data = response.data || [];
         setPosts([]); // 포스트 데이터를 초기화
         setUsers(data);
+      } else if (tab === 2) {
+        const { data: tags } = await supabase
+          .from('postTags')
+          .select('post_id')
+          .eq('tag_name', searchQuery) // 정확히 일치하는 값만 찾음
+          .order('created_at', { ascending: false });
+
+        const tagData = tags || [];
+        const postIds = tagData.map((item) => item.post_id);
+
+        if (postIds.length > 0) {
+          const { data: posts, error: postError } = await supabase
+            .from('posts')
+            .select('*')
+            .in('id', postIds)
+            .order('created_at', { ascending: false });
+
+          if (postError) throw postError;
+          data = posts || [];
+        }
+        setUsers([]); // 계정 탭 데이터를 초기화
+        setPosts(data);
       }
     } catch (error) {
       console.error(error);
@@ -101,8 +123,10 @@ const SearchForm = () => {
               </StUserItem>
             ))
           )
+        ) : posts.length === 0 ? (
+          renderNoResultsMessage()
         ) : (
-          <div>태그 검색은 아직 구현되지 않았습니다.</div>
+          posts.map((post) => <SimplePostCard key={post.id} post={post} onClick={() => handleOpenDetail(post.id)} />)
         )}
         {isDetailOpen && (
           <PostDetailModal isDetailOpen={isDetailOpen} setIsDetailOpen={setIsDetailOpen} postId={postId} />
@@ -169,22 +193,6 @@ const StFeedWrapper = styled.div`
     column-count: 6;
   }
 `;
-
-// const StFeedItem = styled.div`
-//   width: 100%;
-//   margin-bottom: 16px;
-//   border-radius: 10px;
-//   overflow: hidden;
-//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-//   img {
-//     width: 100%;
-//     height: auto;
-//     min-height: 100px;
-//     object-fit: cover;
-//     border-radius: 10px;
-//   }
-// `;
 
 const StUserItem = styled.div`
   display: flex;
