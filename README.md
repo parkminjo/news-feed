@@ -67,11 +67,11 @@
   </tr>
   <tr>
     <td><a href="https://github.com/Sumin-Lee12">이수민</a><br><p>PM</p><p>글 작성 페이지</p></td>
-    <td><a href="https://github.com/mbdyjk">고용준</a><br><span>메인 레이아웃, 검색창 페이지</span></td>
-    <td><a href="https://github.com/ye21iin">김예린</a><br><span>게시글 디테일 페이지</span></td>
-    <td><a href="https://github.com/shoney02">김시헌</a><br><span>북마크 페이지</span></td>
-    <td><a href="https://github.com/parkminjo">박민조</a><br><span>로그인&회원가입 페이지, 메인 페이지</span></td>
-    <td><a href="https://github.com/woozizi">최종욱</a><br><span>마이 페이지, 프로필 수정</span></td>
+    <td><a href="https://github.com/mbdyjk">고용준</a><br><p>메인 레이아웃</p><p>검색창 페이지</p></td>
+    <td><a href="https://github.com/ye21iin">김예린</a><br><p>게시글 디테일 페이지</p></td>
+    <td><a href="https://github.com/shoney02">김시헌</a><br><p>북마크 페이지</p></td>
+    <td><a href="https://github.com/parkminjo">박민조</a><br><p>로그인&회원가입 페이지</p><p>메인 페이지</p></td>
+    <td><a href="https://github.com/woozizi">최종욱</a><br><p>마이 페이지</p><p>프로필 수정</p></td>
   </tr>
 </table>
 
