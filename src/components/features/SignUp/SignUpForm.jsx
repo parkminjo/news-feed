@@ -111,7 +111,7 @@ const SignUpForm = () => {
     <StContainer>
       <form onSubmit={handleSignUp}>
         <StSignUpWrapper>
-          <h2>사이트명</h2>
+          <h2>CATALE</h2>
           <StInput type="email" id="email" placeholder="이메일 입력" value={userInfo.email} onChange={handleChange} />
           <StInput
             type="password"
@@ -168,7 +168,7 @@ const StContainer = styled.div`
 
 const StSignUpWrapper = styled.div`
   width: 400px;
-  height: 350px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
