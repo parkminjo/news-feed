@@ -50,22 +50,9 @@
 
 <h2>🔥 TroubleShooting</h2>
 
-<div style="display: flex; flex-wrap: wrap; gap: 20px;">
-  <div style="flex-basis: 45%; text-align: center;">
-    <img src="https://velog.io/@ye21iin/React%EB%89%B4%EC%8A%A4%ED%94%BC%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%AA%A8%EB%8B%AC-%EC%97%B4%EA%B3%A0%EB%8B%AB%EA%B8%B0" alt="리액트 모달 열고 닫기" style="width: 100%; border-radius: 8px;"/>
-    <p><a href="https://velog.io/@ye21iin/React%EB%89%B4%EC%8A%A4%ED%94%BC%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%AA%A8%EB%8B%AC-%EC%97%B4%EA%B3%A0%EB%8B%AB%EA%B8%B0">[React/뉴스피드] 리액트 모달 열고 닫기</a></p>
-  </div>
-
-  <div style="flex-basis: 45%; text-align: center;">
-    <img src="https://velog.io/@ye21iin/React" alt="리액트 팀에 문의해볼 사람?" style="width: 100%; border-radius: 8px;"/>
-    <p><a href="https://velog.io/@ye21iin/React">[React] 리액트 팀에 문의해볼 사람?</a></p>
-  </div>
-
-  <div style="flex-basis: 45%; text-align: center;">
-    <img src="https://velog.io/@suminlee0409/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EB%82%9C-%EB%B6%84%EB%AA%85-supabaseURL%EC%9D%84-%EC%9E%91%EC%84%B1%ED%96%88%EB%8A%94%EB%8D%B0-%EC%99%9C-%EC%BD%98%EC%86%94%EC%B0%BD-%EB%84%88%EB%8A%94-%EC%97%86%EB%8B%A4%ED%95%98%EB%8A%94-%EA%B1%B0%EC%95%BC" alt="Supabase URL 문제" style="width: 100%; border-radius: 8px;"/>
-    <p><a href="https://velog.io/@suminlee0409/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EB%82%9C-%EB%B6%84%EB%AA%85-supabaseURL%EC%9D%84-%EC%9E%91%EC%84%B1%ED%96%88%EB%8A%94%EB%8D%B0-%EC%99%9C-%EC%BD%98%EC%86%94%EC%B0%BD-%EB%84%88%EB%8A%94-%EC%97%86%EB%8B%A4%ED%95%98%EB%8A%94-%EA%B1%B0%EC%95%BC">[트러블 슈팅] 난 분명 supabaseURL을 작성했는데 왜 콘솔창 너는 없다하는 거야...?</a></p>
-  </div>
-</div>
+| <img src="https://velog.velcdn.com/images/ye21iin/post/e513101d-e6d6-4521-9d3a-d71b4df5f2a9/image.png" width="200">                                                              | <img src="https://velog.velcdn.com/images/ye21iin/post/bca98a15-52fa-4919-94a0-cc5fadab220f/image.png" width="200"> | <img src="https://velog.velcdn.com/images/ye21iin/post/e752bc51-eebf-46dc-9270-781374d7c38f/image.png" width="200"> | <img src="https://velog.velcdn.com/images/ye21iin/post/419f7bfd-de0a-4606-b8ff-22a8977e20b9/image.png" width="200"> |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| [리액트 모달 열고 닫기](https://velog.io/@ye21iin/React%EB%89%B4%EC%8A%A4%ED%94%BC%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%AA%A8%EB%8B%AC-%EC%97%B4%EA%B3%A0%EB%8B%AB%EA%B8%B0) | [리액트 팀에 문의해볼 사람?](https://velog.io/@ye21iin/React)                                                       | [Supabase URL 문제](https://velog.io/@suminlee0409/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%                 |
 
 <h3>👩‍💻 Developers of CatTale</h3>
 <table border="1" style="table-layout: fixed; width: 100%;">
