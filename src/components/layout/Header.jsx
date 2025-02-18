@@ -2,24 +2,51 @@ import styled from 'styled-components';
 import { fontSize } from '../../styles/fontSize';
 import { StCenterWrapper } from '../../styles/GlobalStyle';
 import { FaRegBell, FaUserCircle } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useHeader } from '../../context/components/header/useHeader';
 import { useAuth } from '../../context/auth/useAuth';
+import { useEffect } from 'react';
+import { supabase } from '../../services/supabaseClient';
+import { useState } from 'react';
+import { color } from '../../styles/color';
 
 const Header = () => {
   const { isLoginOpen, setIsLoginOpen, loginModalRef, handleAuthAction } = useHeader();
-  const { isLogin } = useAuth();
+  const { isLogin, loginedUser } = useAuth();
   const navigate = useNavigate();
+  const [profileImg, setProfileImg] = useState(null);
 
+  useEffect(() => {
+    if (isLogin && loginedUser) {
+      const getProfileImg = async () => {
+        try {
+          const { data, error } = await supabase
+            .from('userExtraData')
+            .select('profile_img')
+            .eq('user_id', loginedUser.id)
+            .single();
+          if (error) throw error;
+          setProfileImg(data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getProfileImg();
+    }
+  }, [isLogin, loginedUser]);
   return (
     <StContainer>
-      <StLogo>로고</StLogo>
+      <StLogo to={'/'}>CATTALE</StLogo>
       <StIconsWrapper>
         <StIconWrapper>
           <StBellIcon size={30} />
         </StIconWrapper>
         <StIconWrapper onClick={() => setIsLoginOpen(!isLoginOpen)}>
-          <StUserIcon size={30} />
+          {isLogin && profileImg?.profile_img ? (
+            <StProfileImage src={profileImg.profile_img} alt="프로필 사진" />
+          ) : (
+            <StUserIcon size={30} />
+          )}
         </StIconWrapper>
       </StIconsWrapper>
 
@@ -49,8 +76,11 @@ const StContainer = styled.header`
   border-bottom: 1px solid #e0e0e0;
 `;
 
-const StLogo = styled.div`
-  font-weight: bold;
+const StLogo = styled(Link)`
+  font-family: 'Arvo', serif;
+  font-weight: 500;
+  color: ${color.black};
+  text-decoration: none;
 `;
 
 const StIconsWrapper = styled(StCenterWrapper)`
@@ -72,6 +102,13 @@ const StBellIcon = styled(FaRegBell)`
 const StUserIcon = styled(FaUserCircle)`
   color: gray;
   margin-right: 10px;
+`;
+
+const StProfileImage = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 const StModal = styled.div`

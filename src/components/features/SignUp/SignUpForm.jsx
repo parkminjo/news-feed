@@ -12,6 +12,14 @@ const SignUpForm = () => {
     passwordCheck: '',
     nickName: ''
   });
+  const [profileImage, setProfileImage] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfileImage(file);
+    }
+  };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -63,10 +71,27 @@ const SignUpForm = () => {
         throw authError;
       }
 
+      let imageUrl = '';
+
+      /** 이미지 업로드 */
+      if (profileImage) {
+        const fileExt = profileImage.name.split('.').pop();
+        const fileName = `${userData.id}.${fileExt}`;
+        const filePath = `public/${fileName}`;
+
+        const { data, error } = await supabase.storage.from('post_images').upload(filePath, profileImage);
+
+        if (error) {
+          throw error;
+        }
+
+        imageUrl = `https://abtgpogydlsfqgmzgunp.supabase.co/storage/v1/object/public/post_images/${data.path}`;
+      }
+
       /** userExtraData(Public)에 닉네임 추가 */
       const { error: userError } = await supabase
         .from('userExtraData')
-        .insert({ user_id: userData?.id, nick_name: userInfo.nickName });
+        .insert({ user_id: userData?.id, nick_name: userInfo.nickName, profile_img: imageUrl });
 
       if (userError) {
         throw userError;
@@ -109,14 +134,21 @@ const SignUpForm = () => {
             value={userInfo.nickName}
             onChange={handleChange}
           />
+          <StInput type="file" id="profileImage" accept="image/*" onChange={handleImageChange} />
+          {profileImage && (
+            <img
+              src={URL.createObjectURL(profileImage)}
+              alt="미리보기"
+              style={{ width: '100px', height: '100px', borderRadius: '50%' }}
+            />
+          )}
+
           <StSignButton>가입하기</StSignButton>
         </StSignUpWrapper>
       </form>
       <StLoginWrapper>
-        <p style={{ fontSize: `${fontSize.medium}` }}>계정이 있으신가요?</p>
-        <Link to={'/login'} style={{ color: `${color.main}` }}>
-          로그인 하러 가기
-        </Link>
+        <StContentText>계정이 있으신가요?</StContentText>
+        <StLink to={'/login'}>로그인 하러 가기</StLink>
       </StLoginWrapper>
     </StContainer>
   );
@@ -178,4 +210,12 @@ const StSignButton = styled.button`
 const StLoginWrapper = styled(StSignUpWrapper)`
   height: 100px;
   gap: 15px;
+`;
+
+const StContentText = styled.p`
+  font-size: ${fontSize.medium};
+`;
+
+const StLink = styled(Link)`
+  color: ${color.main};
 `;
