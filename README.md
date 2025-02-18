@@ -45,6 +45,33 @@
 
 <h3>🔨 마이페이지 / 프로필</h3>
 
+<table border="1" style="table-layout: fixed; width: 100%;">
+  <tr>
+    <th>C (Create)</th>
+    <th>R (Read)</th>
+    <th>U (Update)</th>
+    <th>D (Delete)</th>
+  </tr>
+  <tr>
+    <td>
+      - 소개글 작성<br>
+    </td>
+    <td>
+      - 회원가입 시 등록한 사진 가져오기<br>
+      - 닉네임 정보 가져오기<br>
+      - 게시글 수 가져오기<br>
+      - 게시글 가져오기<br>
+      - 소개글 가져오기<br>
+    </td>
+    <td>
+      - 소개글 수정<br>
+      - 닉네임 수정<br>
+    </td>
+    <td>
+    </td>
+  </tr>
+</table>
+
 <h3>🔨 탐색 탭</h3>
 
 <h3>🔨 북마크 기능</h3>
