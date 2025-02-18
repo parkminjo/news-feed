@@ -33,6 +33,7 @@ export const HeaderProvider = ({ children }) => {
   const handleAuthAction = async () => {
     if (isLogin) {
       await supabase.auth.signOut();
+      alert('로그아웃 되었습니다.');
       navigate('/');
     } else {
       navigate('/login');
