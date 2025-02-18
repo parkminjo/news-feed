@@ -16,12 +16,13 @@ const SearchForm = () => {
   });
 
   const [searchValue, setSearchValue] = useState('');
-  const [isLoading, setIsLoading] = useState(true); // 초기 로딩 상태를 true로 설정
+  const [isLoading, setIsLoading] = useState(true);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [postId, setPostId] = useState(); // 디테일 핸들러 props
+  const [postId, setPostId] = useState();
 
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
+  const [tags, setTags] = useState([]); // 태그 목록 상태 추가
 
   const navigate = useNavigate();
 
@@ -44,7 +45,7 @@ const SearchForm = () => {
           .ilike('title', `%${searchQuery}%`)
           .order('created_at', { ascending: false });
         data = response.data || [];
-        setUsers([]); // 계정 탭 데이터를 초기화
+        setUsers([]);
         setPosts(data);
       } else if (tab === 1) {
         const response = await supabase
@@ -53,7 +54,7 @@ const SearchForm = () => {
           .ilike('nick_name', `%${searchQuery}%`)
           .order('nick_name', { ascending: true });
         data = response.data || [];
-        setPosts([]); // 포스트 데이터를 초기화
+        setPosts([]);
         setUsers(data);
       } else if (tab === 2) {
         const { data: tags } = await supabase
@@ -75,7 +76,7 @@ const SearchForm = () => {
           if (postError) throw postError;
           data = posts || [];
         }
-        setUsers([]); // 계정 탭 데이터를 초기화
+        setUsers([]);
         setPosts(data);
       }
     } catch (error) {
@@ -85,14 +86,32 @@ const SearchForm = () => {
     }
   };
 
-  const renderNoResultsMessage = () => {
-    return <StNoResultMessage>일치하는 결과가 없습니다.</StNoResultMessage>;
-  };
+  // 실행 초기에 db에 enum 타입으로 저장된 tag를 불러온다.
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const { data } = await supabase.rpc('get_tag_enum_values'); // rpc 함수를 사용해 tag 데이터를 가져온다.
+        setTags(data);
+      } catch (error) {
+        console.error('Error fetching tags:', error);
+      }
+    };
+
+    fetchTags();
+  }, []);
 
   const handleTabChange = (index) => {
     if (activeTab === index) return;
     setActiveTab(index);
     updateItem(searchValue, index);
+  };
+
+  const handleTagClick = (tag) => {
+    setSearchValue(tag); // 태그 클릭 시 SearchBar에 텍스트 덮어씌우기
+  };
+
+  const renderNoResultsMessage = () => {
+    return <StNoResultMessage>일치하는 결과가 없습니다.</StNoResultMessage>;
   };
 
   // 디테일 모달 열기 핸들러
@@ -104,11 +123,12 @@ const SearchForm = () => {
   const searchBarStyle = {
     fontSize: fontSize.medium
   };
+
   const tabs = ['제목', '계정', '태그'];
 
   return (
     <StContainer>
-      <SearchBar style={searchBarStyle} value={searchValue} setValue={setSearchValue} />
+      <SearchBar style={searchBarStyle} value={searchValue} setValue={setSearchValue} readOnly={true} />
       <StTabMenu>
         {tabs.map((tab, index) => (
           <StTab key={index} isActive={activeTab === index} onClick={() => handleTabChange(index)}>
@@ -116,6 +136,17 @@ const SearchForm = () => {
           </StTab>
         ))}
       </StTabMenu>
+      {activeTab === 2 ? (
+        <StTagTabWrapper>
+          <StTagWrapper>
+            {tags.map((tag) => (
+              <StTagBlock key={tag.tag_name} onClick={() => handleTagClick(tag.tag_name)}>
+                {tag.tag_name}
+              </StTagBlock>
+            ))}
+          </StTagWrapper>
+        </StTagTabWrapper>
+      ) : null}
       <StFeedWrapper>
         {isLoading ? (
           <StSpinner>Loading...</StSpinner>
@@ -166,8 +197,6 @@ const StTabMenu = styled.div`
 `;
 
 const StTab = styled.button.withConfig({
-  // isActive 속성은 직접 만든 것이므로 HTML 태그가 속성을 인식하지 못해
-  // 에러를 유발한다. shouldForwardProp를 사용해 DOM에 전달하지 않도록 한다.
   shouldForwardProp: (prop) => prop !== 'isActive'
 })`
   padding: 10px 16px;
@@ -267,4 +296,38 @@ const StSpinner = styled.div`
   font-weight: bold;
   padding: 20px;
   color: #333;
+`;
+
+const StTagTabWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+`;
+
+const StTagWrapper = styled.div`
+  display: inline-block;
+  padding: 10px;
+  border: 2px dashed #999999;
+  margin-bottom: 20px;
+  border-radius: 8px;
+`;
+
+const StTagBlock = styled.button`
+  margin: 8px;
+  padding: 8px 16px;
+  background-color: #dddddd;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: ${fontSize.medium};
+  transition: background-color 0.3s, transform 0.3s;
+
+  &:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    background-color: #d0d0d0;
+  }
 `;
