@@ -44,11 +44,11 @@ const MyPage = () => {
           .select('nick_name, profile_img, bio')
           .eq('user_id', loginedUser.id)
           .single();
-        if (error) throw error;
+        if (error) console.log(error);
 
         setProfileData(data);
       } catch (error) {
-        console.error(error);
+        console.error('error', error);
       }
     };
     getProfileData();
@@ -97,7 +97,7 @@ const MyPage = () => {
     <>
       <StProfileContainer>
         <StProfileHeader>
-          <StProfileImage src={profileData?.profile_img} alt="프로필 이미지" />
+          <StProfileImage src={profileData?.profile_img || '없음'} alt="프로필 이미지" />
           <StProfileInfoWrapper>
             <StNickName>{profileData?.nick_name || '비로그인'}</StNickName>
             <StProfilUl>
