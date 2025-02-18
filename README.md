@@ -30,7 +30,7 @@
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white)
 ![Excalidraw](https://img.shields.io/badge/Excalidraw-6965DB?style=flat-square&logo=excalidraw&logoColor=white)
-![Supabase]("https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white")
+![Supabase]("https://img.shields.io/badge/supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white"")
 ![Eslint]("https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white")
 ![Prettier]("https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=white")
 
