@@ -6,6 +6,7 @@ import { supabase } from '../../../services/supabaseClient';
 import SimplePostCard from './SimplePostCard';
 import PostDetailModal from '../../modals/PostDetailModal';
 import { FaUserCircle } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const SearchForm = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -16,6 +17,8 @@ const SearchForm = () => {
 
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     updateItem(searchValue, activeTab);
@@ -118,7 +121,7 @@ const SearchForm = () => {
             renderNoResultsMessage()
           ) : (
             users.map((user) => (
-              <StUserItem key={user.user_id}>
+              <StUserItem key={user.user_id} onClick={() => navigate(`/profile/${user.user_id}`)}>
                 {user.profile_img ? (
                   <img src={user.profile_img} alt={user.nick_name} />
                 ) : (
@@ -206,9 +209,10 @@ const StUserItem = styled.div`
   margin-bottom: 16px;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid #ddd;
+  border: 2px solid #cecece;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 10px;
+  cursor: pointer;
 
   img {
     width: 40px;
