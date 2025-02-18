@@ -50,9 +50,7 @@ const SearchForm = () => {
           .order('created_at', { ascending: false });
 
         const tagData = tags || [];
-        console.log(tagData);
         const postIds = tagData.map((item) => item.post_id);
-        console.log(postIds);
 
         if (postIds.length > 0) {
           const { data: posts, error: postError } = await supabase
@@ -195,22 +193,6 @@ const StFeedWrapper = styled.div`
     column-count: 6;
   }
 `;
-
-// const StFeedItem = styled.div`
-//   width: 100%;
-//   margin-bottom: 16px;
-//   border-radius: 10px;
-//   overflow: hidden;
-//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-//   img {
-//     width: 100%;
-//     height: auto;
-//     min-height: 100px;
-//     object-fit: cover;
-//     border-radius: 10px;
-//   }
-// `;
 
 const StUserItem = styled.div`
   display: flex;
