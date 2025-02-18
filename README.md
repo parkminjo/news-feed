@@ -20,6 +20,12 @@
 <h3>🔨 DB Structure</h3>
 <img src="https://i.ibb.co/Kx09x8PS/2025-02-18-10-49-20.png">
 
+<h3>전역 상태 관리 with Context API</h3>
+- **설명**: context 구조를 설정하여, 앱 전역과 컴포넌트 전역으로 사용되는 훅을 구분한다.
+- **세부사항**:
+  - **앱 전역**: 인증, 게시물, 사용자 정보에 대한 context
+  - **컴포넌트 전역**: 공통 레이아웃인 `MainLayout`에 대해 context 방식 선제 적용
+
 <h3>🪜 Stacks</h3>
 
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black)
@@ -41,7 +47,48 @@
 <h2>⭐ 주요 기능 소개</h2>
 <h3>🔨 로그인 / 회원가입 기능 </h3>
 
+<p>supabase에서 제공하는 회원가입과 로그인 기능을 이용하여 구현했습니다.</p>
+<table border="1" style="table-layout: fixed; width: 100%;">
+  <tr>
+    <th>C (Create)</th>
+    <th>R (Read)</th>
+    <th>U (Update)</th>
+    <th>D (Delete)</th>
+  </tr>
+  <tr>
+    <td>회원가입</td>
+    <td>로그인 및 인증</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+</table>
+
 <h3>🔨 메인 페이지</h3>
+
+<h4>메인 레이아웃 구성</h4>
+
+- **설명**: 앱 내부에 공통으로 사용되는 레이아웃을 구성한다.
+- **세부사항**:
+  - **`header`** 컴포넌트에는 로고, 알림(미구현), 프로필 요소가 포함
+    - 프로필: 로그인/로그아웃 기능 동작 버튼, 개인 페이지로 넘어가는 버튼 존재
+  - **`sidebar`** 컴포넌트에는 홈, 검색, 북마크, 글 작성 탭이 포함
+    - 마우스 hover시 확장되는 애니메이션 효과 추가
+
+<p>작성된 게시글을 최신순으로 볼 수 있습니다. 좋아요와 북마크 기능을 추가하였습니다.</p>
+<table border="1" style="table-layout: fixed; width: 100%;">
+  <tr>
+    <th>C (Create)</th>
+    <th>R (Read)</th>
+    <th>U (Update)</th>
+    <th>D (Delete)</th>
+  </tr>
+  <tr>
+    <td>좋아요 추가<br>북마크 추가</td>
+    <td>게시글 작성자 표시<br>업로드 시간 표시<br>게시글 이미지 표시</td>
+    <td>-</td>
+    <td>좋아요 취소<br>북마크 취소</td>
+  </tr>
+</table>
 
 <h3>🔨 마이페이지 / 프로필</h3>
 
@@ -72,11 +119,11 @@
   </tr>
 </table>
 
-<h3>🔨 탐색 탭</h3>
-
 <h3>🔨 북마크 기능</h3>
 
-<h3>🔨 디테일 페이지 구현 사항</h3>
+<h3>🔨 게시글 작성</h3>
+
+<h3>🔨 디테일 페이지</h3>
 
 <table border="1" style="table-layout: fixed; width: 100%;">
   <tr>
@@ -92,6 +139,20 @@
     <td>내 글 삭제<br>내 댓글 삭제<br>북마크 삭제</td>
   </tr>
 </table>
+
+<h3>🔨 탐색 탭</h3>
+
+- **설명**: 피드, 사용자를 검색할 수 있는 기능을 구현한다.
+- **세부사항**:
+  - **컴포넌트 구분**: 검색창 페이지 폼 형태인 `SearchForm`에 대해 `SearchBar`, `SimplePostCard` 두 개의 주요 컴포넌트 분리
+    - `SearchBar` 컴포넌트는 다른 곳에서도 사용할 수 있도록 확장성 있게 작성
+    - `SimplePostCard` 컴포넌트는 Home에서 피드 표시에 사용하는 `PostCard` 컴포넌트 기반으로 작성
+  - **검색 기능**: 검색바에 검색어 입력시 실시간 검색 발생
+    - 데이터 query가 완료되어 표시 준비가 끝나면 화면에 표시, 검색 중에는 대체 텍스트 표시
+    - 검색 결과가 존재하지 않을 경우 대체 표시 ui 구성
+  - **검색 방식 다양화**: 제목, 계정, 태그에 따른 검색 기능
+    - `제목`, `태그`의 검색 결과는 게시물 형태로 표시
+    - `계정`의 검색 결과는 프로필, 닉네임 포함된 박스 형태로 표시
 
 <h2>🔥 TroubleShooting</h2>
 <h4>0️⃣ [React/뉴스피드] 리액트 모달 열고닫기 👉🏻 <a href="https://velog.io/@ye21iin/React%EB%89%B4%EC%8A%A4%ED%94%BC%EB%93%9C-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%AA%A8%EB%8B%AC-%EC%97%B4%EA%B3%A0%EB%8B%AB%EA%B8%B0">링크</a></h4>
