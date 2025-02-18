@@ -180,7 +180,7 @@
     <td><a href="https://github.com/ye21iin">김예린</a><br><p>게시글 디테일 페이지</p></td>
     <td><a href="https://github.com/shoney02">김시헌</a><br><p>북마크 페이지</p></td>
     <td><a href="https://github.com/parkminjo">박민조</a><br><p>로그인&회원가입 페이지</p><p>메인 페이지</p></td>
-    <td><a href="https://github.com/woozizi">최종욱</a><br><p>마이 페이지</p><p>프로필 수정</p></td>
+    <td><a href="https://github.com/woozizi">최종욱</a><br><p>마이 페이지</p><p>프로필 페이지</p></td>
   </tr>
 </table>
 
