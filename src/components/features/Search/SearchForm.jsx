@@ -5,6 +5,7 @@ import { fontSize } from '../../../styles/fontSize';
 import { supabase } from '../../../services/supabaseClient';
 import SimplePostCard from './SimplePostCard';
 import PostDetailModal from '../../modals/PostDetailModal';
+import { FaUserCircle } from 'react-icons/fa';
 
 const SearchForm = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -118,7 +119,11 @@ const SearchForm = () => {
           ) : (
             users.map((user) => (
               <StUserItem key={user.user_id}>
-                <img src={user.profile_img} alt={user.nick_name} />
+                {user.profile_img ? (
+                  <img src={user.profile_img} alt={user.nick_name} />
+                ) : (
+                  <FaUserCircle size={40} /> // 프로필 이미지가 없으면 기본 아이콘 표시
+                )}
                 <span>{user.nick_name}</span>
               </StUserItem>
             ))
@@ -211,11 +216,11 @@ const StUserItem = styled.div`
     min-height: 10px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 10px;
   }
 
   span {
     font-weight: bold;
+    margin-left: 10px;
   }
 `;
 
