@@ -14,7 +14,7 @@
 
 <h2>⚙️ 프로젝트 구조</h2>
 <h3>🌱 Ideation on **Figma**</h3>
-![FigmaCaptured](https://i.ibb.co/yczJS55t/2025-02-18-10-29-40.png)
+<img src="https://i.ibb.co/yczJS55t/2025-02-18-10-29-40.png">
 
 <h3>🔨 DB Structure</h3>
 <img src="https://i.ibb.co/XZtzkkv5/supabase-schema-abtgpogydlsfqgmzgunp-1.png">
@@ -32,12 +32,12 @@
 <h3>🔨 여기에 주제 추가해 주세요</h3>
 
 <h3>🔨 디테일 페이지 구현 사항</h3>
-<table border="1" style="table-layout: fixed; width: 100%;">
+<table border="1" style="width: 100%">
   <tr>
-    <th style="width: 25%;">C (Create)</th>
-    <th style="width: 25%;">R (Read)</th>
-    <th style="width: 25%;">U (Update)</th>
-    <th style="width: 25%;">D (Delete)</th>
+    <th>C (Create)</th>
+    <th>R (Read)</th>
+    <th>U (Update)</th>
+    <th>D (Delete)</th>
   </tr>
   <tr>
     <td>댓글 업로드<br>북마크 추가</td>
