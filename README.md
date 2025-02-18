@@ -6,3 +6,18 @@
 2. 게시물 상세보기: 개별 게시물을 클릭하면 사진, 제목, 작성자, 내용과 함께 상세 정보 표시
 3. 뒤로가기 버튼: 상세 페이지에서 뒤로가기 버튼을 눌러 목록으로 이동 가능
 
+<h3>🔨 북마크 기능</h3>
+<table border="1" style="table-layout: fixed; width: 100%;">
+  <tr>
+    <th>C (Create)</th>
+    <th>R (Read)</th>
+    <th>U (Update)</th>
+    <th>D (Delete)</th>
+  </tr>
+  <tr>
+    <td>댓글 업로드<br>북마크 추가</td>
+    <td>포스트 내용 표시<br>댓글 표시<br>포스트 업데이트 시간 표시<br>사진 표시<br>포스트 제목 표시</td>
+    <td>내 글 수정</td>
+    <td>내 글 삭제<br>내 댓글 삭제<br>북마크 삭제</td>
+  </tr>
+</table>
